@@ -12,6 +12,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
+    'apk',
     # 'api',
     # 'users',
     # 'service_pages',
@@ -21,8 +22,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'sorl.thumbnail',
+    # 'rest_framework',
+    # 'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -149,3 +150,6 @@ EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
+
+
+AUTH_USER_MODEL = 'apk.User'

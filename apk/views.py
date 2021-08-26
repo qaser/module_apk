@@ -1,3 +1,11 @@
+from apk.models import Fault
 from django.shortcuts import render
 
-# Create your views here.
+
+def index(request):
+    faults = Fault.objects.all()
+    return render(
+        request,
+        'apk/index.html',
+        {'faults': faults},
+    )
