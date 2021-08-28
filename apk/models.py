@@ -3,67 +3,6 @@ from django.db import models
 from django.conf import settings
 
 
-class Role(models.TextChoices):
-    ADMIN = 'admin'
-    USER = 'user'
-    MODERATOR = 'moderator'
-
-
-class User(AbstractUser):
-    username = models.CharField(
-        'логин',
-        db_index=True,
-        max_length=30,
-        unique=True,
-        null=True,
-        blank=True
-    )
-    email = models.EmailField(
-        'адрес почты',
-        max_length=200,
-        unique=True
-    )
-    first_name = models.CharField(
-        'имя пользователя',
-        max_length=30,
-        null=True,
-        blank=True
-    )
-    last_name = models.CharField(
-        'фамилия пользователя',
-        max_length=30,
-        null=True,
-        blank=True
-    )
-    bio = models.TextField('биография', blank=True, null=True)
-    date_joined = models.DateTimeField(
-        'дата регистрации',
-        auto_now_add=True
-    )
-    role = models.CharField(
-        'роль пользователя',
-        max_length=30,
-        choices=Role.choices,
-        default=Role.USER
-    )
-
-    class Meta:
-        ordering = ('email',)
-        verbose_name = 'пользователь'
-        verbose_name_plural = 'пользователи'
-
-    def __str__(self):
-        return self.last_name + self.first_name
-
-    @property
-    def is_admin(self):
-        return self.is_superuser or self.role == Role.ADMIN
-
-    @property
-    def is_moderator(self):
-        return self.is_staff or self.role == Role.MODERATOR
-
-
 class Location(models.Model):
     pass
 
