@@ -5,14 +5,13 @@ from .models import User
 
 class UserAdmin(admin.ModelAdmin):
     list_display = (
-        'username',
-        'email',
-        'first_name',
         'last_name',
-        'role'
+        'first_name',
+        'patronymic',
+        'job_position',
     )
-    search_fields = ('last_name', 'username',)
-    list_filter = ('role',)
+    search_fields = ('last_name', 'job_position',)
+    list_filter = ('job_position',)
     empty_value_display = '-пусто-'
 
 

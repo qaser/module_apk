@@ -1,151 +1,222 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
+from django.db.models.deletion import CASCADE, SET_NULL
 
 
 class Location(models.Model):
-    pass
+    department = models.TextField(
+        'служба',
+        max_length=50,
+    )
+    object = models.TextField(
+        'оборудование',
+        max_length=100,
+    )
+
+    class Meta:
+        ordering = ('-department',)
+        verbose_name = 'объект проверки'
+        verbose_name_plural = 'объекты проверки'
+
+    def __str__(self) -> str:
+        return f'{self.department} | {self.object}'
 
 
 class Act(models.Model):
-    year = models.IntegerField(
-        'год регистрации акта'
+    LEVEL = (
+        ('3 уровень', '3 уровень'),
+        ('4 уровень', '4 уровень'),
+        ('Газнадзор', 'Газнадзор'),
+        ('Аудит', 'Аудит')
     )
-    number = models.PositiveSmallIntegerField('номер акта',)
-    compile_data = models.DateField('дата составления', auto_now_add=True)
+    control_level = models.TextField(
+        'Уровень проверки',
+        choices=LEVEL,
+    )
+    act_year = models.IntegerField(
+        'Год регистрации акта'
+    )
+    act_number = models.PositiveSmallIntegerField('Номер акта',)
+    act_compile_date = models.DateField('Дата составления', auto_now_add=True)
+
+    class Meta:
+        ordering = ('-act_compile_date',)
+        verbose_name = 'акт'
+        verbose_name_plural = 'акты'
+
+    def __str__(self):
+        return (
+            f'Акт №{self.act_number}-{self.act_year} | {self.control_level}'
+        )
 
 
 class Fault(models.Model):
-    LEVEL = (
-        ('first', 'Первый уровень'),
-        ('second', 'Второй уровень'),
-        ('third', 'Третий уровень'),
-        ('fourth', 'Четвёртый уровень'),
-        ('winter_prepare', 'Подготовка к зиме'),
-        ('supervisory', 'Газнадзор'),
-        ('audit', 'Аудит')
-    )
     GROUP = (
         ('labor safety', 'Охрана труда'),
         ('industrial safety', 'Промышленная безопасность'),
         ('fire safety', 'Пожарная безопасность'),
         ('ecological safety', 'Экологическая безопасность'),
     )
-    control_level = models.TextField(
-        'группа несоответствий',
-        choices=LEVEL,
-    )
     group = models.TextField(
-        'уровень проверки',
+        'Группа несоответствий',
         choices=GROUP,
     )
     act = models.ForeignKey(
         Act,
-        on_delete=models.SET_NULL,
-        verbose_name='номер акта',
+        on_delete=SET_NULL,
+        verbose_name='Номер акта',
         related_name='fault',
         null=True,
-        blank=True,
         db_index=True,
     )
-    # num_fault = models.PositiveIntegerField()  # номер несоответствия согласно акта
-    location = models.TextField('место обнаружения')
+    location = models.ForeignKey(
+        Location,
+        on_delete=CASCADE,
+        verbose_name='Место обнаружения',
+        related_name='location',
+        )
     description = models.TextField(
-        'описание несоответствия',
+        'Описание несоответствия',
         max_length=500,
     )
     document = models.TextField(
-        'нормативный документ',
+        'Нормативный документ',
         max_length='150',
     )
+    danger = models.BooleanField(
+        'Опасное событие?',
+        default=False,
+    )
+    # допустивший несоответствие
+    intruder = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=SET_NULL,
+        related_name='intruder',
+        verbose_name='Допустивший несоответствие',
+        null=True,
+    )
+    # не выявивший несоответствие на ниженем уровне
+    unseeing = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=SET_NULL,
+        related_name='unseeing',
+        verbose_name='Не выявивший несоответствие',
+        null=True,
+    )
     section_esupb = models.TextField(
-        'раздел ЕСУПБ',
+        'Раздел ЕСУПБ',
         max_length='150',
         blank=True,
         null=True,
     )
     inspector = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
+        on_delete=SET_NULL,
         related_name='inspector',
-        verbose_name='проверяющий',
+        verbose_name='Проверяющий',
         blank=True,
         null=True,
     )
-    intruder = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        related_name='intruder',
-        verbose_name='допустивший несоответствие',
-        blank=True,
-        null=True,
-    )
-    # control_date = models.DateField(  # может и не надо!!!
-    #     'дата проверки',
-    #     auto_now_add=True,
-    # )
     image_before = models.ImageField(
-        'фото несоответствия',
+        'Фото несоответствия',
         upload_to='apk/photo_before/',
         blank=True,
         null=True,
     )
-    # мероприятия по устранению несоответствия
+
+    class Meta:
+        verbose_name = 'несоответствие'
+        verbose_name_plural = 'несоответствия'
+
+    def __str__(self):
+        complex_note = (f'{self.location} - {self.description[:30]}')
+        if len(self.description) > 30:
+            return complex_note + '...'
+        return complex_note
+
+
+# мероприятия по устранению несоответствия
+class Fix(models.Model):
+    act = models.ForeignKey(
+        Act,
+        on_delete=CASCADE,
+        verbose_name='Номер акта',
+        related_name='act',
+        null=True,
+        db_index=True,
+    )
+    fault = models.ForeignKey(
+        Fault,
+        on_delete=CASCADE,
+        verbose_name='Несоответствие',
+        related_name='fault',
+    )
     fix_action = models.TextField(
-        'мероприятие по устранению',
+        'Мероприятие по устранению',
         null=True,
         blank=True,
     )
     fixer = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        verbose_name='исполнитель',
+        verbose_name='Исполнитель',
         on_delete=models.SET_NULL,
         related_name='fixer',
         null=True,
         blank=True,
     )
     fix_deadline = models.DateField(
-        'срок устранения',
-        # auto_now_add=True,
+        'Срок устранения',
         null=True,
         blank=True,
     )
     fixed = models.BooleanField(
-        'устранено',
+        'Отметка об устранении',
         default=False,
     )
     fix_date = models.DateField(
-        'дата устранения несоответствия',
+        'Дата устранения несоответствия',
         null=True,
         blank=True,
     )
     image_after = models.ImageField(
-        'фото устранения',
+        'Фото устранения',
         upload_to='apk/photo_after/',
         blank=True,
         null=True,
     )
     # корректирующие действия
-    reason = models.TextField()
-    correct_action = models.TextField()
-    resources = models.TextField()
+    reason = models.TextField(
+        'Причина появления несоответствия',
+        max_length=500,
+        blank=True,
+        null=True,
+    )
+    correct_action = models.TextField(
+        'Коррекция',
+    )
+    resources = models.TextField(
+        'Необходимые ресурсы',
+    )
     corrector = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        verbose_name='исполнитель',
+        verbose_name='Исполнитель',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
     correct_deadline = models.DateField(
-        'срок корректировки',
-        auto_now_add=True,
+        'Срок корректировки',
     )
     corrected = models.BooleanField(
-        'отметка о корректировке',
+        'Отметка о корректировке',
         default=False,    
     )
     correct_date = models.DateField(
-        'дата корректировки',
+        'Дата корректировки',
         null=True,
         blank=True,
     )
+
+    class Meta:
+        verbose_name = 'мероприятие'
+        verbose_name_plural = 'мероприятия'

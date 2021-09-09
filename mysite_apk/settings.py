@@ -14,7 +14,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'apk',
     # 'api',
-    # 'users',
+    'users',
     # 'service_pages',
     'django.contrib.admin',
     'django.contrib.auth',

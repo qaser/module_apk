@@ -12,11 +12,20 @@ class Role(models.TextChoices):
 
 
 class User(AbstractUser):
+    first_name = models.CharField('Имя', max_length=50)
+    last_name = models.CharField('Фамилия', max_length=50)
+    patronymic = models.CharField(
+        'Отчество',
+        max_length=50,
+        blank=True,
+        null=True
+    )
+    job_position = models.TextField('Должность', blank=True, null=True)
     username = models.CharField(
+        'Логин',
         max_length=30,
         unique=True,
         null=True,
-        blank=True
     )
     email = models.EmailField(
         max_length=60,
@@ -24,16 +33,13 @@ class User(AbstractUser):
         null=True,
         blank=True
     )
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    patronymic = models.CharField(max_length=50, blank=True, null=True)
-    bio = models.TextField(blank=True, null=True)
     role = models.CharField(
+        'Права',
         max_length=30,
         choices=Role.choices,
         default=Role.GUEST
     )
-    password = models.CharField(max_length=20, null=True)
+    # password = models.CharField(max_length=20, null=True)
 
     class Meta:
         ordering = ('last_name',)
