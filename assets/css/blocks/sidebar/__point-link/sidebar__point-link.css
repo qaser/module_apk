@@ -1,0 +1,22 @@
+.sidebar__point-link {
+    margin: 10px 0 0 0;
+    width: 100%;
+    height: 30px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 30px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.sidebar__point-link:first-child {
+    margin-top: 20px;
+}
+
+.sidebar__point-link:last-child {
+    margin-bottom: 100px;
+}
+
+.sidebar__point-link:hover {
+    background: #C4C4C4;
+}

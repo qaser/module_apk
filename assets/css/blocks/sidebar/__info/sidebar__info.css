@@ -1,0 +1,11 @@
+.sidebar__info {
+    margin: 8px auto 0 auto;
+    width: 85%;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.sidebar__info:last-child {
+    margin-bottom: 10px;
+}
