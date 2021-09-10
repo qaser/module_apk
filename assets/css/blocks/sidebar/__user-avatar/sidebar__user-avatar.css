@@ -1,4 +1,6 @@
 .sidebar__user-avatar {
-    width: 105px;
-    height: 105px;
+    width: 106px;
+    height: 106px;
+    margin: 13px auto 0 auto;
+    border-radius: 53px;
 }

@@ -21,13 +21,13 @@
       <main class="content">
 
         <nav class="sidebar" id="sidebar">
+          <a class="sidebar__link" href="#">
             <div class="sidebar__user-card">
-              <img class="sidebar__user-avatar" src="#" alt="Аватар">
-              <a class="sidebar__link" href="#">
-                <p class="sidebar__username">Сергей Селиванов</p>
-                <p class="sidebar__user-proff">Начальник ГКС</p>
-              </a>
+              <img class="sidebar__user-avatar" src="../img/avatar.png" alt="Аватар">
+              <p class="sidebar__username">Сергей Угрюмов</p>
+              <p class="sidebar__user-proff">Начальник ГКС</p>
             </div>
+          </a>
           <nav class="sidebar__nav">
               <a class="sidebar__point-link" href="#">1 уровень АПК</a>
               <a class="sidebar__point-link" href="#">2 уровень АПК</a>
@@ -41,13 +41,25 @@
           </div>
         </nav>
 
-        <section class="infobar" id="infobar">
-          <div class="infobar__helper"></div>
-          <div class="infobar__informer"></div>
-        </section>
-
-        <section class="mainbar" id="mainbar">
-          
+        <section class="main-area" id="main-area">
+          <div class="infobar" id="infobar">
+            <div class="infobar__helper">
+              <h3 class="infobar__title">Полезная информация</h3>
+              <p class="infobar__text">
+                Когда я был маленький у меня тоже была бабушка,
+                но за всю свою жизнь я не смог огорчить её. А он смог!
+              </p>
+            </div>
+            <div class="infobar__informer">
+              <div class="infobar__head">
+                <h3 class="infobar__title">Фёдор Несмеянов</h3>
+                <p class="infobar__date">20.03.2021</p>
+              </div>
+              <p class="infobar__text">
+                Последнее предупреждение! Сделайте как я сказал и будет Вам счастье.
+              </p>
+            </div>
+          </div>
         </section>
 
       </main>

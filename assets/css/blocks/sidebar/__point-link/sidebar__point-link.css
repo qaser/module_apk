@@ -2,11 +2,13 @@
     margin: 10px 0 0 0;
     width: 100%;
     height: 30px;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 18px;
     line-height: 30px;
     text-align: center;
     text-decoration: none;
+    color: black;
+    transition: background .3s linear .1s;
 }
 
 .sidebar__point-link:first-child {

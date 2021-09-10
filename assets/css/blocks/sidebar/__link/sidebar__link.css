@@ -1,0 +1,9 @@
+.sidebar__link {
+  transition: opacity .3s linear .1s;
+  text-decoration: none;
+  color: black;
+}
+
+.sidebar__link:hover {
+  opacity: 0.6;
+}
