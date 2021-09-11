@@ -10,8 +10,6 @@
 @import url(../blocks/header/__link/header__link.css);
 @import url(../blocks/header/__nav/header__nav.css);
 
-@import url(../blocks/content/content.css);
-
 @import url(../blocks/sidebar/sidebar.css);
 @import url(../blocks/sidebar/__link/);
 @import url(../blocks/sidebar/__user-card/sidebar__user-card.css);
@@ -26,6 +24,12 @@
 @import url(../blocks/sidebar/__title/sidebar__title.css);
 @import url(../blocks/sidebar/__info/sidebar__info.css);
 
+@import url(../blocks/content/content.css);
 
-
-
+@import url(../blocks/infobar/infobar.css);
+@import url(../blocks/infobar/__helper/infobar__helper.css);
+@import url(../blocks/infobar/__title/infobar__title.css);
+@import url(../blocks/infobar/__text/infobar__text.css);
+@import url(../blocks/infobar/__informer/infobar__informer.css);
+@import url(../blocks/infobar/__header/infobar__header.css);
+@import url(../blocks/infobar/__date/infobar__date.css);

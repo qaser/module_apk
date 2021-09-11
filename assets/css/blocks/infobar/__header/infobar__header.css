@@ -1,0 +1,7 @@
+.infobar__header {
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+    border-bottom: 1px solid grey;
+    justify-content: space-between;
+}

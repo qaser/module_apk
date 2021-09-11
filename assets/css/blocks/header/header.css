@@ -3,6 +3,6 @@
     height: 60px; /* когда будет логотип этот размер убрать */
     display: flex;
     justify-content: space-between;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     background-color: #A3CDDA;
   }
