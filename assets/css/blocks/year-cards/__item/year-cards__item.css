@@ -1,6 +1,6 @@
-.infobar__helper {
-    width: 49%;
-    background: #F4F7F5;
+.year-cards__item {
+    width: 190px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
+    margin: 30px 50px 0 0;
 }

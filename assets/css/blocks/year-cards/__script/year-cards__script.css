@@ -1,0 +1,10 @@
+.year-cards__script {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 18px 0 0 0;
+}
+
+.year-cards__script:last-child {
+    margin-bottom: 20px;
+}

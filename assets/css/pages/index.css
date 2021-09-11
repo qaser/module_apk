@@ -33,3 +33,15 @@
 @import url(../blocks/infobar/__informer/infobar__informer.css);
 @import url(../blocks/infobar/__header/infobar__header.css);
 @import url(../blocks/infobar/__date/infobar__date.css);
+
+@import url(../blocks/main/main.css);
+@import url(../blocks/main/__title/main__title.css);
+
+@import url(../blocks/year-cards/year-cards.css);
+@import url(../blocks/year-cards/__item/year-cards__item.css);
+@import url(../blocks/year-cards/__title/year-cards__title.css);
+@import url(../blocks/year-cards/__two-columns/year-cards__two-columns.css);
+@import url(../blocks/year-cards/__act-list/year-cards__act-list.css);
+@import url(../blocks/year-cards/__plan-list/year-cards__plan-list.css);
+@import url(../blocks/year-cards/__script/year-cards__script.css);
+@import url(../blocks/year-cards/__link/year-cards__link.css);

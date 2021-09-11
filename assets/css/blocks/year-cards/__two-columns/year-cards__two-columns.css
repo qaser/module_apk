@@ -1,0 +1,9 @@
+.year-cards__two-columns {
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid grey;
+    border-image: linear-gradient(white, grey, white);
+    -moz-border-image: -moz-linear-gradient(white, grey, white);
+    -webkit-border-image: -webkit-linear-gradient(white, grey, white); 
+    border-image-slice: 1; 
+}

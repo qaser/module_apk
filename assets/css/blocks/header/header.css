@@ -1,6 +1,9 @@
 .header {
     width: 100%;
     height: 60px; /* когда будет логотип этот размер убрать */
+    position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
     justify-content: space-between;
     /* margin: 0 auto; */
