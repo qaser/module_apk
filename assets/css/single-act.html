@@ -2,7 +2,7 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="./pages/index.css">
+    <link rel="stylesheet" href="./pages/single-act.css">
     <title>Модуль АПК</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Проект информационного сопровождения АПК">
@@ -15,7 +15,7 @@
 
       <header class="header" id="header">
         <a class="header__link" href="#"><img class="header__logo" src="#" alt="Логотип"></a>
-        <div class="header__nav"></div>
+        <a class="header__point" href="#">Выйти</a>
       </header>
 
       <nav class="sidebar" id="sidebar">
@@ -60,15 +60,41 @@
         </div>
       </div>
 
+      <!-- главный контент -->
       <main class="content">
-
         <section class="main" id="main">
-          <h1 class="main__title">3 уровень АПК</h1>
-
+          <h1 class="main__title">Акт проверки №4 от 23.07.2021г.</h1>
+          <a class="main__link" href="#">Добавить новое несоответствие</a>
+          <!-- блок карточек -->
+          <div class="fault-cards">
+            <!-- одна карточка -->
+            <a class="fault-cards__link" href="#">
+              <div class="fault-cards__item">
+                  <div class="fault-cards__description">
+                      <div class="fault-cards__header">
+                        <h4 class="fault-cards__title">КС-5 | ГПА 52</h4>
+                        <p class="fault-cards__tag">ОТ</p>
+                      </div>
+                      <p class="fault-cards__text">
+                        Нарушена теплоизоляция трубопровода системы тепловодоснабжения
+                        в блоке тепломаслоагрегатов в районе блока маслоохладителей
+                      </p>
+                  </div>
+                  <img class="fault-cards__image" scr="#" alt="Фото несоответствия">
+              </div>
+            </a>
+            <!-- конец одной карточки -->
+          </div>
         </section>
-
       </main>
-
+  
+      <footer class="footer">
+        <nav class="footer__links">
+          <a class="footer__link" href="#">Документация</a>
+          <a class="footer__link" href="#">Помощь</a>
+          <a class="footer__link" href="#">О системе</a>
+        </nav>
+      </footer>
 
     </div>
   </body>
