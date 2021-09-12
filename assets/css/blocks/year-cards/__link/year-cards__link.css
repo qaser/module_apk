@@ -1,4 +1,9 @@
 .year-cards__link {
     text-decoration: none;
     color: black;
+    transition: opacity .2s linear .1s;
+}
+
+.year-cards__link:hover {
+  opacity: 0.7;
 }
