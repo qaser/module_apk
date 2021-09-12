@@ -2,3 +2,9 @@
     /* width: 80%; */
     margin-left: 20px;
 }
+
+@media screen and (max-width: 768px) {
+    .fault-cards__description {
+      margin-right: 20px;
+    }
+  }

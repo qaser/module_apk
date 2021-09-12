@@ -5,3 +5,10 @@
     width: 180px;
     object-fit: cover;
 }
+
+@media screen and (max-width: 768px) {
+    .fault-cards__image {
+        width: 95%;
+        margin: 8px;
+    }
+  }
