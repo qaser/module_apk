@@ -1,0 +1,9 @@
+.fault-cards__tag {
+    background: #84BB94;
+    border-radius: 10px;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    padding: 0 10px;
+    margin: 0;
+}

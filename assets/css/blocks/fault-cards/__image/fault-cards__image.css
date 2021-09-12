@@ -1,0 +1,7 @@
+.fault-cards__image {
+    margin: 8px 15px 8px 15px;
+    border-radius: 5px;
+    min-height: 110px;
+    width: 180px;
+    object-fit: cover;
+}

@@ -1,0 +1,9 @@
+.fault-cards__link {
+    text-decoration: none;
+    color: black;
+    transition: opacity .3s linear .1s;
+}
+
+.fault-cards__link:hover {
+  opacity: 0.8;
+}
