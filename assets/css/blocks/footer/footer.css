@@ -1,0 +1,9 @@
+.footer {
+    margin-top: 60px;
+    margin-left: 270px;
+    height: 60px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    background: linear-gradient(90deg, white, #A3CDDA);
+}

@@ -1,5 +1,5 @@
-.header__link {
-    margin: 0 0 0 90px;
+.footer__link {
+    margin-right: 40px;
     font-weight: 300;
     font-size: 20px;
     line-height: 23px;
@@ -8,6 +8,6 @@
     color: black;
 }
 
-.header__link:hover {
+.footer__link:hover {
     opacity: 0.7;
 }

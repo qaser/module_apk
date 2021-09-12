@@ -1,5 +1,6 @@
 .content {
-    margin: 24px 20px 60px 270px;
+    margin: 24px 0 0 270px;
+    min-height: calc(100vh - 326px); /* прижимаю футер к низу экрана */
     /* width: 100%; */
     /* margin: 0 auto 0 auto; */
 }
