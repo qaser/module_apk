@@ -7,6 +7,6 @@
 
 @media screen and (max-width: 768px) {
     .infobar__informer {
-        width: 100%;
+        visibility: collapse;
     }
   }
