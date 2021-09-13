@@ -39,20 +39,7 @@
 @import url(../blocks/main/__title/main__title.css);
 @import url(../blocks/main/__link/main__link.css);
 
-@import url(../blocks/fault-cards/fault-cards.css);
-@import url(../blocks/fault-cards/__link/fault-cards__link.css);
-@import url(../blocks/fault-cards/__item/fault-cards__item.css);
-@import url(../blocks/fault-cards/__item/_danger/fault-cards__item_danger.css);
-@import url(../blocks/fault-cards/__description/fault-cards__description.css);
-@import url(../blocks/fault-cards/__header/fault-cards__header.css);
-@import url(../blocks/fault-cards/__title/fault-cards__title.css);
-@import url(../blocks/fault-cards/__tag/fault-cards__tag.css);
-@import url(../blocks/fault-cards/__tag/_eco/fault-cards__tag_eco.css);
-@import url(../blocks/fault-cards/__tag/_ot/fault-cards__tag_ot.css);
-@import url(../blocks/fault-cards/__tag/_pb/fault-cards__tag_pb.css);
-@import url(../blocks/fault-cards/__tag/_fire/fault-cards__tag_fire.css);
-@import url(../blocks/fault-cards/__text/fault-cards__text.css);
-@import url(../blocks/fault-cards/__image/fault-cards__image.css);
+
 
 @import url(../blocks/footer/footer.css);
 /* @import url(../blocks/footer/__links/footer__links.css); */
