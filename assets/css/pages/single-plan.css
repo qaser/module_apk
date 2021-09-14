@@ -41,20 +41,21 @@
 @import url(../blocks/main/__title/main__title.css);
 @import url(../blocks/main/__link/main__link.css);
 
-@import url(../blocks/single-fault/single-fault.css);
-@import url(../blocks/single-fault/__name/single-fault__name.css);
-@import url(../blocks/single-fault/__personal/single-fault__personal.css);
-@import url(../blocks/single-fault/__charge/single-fault__charge.css);
-@import url(../blocks/single-fault/__description/single-fault__description.css);
-@import url(../blocks/single-fault/__description/_danger/single-fault__description_danger.css);
-@import url(../blocks/single-fault/__doc/single-fault__doc.css);
-@import url(../blocks/single-fault/__finder/single-fault__finder.css);
-@import url(../blocks/single-fault/__header/single-fault__header.css);
-@import url(../blocks/single-fault/__header/_danger/single-fault__header_danger.css);
-@import url(../blocks/single-fault/__image/single-fault__image.css);
-@import url(../blocks/single-fault/__location/single-fault__location.css);
-@import url(../blocks/single-fault/__text/single-fault__text.css);
-@import url(../blocks/single-fault/__title/single-fault__title.css);
+@import url(../blocks/filter/filter.css);
+@import url(../blocks/filter/__point/filter__point.css);
+@import url(../blocks/filter/__link/filter__link.css);
+
+@import url(../blocks/fault-cards/fault-cards.css);
+@import url(../blocks/fault-cards/__link/fault-cards__link.css);
+@import url(../blocks/fault-cards/__item/fault-cards__item.css);
+@import url(../blocks/fault-cards/__item/_done/fault-cards__item_done.css);
+@import url(../blocks/fault-cards/__item/_deadline/fault-cards__item_deadline.css);
+@import url(../blocks/fault-cards/__item/_danger/fault-cards__item_danger.css);
+@import url(../blocks/fault-cards/__description/fault-cards__description.css);
+@import url(../blocks/fault-cards/__header/fault-cards__header.css);
+@import url(../blocks/fault-cards/__title/fault-cards__title.css);
+@import url(../blocks/fault-cards/__text/fault-cards__text.css);
+@import url(../blocks/fault-cards/__image/fault-cards__image.css);
 
 @import url(../blocks/tag/tag.css);
 @import url(../blocks/tag/_eco/tag_eco.css);

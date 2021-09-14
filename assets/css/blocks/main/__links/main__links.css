@@ -1,0 +1,6 @@
+.main__links {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1250px;
+    margin: 0 40px 0 0;
+}

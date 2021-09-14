@@ -2,7 +2,7 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="./pages/single-act.css">
+    <link rel="stylesheet" href="./pages/single-plan.css">
     <title>Модуль АПК</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Проект информационного сопровождения АПК">
@@ -63,15 +63,24 @@
       <!-- главный контент -->
       <main class="content">
         <section class="main" id="main">
-          <h1 class="main__title">Акт проверки №4 от 23.07.2021г.</h1>
+          <h1 class="main__title">План корректирующих действий | Акт №4 от 23.07.2021г.</h1>
           <div class="main__links">
-            <a class="main__link" href="#">Добавить новое несоответствие</a>
-            <h3 class="main__stat">Всего: 116 несоответствий</h3>
+            <a class="main__link" href="#">Перейти к акту</a>
+            <h3 class="main__stat">Всего: 116 несоответствий | <a href="#">Выполнено: 36</a> | <a href="#">Просрочено: 12</a></h3>
           </div>
+          <!-- здесь нужно будет добавить ссылки на фильтрацию по объектам
+          при нажатии на ссылку происходит обновление экрана и показываются только отфильтрованные карточки -->
+          <ul class="filter list">
+            <li class="filter__point"><a class="filter__link" href="#">КС-5,6</a></li>
+            <li class="filter__point"><a class="filter__link" href="#">ЭВС</a></li>
+            <li class="filter__point"><a class="filter__link" href="#">АиМО</a></li>
+            <li class="filter__point"><a class="filter__link" href="#">ЛЭС</a></li>
+          </ul>
+
           <!-- блок карточек -->
           <ul class="fault-cards list">
             <li><a class="fault-cards__link" href="#">
-              <div class="fault-cards__item">
+              <div class="fault-cards__item fault-cards__item_done">
                   <div class="fault-cards__description">
                       <div class="fault-cards__header">
                         <h4 class="fault-cards__title">КС-5 | ГПА 52</h4>
@@ -85,9 +94,11 @@
                   <img class="fault-cards__image" src="../img/roman-pentin-T5QT2bmiD4E-unsplash.jpg" alt="Фото несоответствия">
               </div>
             </a></li>
+            <!-- конец одной карточки -->
+
             <!-- одна карточка -->
             <li><a class="fault-cards__link" href="#">
-              <div class="fault-cards__item fault-cards__item_danger">
+              <div class="fault-cards__item fault-cards__item_deadline">
                   <div class="fault-cards__description">
                       <div class="fault-cards__header">
                         <h4 class="fault-cards__title">КС-5 | ГПА 52</h4>
@@ -101,6 +112,9 @@
                   <img class="fault-cards__image" src="../img/roman-pentin-T5QT2bmiD4E-unsplash.jpg" alt="Фото несоответствия">
               </div>
             </a></li>
+            <!-- конец одной карточки -->
+
+            <!-- одна карточка -->
             <li><a class="fault-cards__link" href="#">
               <div class="fault-cards__item">
                   <div class="fault-cards__description">
@@ -117,10 +131,12 @@
               </div>
             </a></li>
             <!-- конец одной карточки -->
+
           </ul>
         </section>
       </main>
-  
+      <!-- главный контент -->
+
       <footer class="footer">
         <nav class="footer__links">
           <a class="footer__link" href="#">Документация</a>
