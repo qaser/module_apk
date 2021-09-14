@@ -1,6 +1,6 @@
-.fault-cards__title {
+.single-fault__title {
+    margin: 0;
     font-weight: 400;
     font-size: 15px;
     line-height: 18px;
-    margin: 0;
 }

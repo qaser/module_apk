@@ -1,0 +1,15 @@
+.single-fault__image {
+    width: 40%;
+    border-radius: 5px;
+    margin: 0 20px 0 30px;
+    /* min-height: 110px;
+    width: 180px; */
+    object-fit: cover;
+}
+
+@media screen and (max-width: 1200px) {
+    .single-fault__image {
+        width: 100%;
+        margin: 30px 0 0 0;
+    }
+}

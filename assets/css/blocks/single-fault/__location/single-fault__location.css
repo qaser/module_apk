@@ -1,0 +1,14 @@
+.single-fault__location {
+    width: 97%;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: end;
+    margin: 5px 0;
+}
+
+@media screen and (max-width: 1200px) {
+    .single-fault__location {
+        width: 97%;
+    }
+}

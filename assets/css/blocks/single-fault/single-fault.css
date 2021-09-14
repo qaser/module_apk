@@ -1,0 +1,11 @@
+.single-fault {
+    display: flex;
+    width: 100%;
+}
+
+@media screen and (max-width: 1200px) {
+    .single-fault {
+        flex-direction: column;
+        width: 97%;
+    }
+}

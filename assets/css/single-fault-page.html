@@ -2,7 +2,7 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="./pages/single-fault.css">
+    <link rel="stylesheet" href="./pages/single-fault-page.css">
     <title>Модуль АПК</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Проект информационного сопровождения АПК">
@@ -63,11 +63,30 @@
       <!-- главный контент -->
       <main class="content">
         <section class="main" id="main">
-          <h1 class="main__title">Акт проверки №4 от 23.07.2021г.</h1>
-          <a class="main__link" href="#">Добавить новое несоответствие</a>
-          <!-- блок карточек -->
+          <h1 class="main__title">Акт проверки №4 от 23.07.2021г. / Несоответствие №77</h1>
+          <a class="main__link" href="#">Редактировать несоответствие</a>
+          <!-- блок карточки -->
+          <h2 class="single-fault__location">КС-5,6 | БПТПГ КС-5</h2>
           <div class="single-fault">
-              
+            <div class="single-fault__description">
+              <div class="single-fault__header">
+                <h3 class="single-fault__title">Несоответствие</h3>
+                <p class="tag tag_eco">Пож</p>
+              </div>
+              <p class="single-fault__text">
+                Нарушена теплоизоляция трубопровода системы тепловодоснабжения
+                в блоке тепломаслоагрегатов в районе блока маслоохладителей
+              </p>
+              <p class="single-fault__doc">/СТО Газпром 3456.567.89-2021 п.5.6.7/</p>
+              <div class="single-fault__charge">
+                <p class="single-fault__personal">Допустивший несоответствие:</p>
+                <p class="single-fault__name">Иванов Иван Иванович, начальник КС-6,7</p>
+                <p class="single-fault__personal">Не выявивший несоответствие:</p>
+                <p class="single-fault__name">Иванов Иван Иванович, начальник КС-6,7</p>
+              </div>
+              <p class="single-fault__finder">Пётр Трудовиков </p>
+            </div>
+            <img class="single-fault__image" src="../img/roman-pentin-T5QT2bmiD4E-unsplash.jpg" alt="Фотография нарушения">
           </div>  
         </section>
       </main>
@@ -83,4 +102,4 @@
 
     </div>
   </body>
-</html>~
+</html>
