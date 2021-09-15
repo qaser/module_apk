@@ -1,6 +1,7 @@
 .single-fault {
     display: flex;
     width: 100%;
+    align-items: flex-start;
 }
 
 @media screen and (max-width: 1200px) {

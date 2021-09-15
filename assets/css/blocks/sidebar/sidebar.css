@@ -4,3 +4,10 @@
     position: fixed;
     height: 100%;
 }
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        visibility: collapse;
+    }
+}
+    

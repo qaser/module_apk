@@ -1,12 +1,10 @@
 .content {
     margin: 24px 0 0 280px;
     min-height: calc(100vh - 326px); /* прижимаю футер к низу экрана */
-    /* width: 100%; */
-    /* margin: 0 auto 0 auto; */
 }
 
-/* @media screen and (max-width: 1200px) {
+@media screen and (max-width: 768px) {
     .content {
-        width: 95%;
+        margin: 24px 20px 0 20px;
     }
-} */
+}
