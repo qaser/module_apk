@@ -42,15 +42,13 @@
 @import url(../blocks/main/__link/main__link.css);
 
 @import url(../blocks/single-fault/single-fault.css);
-@import url(../blocks/single-fault/__name/single-fault__name.css);
-@import url(../blocks/single-fault/__personal/single-fault__personal.css);
-@import url(../blocks/single-fault/__charge/single-fault__charge.css);
 @import url(../blocks/single-fault/__description/single-fault__description.css);
 @import url(../blocks/single-fault/__description/_danger/single-fault__description_danger.css);
-@import url(../blocks/single-fault/__doc/single-fault__doc.css);
+@import url(../blocks/single-fault/__footer/single-fault__footer.css);
 @import url(../blocks/single-fault/__finder/single-fault__finder.css);
 @import url(../blocks/single-fault/__header/single-fault__header.css);
-@import url(../blocks/single-fault/__header/_danger/single-fault__header_danger.css);
+@import url(../blocks/single-fault/__header/_done/single-fault__header_done.css);
+@import url(../blocks/single-fault/__header/_deadline/single-fault__header_deadline.css);
 @import url(../blocks/single-fault/__images/single-fault__images.css);
 @import url(../blocks/single-fault/__image/single-fault__image.css);
 @import url(../blocks/single-fault/__location/single-fault__location.css);

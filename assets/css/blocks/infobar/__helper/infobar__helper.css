@@ -5,8 +5,8 @@
     border-radius: 5px;
 }
 
-/* @media screen and (max-width: 768px) {
+@media screen and (max-width: 520px) {
     .infobar__helper {
-        visibility: collapse;
+        width: 100%;
     }
-  } */
+  }
