@@ -18,9 +18,9 @@ class ActAdmin(admin.ModelAdmin):
 
 
 # class PlanAdmin(admin.ModelAdmin):
-#     list_display = ()
-#     search_fields = ('act_year',)
-#     list_filter = ('control_level', 'act_number',)
+#     list_display = ('act',)
+#     search_fields = ('act',)
+#     list_filter = ('act',)
 #     empty_value_display = '-пусто-'
 
 class FaultAdmin(admin.ModelAdmin):
@@ -57,6 +57,7 @@ class FixAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Act, ActAdmin)
+# admin.site.register(Plan, PlanAdmin)
 admin.site.register(Fault, FaultAdmin)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(Fix, FixAdmin)

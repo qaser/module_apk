@@ -1,0 +1,42 @@
+{% extends "mysite_apk/base.html" %}
+
+{% block title %}3 уровень АПК{% endblock %}
+
+{% load static %}
+{% comment %} {% load recipes_filters %} {% endcomment %}
+{% csrf_token %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/pages/index-acts.css'%}">
+{% endblock %}
+
+{% block content %}
+    <main class="content">
+        <section class="main" id="main">
+            <h1 class="main__title">3 уровень АПК</h1>
+            <a class="main__link" href="#">Добавить новый акт</a>
+            <!-- блок карточек -->
+            <div class="year-cards">
+                {% for year, acts in years.items %}
+                    <div class="year-cards__item">
+                        <h3 class="year-cards__title">{{ year }}</h3>
+                        
+                            <div class="year-cards__two-columns">
+                                <ul class="year-cards__act-list list">
+                                    {% for act in acts %}
+                                        <li class="year-cards__script"><a class="year-cards__link" href="{% url 'single_act' year act.act_number %}">Акт №{{ act.act_number }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                <ul class="year-cards__plan-list list">
+                                    {% for act in acts %}
+                                        <li class="year-cards__script"><a class="year-cards__link" href="{% url 'single_plan' year act.act_number %}">План</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+{% endblock %}

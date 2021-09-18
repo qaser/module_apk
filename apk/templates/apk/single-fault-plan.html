@@ -1,0 +1,72 @@
+{% extends "mysite_apk/base.html" %}
+
+{% block title %}Мероприятия и корректирующие действия{% endblock %}
+
+{% load static %}
+{% comment %} {% load recipes_filters %} {% endcomment %}
+{% csrf_token %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/pages/single-fault-plan.css'%}">
+{% endblock %}
+
+{% block content %}
+
+    <main class="content">
+        <section class="main" id="main">
+            <h1 class="main__title">Акт №4 от 23.07.2021г. | План корректирующих действий | Несоответствие №77</h1>
+            <a class="main__link" href="#">Редактировать мероприятия</a> <!-- нужно сделать выбор редактировать\добавить -->
+            
+            <!-- блок карточки -->
+            <h2 class="single-fault__location">КС-5,6 | БПТПГ КС-5</h2>
+            <div class="single-fault">
+                <div class="single-fault__description single-fault__description">
+
+                    <!-- отдельный элемент карточки -->
+                    <div class="single-fault__header single-fault__header">
+                        <h3 class="single-fault__title">Несоответствие</h3>
+                        <p class="tag tag_eco">ПОЖ</p>
+                    </div>
+                    <p class="single-fault__text">
+                    Нарушена теплоизоляция трубопровода системы тепловодоснабжения
+                    в блоке тепломаслоагрегатов в районе блока маслоохладителей
+                    </p>
+                    <p class="single-fault__footer">/ СТО Газпром 3456.567.89-2021 п.5.6.7 /</p>
+                    <!-- конец отдельного элемента карточки -->
+
+                    <!-- отдельный элемент карточки -->
+                    <div class="single-fault__header single-fault__header_done">
+                        <h3 class="single-fault__title">Устранение</h3>
+                        <p class="single-fault__title">до 23.01.2021 /осталось 23 дня/ </p>
+                    </div>
+                    <p class="single-fault__text">Восстановить теплоизоляцию на ремонтном участке</p>
+                    <p class="single-fault__footer">Исполнитель: Иванов Пётр Иванович, начальник КС-6,7</p>
+                    <!-- конец отдельного элемента карточки -->
+
+                    <!-- отдельный элемент карточки -->
+                    <div class="single-fault__header">
+                        <h3 class="single-fault__title">Причины несоответствия</h3>
+                    </div>
+                    <p class="single-fault__text">Недостаточный контроль со стороны руководства</p>
+                    <!-- конец отдельного элемента карточки -->
+
+                    <!-- отдельный элемент карточки -->
+                    <div class="single-fault__header single-fault__header_deadline">
+                        <h3 class="single-fault__title">Корректирующее действие</h3>
+                        <p class="single-fault__title">до 23.01.2021 /просрочено 3 дня/</p>
+                    </div>
+                    <p class="single-fault__text">Усилить контроль за подчинённым персоналом</p>
+                    <p class="single-fault__footer">Исполнитель: Иванов Пётр Иванович, начальник КС-6,7</p>
+                    <!-- конец отдельного элемента карточки -->
+
+                </div>
+                <div class="single-fault__images">
+                    <img class="single-fault__image" src="../img/roman-pentin-T5QT2bmiD4E-unsplash.jpg" alt="Фотография несоответствия">
+                    <img class="single-fault__image" src="../img/roman-pentin-T5QT2bmiD4E-unsplash.jpg" alt="Фотография устранения">
+                </div>
+            </div>
+            <!-- конец карточки -->
+        </section>
+    </main>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "mysite_apk/base.html" %}
+
+{% block title %}Акт проверки{% endblock %}
+
+{% load static %}
+{% load apk_filters %}
+{% csrf_token %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/pages/single-act.css'%}">
+{% endblock %}
+
+{% block content %}
+
+    <main class="content">
+            <section class="main" id="main">
+            <h1 class="main__title">Акт проверки №{{ act.act_number }} от {{ act.act_compile_date }}</h1>
+            <div class="main__links">
+                <a class="main__link" href="#">Добавить новое несоответствие</a>
+                <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }}</h3>
+            </div>
+            <!-- блок карточек -->
+            
+                <ul class="fault-cards list">
+                    {% for fault in faults %}
+                        <li><a class="fault-cards__link" href="{% url 'single_fault_act' act.act_year act.act_number fault.id %}">
+                            <div class="fault-cards__item">
+                                <div class="fault-cards__description">
+                                    <div class="fault-cards__header">
+                                        <h4 class="fault-cards__title">{{ fault.location }}</h4>
+                                        <p class="tag tag_fire">{{ fault.group }}</p>
+                                    </div>
+                                    <p class="fault-cards__text">{{ fault.description }}</p>
+                                </div>
+                                <img class="fault-cards__image" src="../img/roman-pentin-T5QT2bmiD4E-unsplash.jpg" alt="Фото несоответствия">
+                            </div>
+                        </a></li>
+                    {% endfor %}
+                </ul>
+            
+            </section>
+        </main>
+{% endblock %}

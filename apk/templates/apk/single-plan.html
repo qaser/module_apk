@@ -1,0 +1,90 @@
+{% extends "mysite_apk/base.html" %}
+
+{% block title %}План корректирующих действий{% endblock %}
+
+{% load static %}
+{% comment %} {% load recipes_filters %} {% endcomment %}
+{% csrf_token %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/pages/single-plan.css'%}">
+{% endblock %}
+
+{% block content %}
+
+    <main class="content">
+        <section class="main" id="main">
+            <h1 class="main__title">План корректирующих действий | Акт №4 от 23.07.2021г.</h1>
+            <div class="main__links">
+                <a class="main__link" href="#">Перейти к акту</a>
+                <h3 class="main__stat">Всего: 116 несоответствий | <a href="#">Выполнено: 36</a> | <a href="#">Просрочено: 12</a></h3>
+            </div>
+            <!-- здесь нужно будет добавить ссылки на фильтрацию по объектам
+            при нажатии на ссылку происходит обновление экрана и показываются только отфильтрованные карточки -->
+            <ul class="filter list">
+                <li class="filter__point"><a class="filter__link" href="#">Все</a></li>
+                <li class="filter__point"><a class="filter__link" href="#">КС-5,6</a></li>
+                <li class="filter__point"><a class="filter__link" href="#">ЭВС</a></li>
+                <li class="filter__point"><a class="filter__link" href="#">АиМО</a></li>
+                <li class="filter__point"><a class="filter__link" href="#">ЛЭС</a></li>
+            </ul>
+
+            <!-- блок карточек -->
+            <ul class="fault-cards list">
+                <li><a class="fault-cards__link" href="#">
+                <div class="fault-cards__item fault-cards__item_done">
+                    <div class="fault-cards__description">
+                        <div class="fault-cards__header">
+                            <h4 class="fault-cards__title">КС-5 | ГПА 52</h4>
+                            <p class="tag tag_fire">ПОЖ</p>
+                        </div>
+                        <p class="fault-cards__text">
+                            Нарушена теплоизоляция трубопровода системы тепловодоснабжения
+                            в блоке тепломаслоагрегатов в районе блока маслоохладителей
+                        </p>
+                    </div>
+                    <img class="fault-cards__image" src="../img/roman-pentin-T5QT2bmiD4E-unsplash.jpg" alt="Фото несоответствия">
+                </div>
+                </a></li>
+                <!-- конец одной карточки -->
+
+                <!-- одна карточка -->
+                <li><a class="fault-cards__link" href="#">
+                <div class="fault-cards__item fault-cards__item_deadline">
+                    <div class="fault-cards__description">
+                        <div class="fault-cards__header">
+                            <h4 class="fault-cards__title">КС-5 | ГПА 52</h4>
+                            <p class="tag tag_fire">ПОЖ</p>
+                        </div>
+                        <p class="fault-cards__text">
+                            Нарушена теплоизоляция трубопровода системы тепловодоснабжения
+                            в блоке тепломаслоагрегатов в районе блока маслоохладителей
+                        </p>
+                    </div>
+                    <img class="fault-cards__image" src="../img/roman-pentin-T5QT2bmiD4E-unsplash.jpg" alt="Фото несоответствия">
+                </div>
+                </a></li>
+                <!-- конец одной карточки -->
+
+                <!-- одна карточка -->
+                <li><a class="fault-cards__link" href="#">
+                <div class="fault-cards__item">
+                    <div class="fault-cards__description">
+                        <div class="fault-cards__header">
+                            <h4 class="fault-cards__title">КС-5 | ГПА 52</h4>
+                            <p class="tag tag_fire">ПОЖ</p>
+                        </div>
+                        <p class="fault-cards__text">
+                            Нарушена теплоизоляция трубопровода системы тепловодоснабжения
+                            в блоке тепломаслоагрегатов в районе блока маслоохладителей
+                        </p>
+                    </div>
+                    <img class="fault-cards__image" src="../img/roman-pentin-T5QT2bmiD4E-unsplash.jpg" alt="Фото несоответствия">
+                </div>
+                </a></li>
+                <!-- конец одной карточки -->
+            </ul>
+        </section>
+    </main>
+
+{% endblock %}

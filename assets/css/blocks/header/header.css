@@ -9,4 +9,5 @@
     align-items: center;
     /* margin: 0 auto; */
     background-color: #A3CDDA;
+    z-index: 999999;
   }

@@ -1,0 +1,7 @@
+{% load static %}
+<header class="header" id="header">
+    <a class="header__link" href="#"><img class="header__logo" src="{% static 'img/logo-full-large.png' %}" alt="Логотип"></a>
+    {% comment %} {% if user.is_authenticated %} {% endcomment %}
+        {% comment %} <a class="header__point" href="{% url 'logout' %}">Выйти</a> {% endcomment %}
+    {% comment %} {% endif %} {% endcomment %}
+</header>

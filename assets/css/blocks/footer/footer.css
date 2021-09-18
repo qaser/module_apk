@@ -4,6 +4,20 @@
     height: 60px;
     display: flex;
     justify-content: end;
-    align-items: center;
+    /* align-items: center; */
     background: linear-gradient(90deg, white, #A3CDDA);
+}
+
+@media screen and (max-width: 800px) {
+    .footer {
+        background: #A3CDDA;
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 520px) {
+    .footer {
+        height: auto;
+        justify-content: center;
+    }
 }

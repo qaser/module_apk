@@ -53,10 +53,10 @@ class Act(models.Model):
 
 class Fault(models.Model):
     GROUP = (
-        ('labor safety', 'Охрана труда'),
-        ('industrial safety', 'Промышленная безопасность'),
-        ('fire safety', 'Пожарная безопасность'),
-        ('ecological safety', 'Экологическая безопасность'),
+        ('ОТ', 'Охрана труда'),
+        ('ПБ', 'Промышленная безопасность'),
+        ('ПОЖ', 'Пожарная безопасность'),
+        ('Э', 'Экологическая безопасность'),
     )
     group = models.TextField(
         'Группа несоответствий',
@@ -136,16 +136,20 @@ class Fault(models.Model):
         return complex_note
 
 
+# class Plan(models.Model):
+#     act = models.ForeignKey(
+#         Act,
+#         on_delete=CASCADE,
+#         verbose_name='Акт проверки',
+#         related_name='act',
+#     )
+
+#     class Meta:
+#         verbose_name = 'план корректирующих действий'
+#         verbose_name_plural = 'планы корректирующих действий'
+
 # мероприятия по устранению несоответствия
 class Fix(models.Model):
-    act = models.ForeignKey(
-        Act,
-        on_delete=CASCADE,
-        verbose_name='Номер акта',
-        related_name='act',
-        null=True,
-        db_index=True,
-    )
     fault = models.ForeignKey(
         Fault,
         on_delete=CASCADE,
