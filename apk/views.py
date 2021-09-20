@@ -7,10 +7,8 @@ def index_level_3(request):
     acts = Act.objects.all().filter(control_level='3 уровень')
     # извлекаю уникальные значения годов из выбранных актов и сортирую их
     years_uniq = acts.order_by().values('act_year').distinct()
-    years = []
+    years = [year.get('act_year') for year in years_uniq]
     context = {}
-    for year in years_uniq:
-        years.append(year.get('act_year'))
     # формирую словарь в виде {год: акты этого года}
     for year in years:
         context[year] = acts.filter(act_year=year).order_by('act_number')
@@ -30,9 +28,36 @@ def single_act(request, act_year, act_number):
     )
 
 
-def single_fault_act(request, year, act_number, fault_id):
-    pass
+def single_fault_act(request, act_year, act_number, fault_id):
+    fault = get_object_or_404(Fault, id=fault_id)
+    return render(
+        request,
+        'apk/single-fault-act.html',
+        {'fault': fault}
+    )
+
+def single_plan(request, act_year, act_number):
+    print(dir(request))
+    print(request.path)
+    act = get_object_or_404(Act, act_number=act_number, act_year=act_year)
+    faults = Fault.objects.all().filter(act=act)
+    fixed_faults = faults.filter(fixed=True).count()
+    locations = faults.values('location__department__title').distinct()
+    places = [place.get('location__department__title') for place in locations]
+    return render(
+        request,
+        'apk/single-plan.html',
+        {'act': act,
+        'faults': faults,
+        'fixed_faults': fixed_faults,
+        'places': places,}
+    )
 
 
-def single_plan(request, year, act_number):
-    pass
+def single_fault_plan(request, act_year, act_number, fault_id):
+    fault = get_object_or_404(Fault, id=fault_id)
+    return render(
+        request,
+        'apk/single-fault-plan.html',
+        {'fault': fault}
+    )

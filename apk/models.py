@@ -1,14 +1,43 @@
+import datetime as dt
+
+from django.contrib.auth import get_user_model
+# from users.models import Profile
 from django.db import models
-from django.conf import settings
 from django.db.models.deletion import CASCADE, SET_NULL
+from django.db.models.signals import post_save
+from django.dispatch.dispatcher import receiver
+
+
+User = get_user_model()
+
+
+class Role(models.TextChoices):
+    MANAGER = 'начальник'
+    ENGENEER = 'инженер'
+    EMPLOYEE = 'рабочий'
+    GUEST = 'гость'
+
+
+class Department(models.Model):
+    title = models.CharField('название службы', max_length=50,)
+
+    class Meta:
+        ordering = ('title',)
+        verbose_name = 'служба филиала'
+        verbose_name_plural = 'службы филиала'
+
+    def __str__(self) -> str:
+        return self.title
 
 
 class Location(models.Model):
-    department = models.TextField(
-        'служба',
-        max_length=50,
+    department = models.ForeignKey(
+        Department,
+        verbose_name='служба',
+        related_name='department',
+        on_delete=CASCADE,
     )
-    object = models.TextField(
+    object = models.CharField(
         'оборудование',
         max_length=100,
     )
@@ -20,6 +49,55 @@ class Location(models.Model):
 
     def __str__(self) -> str:
         return f'{self.department} | {self.object}'
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    patronymic = models.CharField(
+        'Отчество',
+        max_length=50,
+        blank=True,
+        null=True,
+    )
+    job_position = models.TextField('Должность', blank=True, null=True)
+    role = models.CharField(
+        'Права',
+        max_length=30,
+        choices=Role.choices,
+        default=Role.GUEST,
+    )
+    department = models.ForeignKey(
+        Department,
+        verbose_name='Место работы',
+        on_delete=SET_NULL,
+        related_name='user_department',
+        null=True,
+    )
+
+    @property
+    def is_manager(self):
+        return self.is_superuser or self.role == Role.MANAGER
+
+    @property
+    def is_engeneer(self):
+        return self.is_staff or self.role == Role.ENGENEER
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
+
+    class Meta:
+        ordering = ('-user',)
+        verbose_name = 'профиль пользователя'
+        verbose_name_plural = 'профили пользователей'
+
+    def __str__(self) -> str:
+        return self.user.get_full_name()
 
 
 class Act(models.Model):
@@ -39,6 +117,7 @@ class Act(models.Model):
     )
     act_number = models.PositiveSmallIntegerField('Номер акта',)
     act_compile_date = models.DateField('Дата составления', auto_now_add=True)
+    closed = models.BooleanField('Отработан', default=False)
 
     class Meta:
         ordering = ('-act_compile_date',)
@@ -58,6 +137,7 @@ class Fault(models.Model):
         ('ПОЖ', 'Пожарная безопасность'),
         ('Э', 'Экологическая безопасность'),
     )
+    fault_number = models.PositiveIntegerField('Номер несоответствия')
     group = models.TextField(
         'Группа несоответствий',
         choices=GROUP,
@@ -66,7 +146,7 @@ class Fault(models.Model):
         Act,
         on_delete=SET_NULL,
         verbose_name='Номер акта',
-        related_name='fault',
+        related_name='fault_act',
         null=True,
         db_index=True,
     )
@@ -80,9 +160,9 @@ class Fault(models.Model):
         'Описание несоответствия',
         max_length=500,
     )
-    document = models.TextField(
+    document = models.CharField(
         'Нормативный документ',
-        max_length='150',
+        max_length=100,
     )
     danger = models.BooleanField(
         'Опасное событие?',
@@ -90,7 +170,7 @@ class Fault(models.Model):
     )
     # допустивший несоответствие
     intruder = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        Profile,
         on_delete=SET_NULL,
         related_name='intruder',
         verbose_name='Допустивший несоответствие',
@@ -98,20 +178,20 @@ class Fault(models.Model):
     )
     # не выявивший несоответствие на ниженем уровне
     unseeing = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        Profile,
         on_delete=SET_NULL,
         related_name='unseeing',
         verbose_name='Не выявивший несоответствие',
         null=True,
     )
-    section_esupb = models.TextField(
+    section_esupb = models.CharField(
         'Раздел ЕСУПБ',
-        max_length='150',
+        max_length=150,
         blank=True,
         null=True,
     )
     inspector = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+       Profile,
         on_delete=SET_NULL,
         related_name='inspector',
         verbose_name='Проверяющий',
@@ -124,45 +204,14 @@ class Fault(models.Model):
         blank=True,
         null=True,
     )
-
-    class Meta:
-        verbose_name = 'несоответствие'
-        verbose_name_plural = 'несоответствия'
-
-    def __str__(self):
-        complex_note = (f'{self.location} - {self.description[:30]}')
-        if len(self.description) > 30:
-            return complex_note + '...'
-        return complex_note
-
-
-# class Plan(models.Model):
-#     act = models.ForeignKey(
-#         Act,
-#         on_delete=CASCADE,
-#         verbose_name='Акт проверки',
-#         related_name='act',
-#     )
-
-#     class Meta:
-#         verbose_name = 'план корректирующих действий'
-#         verbose_name_plural = 'планы корректирующих действий'
-
-# мероприятия по устранению несоответствия
-class Fix(models.Model):
-    fault = models.ForeignKey(
-        Fault,
-        on_delete=CASCADE,
-        verbose_name='Несоответствие',
-        related_name='fault',
-    )
     fix_action = models.TextField(
         'Мероприятие по устранению',
+        default='Данные не введены',
         null=True,
         blank=True,
     )
     fixer = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        Profile,
         verbose_name='Исполнитель',
         on_delete=models.SET_NULL,
         related_name='fixer',
@@ -192,18 +241,25 @@ class Fix(models.Model):
     # корректирующие действия
     reason = models.TextField(
         'Причина появления несоответствия',
+        default='Данные не введены',
         max_length=500,
         blank=True,
         null=True,
     )
     correct_action = models.TextField(
-        'Коррекция',
+        'Корректирующее действие',
+        default='Данные не введены',
+        null=True,
+        blank=True,
     )
     resources = models.TextField(
         'Необходимые ресурсы',
+        default='Данные не введены',
+        null=True,
+        blank=True,
     )
     corrector = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        Profile,
         verbose_name='Исполнитель',
         on_delete=models.SET_NULL,
         null=True,
@@ -211,6 +267,8 @@ class Fix(models.Model):
     )
     correct_deadline = models.DateField(
         'Срок корректировки',
+        null=True,
+        blank=True,
     )
     corrected = models.BooleanField(
         'Отметка о корректировке',
@@ -223,5 +281,71 @@ class Fix(models.Model):
     )
 
     class Meta:
-        verbose_name = 'мероприятие'
-        verbose_name_plural = 'мероприятия'
+        verbose_name = 'несоответствие'
+        verbose_name_plural = 'несоответствия'
+
+    def __str__(self):
+        complex_note = (f'{self.location} - {self.description[:30]}')
+        if len(self.description) > 30:
+            return complex_note + '...'
+        return complex_note
+
+    @property
+    def image_before_url(self, default_path="apk/image_not_upload.png"):
+        if self.image_before:
+            return self.image_before
+        else:
+            return default_path
+
+    @property
+    def image_after_url(self, default_path="apk/image_not_upload.png"):
+        if self.image_after:
+            return self.image_after
+        else:
+            return default_path
+
+    @property
+    def deltatime_fix(self):
+        return self.deltatime_calc(self.fix_deadline, self.fixed)
+
+    @property
+    def deltatime_correct(self):
+        return self.deltatime_calc(self.correct_deadline, self.corrected)
+
+    # @property
+    # def abandoned_fix(self):
+    #     return self.abandoned_check(self.fix_deadline)
+
+    # @property
+    # def abandoned_correct(self):
+    #     return self.abandoned_check(self.correct_deadline)
+
+    # def abandoned_check(self, date):
+    #     if action:
+    #         return ['Выполнено', 0]
+    #     elif date != None and not action:
+    #         today = dt.datetime.today()
+    #         today_now = dt.datetime(today.year, today.month, today.day)
+    #         deadline = dt.datetime(date.year, date.month, date.day)
+    #         if today_now == deadline:
+    #             return ['сегодня последний день', 1]
+    #         elif today_now > deadline:
+    #             deltatime = today_now - deadline
+    #             return [f'/ просрочено дней: {deltatime.days} /', 2]
+    #         deltatime = deadline - today_now
+    #         return [f'/ осталось дней: {deltatime.days} /', 1]
+
+    def deltatime_calc(self, date, action):
+        if action:
+            return ['Выполнено', 0]
+        elif date != None and not action:
+            today = dt.datetime.today()
+            today_now = dt.datetime(today.year, today.month, today.day)
+            deadline = dt.datetime(date.year, date.month, date.day)
+            if today_now == deadline:
+                return ['сегодня последний день', 1]
+            elif today_now > deadline:
+                deltatime = today_now - deadline
+                return [f'/ просрочено дней: {deltatime.days} /', 2]
+            deltatime = deadline - today_now
+            return [f'/ осталось дней: {deltatime.days} /', 1]

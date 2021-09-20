@@ -3,7 +3,7 @@
 {% block title %}План корректирующих действий{% endblock %}
 
 {% load static %}
-{% comment %} {% load recipes_filters %} {% endcomment %}
+{% load apk_filters %}
 {% csrf_token %}
 
 {% block style %}
@@ -14,75 +14,40 @@
 
     <main class="content">
         <section class="main" id="main">
-            <h1 class="main__title">План корректирующих действий | Акт №4 от 23.07.2021г.</h1>
+            <h1 class="main__title">План корректирующих действий к Акту проверки №{{ act.act_number }} от {{ act.act_compile_date }}</h1>
             <div class="main__links">
-                <a class="main__link" href="#">Перейти к акту</a>
-                <h3 class="main__stat">Всего: 116 несоответствий | <a href="#">Выполнено: 36</a> | <a href="#">Просрочено: 12</a></h3>
+                <a class="main__link" href="{% url 'single_act' act.act_year act.act_number %}">Перейти к акту</a>
+                <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }} | <a href="#">Выполнено: {{ fixed_faults }}</a> | <a href="#">Просрочено: 12</a></h3>
             </div>
             <!-- здесь нужно будет добавить ссылки на фильтрацию по объектам
             при нажатии на ссылку происходит обновление экрана и показываются только отфильтрованные карточки -->
             <ul class="filter list">
                 <li class="filter__point"><a class="filter__link" href="#">Все</a></li>
-                <li class="filter__point"><a class="filter__link" href="#">КС-5,6</a></li>
-                <li class="filter__point"><a class="filter__link" href="#">ЭВС</a></li>
-                <li class="filter__point"><a class="filter__link" href="#">АиМО</a></li>
-                <li class="filter__point"><a class="filter__link" href="#">ЛЭС</a></li>
+                {% for place in places %}
+                    <li class="filter__point"><a class="filter__link" href="{{ place }}">{{ place }}</a></li>
+                {% endfor %}
             </ul>
 
             <!-- блок карточек -->
-            <ul class="fault-cards list">
-                <li><a class="fault-cards__link" href="#">
-                <div class="fault-cards__item fault-cards__item_done">
-                    <div class="fault-cards__description">
-                        <div class="fault-cards__header">
-                            <h4 class="fault-cards__title">КС-5 | ГПА 52</h4>
-                            <p class="tag tag_fire">ПОЖ</p>
-                        </div>
-                        <p class="fault-cards__text">
-                            Нарушена теплоизоляция трубопровода системы тепловодоснабжения
-                            в блоке тепломаслоагрегатов в районе блока маслоохладителей
-                        </p>
-                    </div>
-                    <img class="fault-cards__image" src="../img/roman-pentin-T5QT2bmiD4E-unsplash.jpg" alt="Фото несоответствия">
-                </div>
-                </a></li>
+                <ul class="fault-cards list">
+                    {% for fault in faults %}
+                        <li><a class="fault-cards__link" href="{% url 'single_fault_plan' act.act_year act.act_number fault.id %}">
+                            <div class="fault-cards__item {% if fault.fixed and fault.corrected %} fault-cards__item_done {% elif fault.deltatime_fix.1 == 2 or fault.deltatime_correct.1 == 2 %} fault-cards__item_deadline {% endif %}">
+                                <div class="fault-cards__description">
+                                    <div class="fault-cards__header">
+                                        <h4 class="fault-cards__title">{{ fault.location }}</h4>
+                                        <p class="tag tag_{{ fault.group|color_tag }}">{{ fault.group }}</p>
+                                    </div>
+                                    <p class="fault-cards__text">{{ fault.description }}</p>
+                                </div>
+                                <!-- фотография несоответствия -->
+                                {% include 'apk/apk_ext/image_before.html' with size="640x420" class="fault-cards__image" %}
+                            </div>
+                        </a></li>
+                    {% endfor %}
+                </ul>
                 <!-- конец одной карточки -->
 
-                <!-- одна карточка -->
-                <li><a class="fault-cards__link" href="#">
-                <div class="fault-cards__item fault-cards__item_deadline">
-                    <div class="fault-cards__description">
-                        <div class="fault-cards__header">
-                            <h4 class="fault-cards__title">КС-5 | ГПА 52</h4>
-                            <p class="tag tag_fire">ПОЖ</p>
-                        </div>
-                        <p class="fault-cards__text">
-                            Нарушена теплоизоляция трубопровода системы тепловодоснабжения
-                            в блоке тепломаслоагрегатов в районе блока маслоохладителей
-                        </p>
-                    </div>
-                    <img class="fault-cards__image" src="../img/roman-pentin-T5QT2bmiD4E-unsplash.jpg" alt="Фото несоответствия">
-                </div>
-                </a></li>
-                <!-- конец одной карточки -->
-
-                <!-- одна карточка -->
-                <li><a class="fault-cards__link" href="#">
-                <div class="fault-cards__item">
-                    <div class="fault-cards__description">
-                        <div class="fault-cards__header">
-                            <h4 class="fault-cards__title">КС-5 | ГПА 52</h4>
-                            <p class="tag tag_fire">ПОЖ</p>
-                        </div>
-                        <p class="fault-cards__text">
-                            Нарушена теплоизоляция трубопровода системы тепловодоснабжения
-                            в блоке тепломаслоагрегатов в районе блока маслоохладителей
-                        </p>
-                    </div>
-                    <img class="fault-cards__image" src="../img/roman-pentin-T5QT2bmiD4E-unsplash.jpg" alt="Фото несоответствия">
-                </div>
-                </a></li>
-                <!-- конец одной карточки -->
             </ul>
         </section>
     </main>

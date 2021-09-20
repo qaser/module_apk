@@ -1,9 +1,9 @@
 {% extends "mysite_apk/base.html" %}
 
-{% block title %}Несоответствие{% endblock %}
+{% block title %}Несоответствие №{{ fault.id }}{% endblock %}
 
 {% load static %}
-{% comment %} {% load recipes_filters %} {% endcomment %}
+{% load apk_filters %}
 {% csrf_token %}
 
 {% block style %}
@@ -14,33 +14,30 @@
 
     <main class="content">
         <section class="main" id="main">
-            <h1 class="main__title">Акт проверки №4 от 23.07.2021г. | Несоответствие №77</h1>
+            <h1 class="main__title">Акт проверки №{{ fault.act.act_number }} от {{ fault.act.act_compile_date }} | Несоответствие №{{ fault.id }}</h1>
             <a class="main__link" href="#">Редактировать несоответствие</a>
             <!-- блок карточки -->
-            <h2 class="single-fault__location">КС-5,6 | БПТПГ КС-5</h2>
+            <h2 class="single-fault__location">{{ fault.location }}</h2>
             <div class="single-fault">
-            <div class="single-fault__description single-fault__description_danger">
+            <div class="single-fault__description {% if fault.danger %}single-fault__description_danger {% endif %}">
                 <div class="single-fault__header">
                 <h3 class="single-fault__title">Несоответствие</h3>
-                <p class="tag tag_eco">ПОЖ</p>
+                <p class="tag tag_{{ fault.group|color_tag }}">{{ fault.group }}</p>
                 </div>
-                <p class="single-fault__text">
-                Нарушена теплоизоляция трубопровода системы тепловодоснабжения
-                в блоке тепломаслоагрегатов в районе блока маслоохладителей
-                </p>
-                <p class="single-fault__footer">СТО Газпром 3456.567.89-2021 п.5.6.7</p>
+                <p class="single-fault__text">{{ fault.description }}</p>
+                <p class="single-fault__footer">{{ fault.document }}</p>
                 <div class="single-fault__header">
                     <h3 class="single-fault__title">Допустивший несоответствие</h3>
                 </div>
-                <p class="single-fault__text">Иванов Иван Иванович, начальник КС-6,7</p>
+                <p class="single-fault__text">{{ fault.intruder }}</p>
                 <div class="single-fault__header">
                     <h3 class="single-fault__title">Не выявивший несоответствие</h3>
                 </div>
-                <p class="single-fault__text">Иванов Иван Иванович, начальник КС-6,7</p>
-                <p class="single-fault__finder">Пётр Трудовиков, инженер группы ОТ</p>
+                <p class="single-fault__text">{{ fault.unseeing }}</p>
+                <p class="single-fault__finder">{{ fault.inspector }}</p>
             </div>
             <div class="single-fault__images">
-                <img class="single-fault__image" src="../img/roman-pentin-T5QT2bmiD4E-unsplash.jpg" alt="Фотография нарушения">
+                {% include 'apk/apk_ext/image_before.html' with size="640x420" class="single-fault__image" %}
             </div>
             </div>
             <!-- конец карточки -->

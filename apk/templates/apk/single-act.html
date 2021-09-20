@@ -1,6 +1,6 @@
 {% extends "mysite_apk/base.html" %}
 
-{% block title %}Акт проверки{% endblock %}
+{% block title %}Акт проверки №{{ act.act_number }} от {{ act.act_compile_date }}{% endblock %}
 
 {% load static %}
 {% load apk_filters %}
@@ -15,24 +15,32 @@
     <main class="content">
             <section class="main" id="main">
             <h1 class="main__title">Акт проверки №{{ act.act_number }} от {{ act.act_compile_date }}</h1>
-            <div class="main__links">
-                <a class="main__link" href="#">Добавить новое несоответствие</a>
-                <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }}</h3>
-            </div>
+            {% if faults.count == 0 %}
+                <h3 class="main__stat">Здесь пока отсутствуют записи</h3>
+                <div class="main__links">
+                    <a class="main__link" href="#">Добавить новое несоответствие</a>
+                </div>
+            {% else %}
+                <div class="main__links">
+                    <a class="main__link" href="#">Добавить новое несоответствие</a>
+                    <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }}</h3>
+                </div>
+            {% endif %}
+
             <!-- блок карточек -->
-            
                 <ul class="fault-cards list">
                     {% for fault in faults %}
                         <li><a class="fault-cards__link" href="{% url 'single_fault_act' act.act_year act.act_number fault.id %}">
-                            <div class="fault-cards__item">
+                            <div class="fault-cards__item {% if fault.danger %}fault-cards__item_danger {% endif %}">
                                 <div class="fault-cards__description">
                                     <div class="fault-cards__header">
                                         <h4 class="fault-cards__title">{{ fault.location }}</h4>
-                                        <p class="tag tag_fire">{{ fault.group }}</p>
+                                        <p class="tag tag_{{ fault.group|color_tag }}">{{ fault.group }}</p>
                                     </div>
                                     <p class="fault-cards__text">{{ fault.description }}</p>
                                 </div>
-                                <img class="fault-cards__image" src="../img/roman-pentin-T5QT2bmiD4E-unsplash.jpg" alt="Фото несоответствия">
+                                <!-- фотография несоответствия -->
+                                {% include 'apk/apk_ext/image_before.html' with size="640x420" class="fault-cards__image" %}
                             </div>
                         </a></li>
                     {% endfor %}

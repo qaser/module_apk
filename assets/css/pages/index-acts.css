@@ -13,7 +13,7 @@
 @import url(../blocks/header/__point/header__point.css);
 
 @import url(../blocks/sidebar/sidebar.css);
-@import url(../blocks/sidebar/__link/);
+@import url(../blocks/sidebar/__link/sidebar__link.css);
 @import url(../blocks/sidebar/__user-card/sidebar__user-card.css);
 @import url(../blocks/sidebar/__user-avatar/sidebar__user-avatar.css);
 @import url(../blocks/sidebar/__link/sidebar__link.css);

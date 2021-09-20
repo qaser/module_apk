@@ -1,0 +1,6 @@
+{% load static %}
+{% load thumbnail %}
+
+{% thumbnail fault.image_after_url size crop="center" upscale=True as im %}
+    <img class={{ class }} src="{{ im.url }}" title="{{ fault.location }}, устранено">
+{% endthumbnail %}

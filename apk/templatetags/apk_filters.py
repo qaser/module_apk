@@ -20,3 +20,15 @@ def word_tail(number, args):
     if 1 < last_digit < 5 and last_two_digit not in range(11, 15):
         return f'{number} {args[1]}'  # несоответствия
     return f'{number} {args[2]}'  # несоответствий
+
+
+@register.filter
+def color_tag(tag):
+    if tag == 'ПБ':
+        return 'pb'
+    elif tag == 'ОТ':
+        return 'ot'
+    elif tag == 'Э':
+        return 'eco'
+    elif tag == 'ПОЖ':
+        return 'fire'
