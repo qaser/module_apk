@@ -1,6 +1,6 @@
 {% extends "mysite_apk/base.html" %}
 
-{% block title %}Несоответствие №{{ fault.id }}{% endblock %}
+{% block title %}Несоответствие №{{ fault.fault_number }}{% endblock %}
 
 {% load static %}
 {% load apk_filters %}
@@ -14,7 +14,7 @@
 
     <main class="content">
         <section class="main" id="main">
-            <h1 class="main__title">Акт проверки №{{ fault.act.act_number }} от {{ fault.act.act_compile_date }} | Несоответствие №{{ fault.id }}</h1>
+            <h1 class="main__title">Акт проверки №{{ fault.act.act_number }} от {{ fault.act.act_compile_date }} | Несоответствие №{{ fault.fault_number }}</h1>
             <a class="main__link" href="#">Редактировать несоответствие</a>
             <!-- блок карточки -->
             <h2 class="single-fault__location">{{ fault.location }}</h2>

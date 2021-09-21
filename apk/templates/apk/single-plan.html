@@ -31,7 +31,7 @@
             <!-- блок карточек -->
                 <ul class="fault-cards list">
                     {% for fault in faults %}
-                        <li><a class="fault-cards__link" href="{% url 'single_fault_plan' act.act_year act.act_number fault.id %}">
+                        <li><a class="fault-cards__link" href="{% url 'single_fault_plan' act.act_year act.act_number fault.fault_number %}">
                             <div class="fault-cards__item {% if fault.fixed and fault.corrected %} fault-cards__item_done {% elif fault.deltatime_fix.1 == 2 or fault.deltatime_correct.1 == 2 %} fault-cards__item_deadline {% endif %}">
                                 <div class="fault-cards__description">
                                     <div class="fault-cards__header">

@@ -92,7 +92,7 @@ class Profile(models.Model):
         instance.profile.save()
 
     class Meta:
-        ordering = ('-user',)
+        ordering = ('user',)
         verbose_name = 'профиль пользователя'
         verbose_name_plural = 'профили пользователей'
 
@@ -123,6 +123,12 @@ class Act(models.Model):
         ordering = ('-act_compile_date',)
         verbose_name = 'акт'
         verbose_name_plural = 'акты'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['act_year', 'act_number'],
+                name='unique_act_numbering'
+            ),
+        ]
 
     def __str__(self):
         return (
@@ -146,7 +152,7 @@ class Fault(models.Model):
         Act,
         on_delete=SET_NULL,
         verbose_name='Номер акта',
-        related_name='fault_act',
+        related_name='faults',
         null=True,
         db_index=True,
     )
@@ -283,6 +289,12 @@ class Fault(models.Model):
     class Meta:
         verbose_name = 'несоответствие'
         verbose_name_plural = 'несоответствия'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['act', 'fault_number'],
+                name='unique_fault_numbering'
+            ),
+        ]
 
     def __str__(self):
         complex_note = (f'{self.location} - {self.description[:30]}')
@@ -335,15 +347,16 @@ class Fault(models.Model):
     #         deltatime = deadline - today_now
     #         return [f'/ осталось дней: {deltatime.days} /', 1]
 
+    # определение количества оставшихся дней и дней просрочки
     def deltatime_calc(self, date, action):
         if action:
-            return ['Выполнено', 0]
+            return ['/ выполнено /', 0]
         elif date != None and not action:
             today = dt.datetime.today()
             today_now = dt.datetime(today.year, today.month, today.day)
             deadline = dt.datetime(date.year, date.month, date.day)
             if today_now == deadline:
-                return ['сегодня последний день', 1]
+                return ['/ сегодня последний день /', 1]
             elif today_now > deadline:
                 deltatime = today_now - deadline
                 return [f'/ просрочено дней: {deltatime.days} /', 2]
