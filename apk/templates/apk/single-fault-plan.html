@@ -15,7 +15,7 @@
     <main class="content">
         <section class="main" id="main">
             <h1 class="main__title">План корректирующих действий к Акту проверки №{{ fault.act.act_number }} от {{ fault.act.act_compile_date }} | Несоответствие №{{ fault.fault_number }}</h1>
-            <a class="main__link" href="{% url 'fix_new' fault.act.act_year fault.act.act_number fault.fault_number %}">Добавить мероприятия</a> <!-- нужно сделать выбор редактировать\добавить -->
+            {% comment %} <a class="main__link" href="{% url 'fix_new' fault.act.act_year fault.act.act_number fault.fault_number %}">Добавить мероприятия</a> <!-- нужно сделать выбор редактировать\добавить --> {% endcomment %}
             
             <!-- блок карточки -->
             <h2 class="single-fault__location">{{ fault.location }}</h2>
@@ -23,7 +23,7 @@
                 <div class="single-fault__description single-fault__description">
 
                     <!-- отдельный элемент карточки -->
-                    <div class="single-fault__header {% if fault.fixed and fault.corrected %} single-fault__header_done {% elif fault.deltatime_fix.1 == 2 or fault.deltatime_correct.1 == 2 %} single-fault__header_deadline {% endif %}">
+                    <div class="single-fault__header {% if fault.fix.fixed and fault.fix.corrected %} single-fault__header_done {% elif fault.fix.deltatime_fix.1 == 2 or fault.fix.deltatime_correct.1 == 2 %} single-fault__header_deadline {% endif %}">
                         <h3 class="single-fault__title">Несоответствие</h3>
                         <p class="tag tag_{{ fault.group|color_tag }}">{{ fault.group }}</p>
                     </div>
@@ -35,32 +35,32 @@
                     <div class="single-fault__header">
                         <h3 class="single-fault__title">Причины несоответствия</h3>
                     </div>
-                    <p class="single-fault__text">{{ fault.reason }}</p>
+                    <p class="single-fault__text">{{ fault.fix.reason }}</p>
                     <!-- конец отдельного элемента карточки -->
 
                     <!-- отдельный элемент карточки -->
-                    <div class="single-fault__header {% if fault.fixed %} single-fault__header_done {% elif fault.deltatime_fix.1 == 2 %} single-fault__header_deadline {% endif %}">
+                    <div class="single-fault__header {% if fault.fix.fixed %} single-fault__header_done {% elif fault.fix.deltatime_fix.1 == 2 %} single-fault__header_deadline {% endif %}">
                         <h3 class="single-fault__title">Устранение</h3>
-                        {% if fault.fix_deadline != None %}
-                            <p class="single-fault__title">до {{ fault.fix_deadline }} {{ fault.deltatime_fix.0 }}</p>
+                        {% if fault.fix.fix_deadline != None %}
+                            <p class="single-fault__title">до {{ fault.fix.fix_deadline }} {{ fault.fix.deltatime_fix.0 }}</p>
                         {% endif %}
                     </div>
-                    <p class="single-fault__text">{{ fault.fix_action }}</p>
-                    {% if fault.fixer != None %}
-                        <p class="single-fault__footer">Исполнитель: {{ fault.fixer }}, {{ fault.fixer.job_position }}</p>
+                    <p class="single-fault__text">{{ fault.fix.fix_action }}</p>
+                    {% if fault.fix.fixer != None %}
+                        <p class="single-fault__footer">Исполнитель: {{ fault.fix.fixer }}, {{ fault.fix.fixer.job_position }}</p>
                     {% endif %}
                     <!-- конец отдельного элемента карточки -->
 
                     <!-- отдельный элемент карточки -->
-                    <div class="single-fault__header {% if fault.corrected %} single-fault__header_done {% elif fault.deltatime_correct.1 == 2 %} single-fault__header_deadline {% endif %}">
+                    <div class="single-fault__header {% if fault.fix.corrected %} single-fault__header_done {% elif fault.fix.deltatime_correct.1 == 2 %} single-fault__header_deadline {% endif %}">
                         <h3 class="single-fault__title">Корректирующее действие</h3>
-                        {% if fault.correct_deadline != None %}
-                            <p class="single-fault__title">до {{ fault.correct_deadline }} {{ fault.deltatime_correct.0 }}</p>
+                        {% if fault.fix.correct_deadline != None %}
+                            <p class="single-fault__title">до {{ fault.fix.correct_deadline }} {{ fault.fix.deltatime_correct.0 }}</p>
                         {% endif %}
                     </div>
-                    <p class="single-fault__text">{{ fault.correct_action }}</p>
-                    {% if fault.corrector != None %}
-                        <p class="single-fault__footer">Исполнитель: {{ fault.corrector }}, {{ fault.corrector.job_position }}</p>
+                    <p class="single-fault__text">{{ fault.fix.correct_action }}</p>
+                    {% if fault.fix.corrector != None %}
+                        <p class="single-fault__footer">Исполнитель: {{ fault.fix.corrector }}, {{ fault.fix.corrector.job_position }}</p>
                     {% endif %}
                     <!-- конец отдельного элемента карточки -->
                 
@@ -68,7 +68,7 @@
                     <div class="single-fault__header">
                         <h3 class="single-fault__title">Необходимые ресурсы</h3>
                     </div>
-                    <p class="single-fault__text">{{ fault.resources }}</p>
+                    <p class="single-fault__text">{{ fault.fix.resources }}</p>
                     <!-- конец отдельного элемента карточки -->
 
                 </div>

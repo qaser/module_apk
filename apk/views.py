@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 import datetime as dt
 
-from apk.forms import ActForm, FaultForm, FixForm
+from apk.forms import ActForm, FaultForm
 from apk.models import Act, Fault
 
 
@@ -50,7 +50,7 @@ def single_fault_act(request, act_year, act_number, fault_number):
 def single_plan(request, act_year, act_number):
     act = get_object_or_404(Act, act_number=act_number, act_year=act_year)
     faults = Fault.objects.all().filter(act=act)
-    fixed_faults = faults.filter(fixed=True).count()
+    fixed_faults = faults.filter(fix__fixed=True).count()
     locations = faults.values('location__department__title').distinct()
     places = [place.get('location__department__title') for place in locations]
     return render(
@@ -118,14 +118,14 @@ def fault_edit(request, act_year, act_number, fault_number):
 
 
 # новые мероприятия
-@login_required
-def fix_new(request, act_year, act_number, fault_number):
-    act = get_object_or_404(Act, act_year=act_year, act_number=act_number)
-    fault = get_object_or_404(Fault, fault_number=fault_number, act=act)
-    if fault.inspector != request.user.profile:
-        return redirect('single_fault_plan', act_year, act_number, fault_number)
-    form = FixForm(request.POST or None, files=request.FILES or None, instance=fault)
-    if form.is_valid():
-        form.save()
-        return redirect('single_fault_plan', act_year, act_number, fault_number)
-    return render(request, 'apk/form-fix.html', {'form': form})
+# @login_required
+# def fix_new(request, act_year, act_number, fault_number):
+#     act = get_object_or_404(Act, act_year=act_year, act_number=act_number)
+#     fault = get_object_or_404(Fault, fault_number=fault_number, act=act)
+#     if fault.inspector != request.user.profile:
+#         return redirect('single_fault_plan', act_year, act_number, fault_number)
+#     form = FixForm(request.POST or None, files=request.FILES or None, instance=fault)
+#     if form.is_valid():
+#         form.save()
+#         return redirect('single_fault_plan', act_year, act_number, fault_number)
+#     return render(request, 'apk/form-fix.html', {'form': form})

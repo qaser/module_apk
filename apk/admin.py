@@ -1,6 +1,16 @@
 from django.contrib import admin
 
-from .models import Act, Fault, Location
+from .models import Act, Fault, Location, Fix
+
+
+class FixInline(admin.StackedInline):
+    model = Fix
+    
+
+# class UserAdmin(admin.ModelAdmin):
+#     list_display = ('username', 'last_name', 'first_name',)
+#     empty_value_display = '-пусто-'
+#     inlines = [FixInline]
 
 
 class LocationAdmin(admin.ModelAdmin):
@@ -23,23 +33,25 @@ class FaultAdmin(admin.ModelAdmin):
         'location',
         'description',
         'inspector',
-        'fix_action',
-        'fixer',
-        'fix_deadline',
-        'fixed',
-        'fix_date',
-        'image_after',
-        'reason',
-        'correct_action',
-        'resources',
-        'corrector',
-        'correct_deadline',
-        'corrected',
-        'correct_date',
+        'image_before',
+        # 'fix_action',
+        # 'fixer',
+        # 'fix_deadline',
+        # 'fixed',
+        # 'fix_date',
+        # 'image_after',
+        # 'reason',
+        # 'correct_action',
+        # 'resources',
+        # 'corrector',
+        # 'correct_deadline',
+        # 'corrected',
+        # 'correct_date',
     )
     search_fields = ('location', 'group', 'inspector',)
     list_filter = ('location', 'group', 'inspector',)
     empty_value_display = '-пусто-'
+    inlines = [FixInline]
 
 
 admin.site.register(Act, ActAdmin)

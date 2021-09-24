@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.forms import CheckboxSelectMultiple, ClearableFileInput, ModelForm
 
-from apk.models import Act, Fault
+from apk.models import Act, Fault, Fix
 
 
 # class ImageWidget(ClearableFileInput):
@@ -30,21 +30,21 @@ class FaultForm(ModelForm):
         )
 
 
-class FixForm(ModelForm):
-    class Meta:
-        model = Fault
-        fields = (
-            'fix_action',
-            'fixer',
-            'fix_deadline',
-            'fixed',
-            'fix_date',
-            'reason',
-            'correct_action',
-            'resources',
-            'corrector',
-            'correct_deadline',
-            'corrected',
-            'correct_date',
-            'image_after',
-        )
+# class FixForm(ModelForm):
+#     class Meta:
+#         model = Fix
+#         fields = (
+#             'fix_action',
+#             'fixer',
+#             'fix_deadline',
+#             'fixed',
+#             'fix_date',
+#             'reason',
+#             'correct_action',
+#             'resources',
+#             'corrector',
+#             'correct_deadline',
+#             'corrected',
+#             'correct_date',
+#             'image_after',
+#         )
