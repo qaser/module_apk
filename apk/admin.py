@@ -1,29 +1,12 @@
 from django.contrib import admin
 
-from .models import Act, Fault, Location, Department, Profile, User
-
-
-class ProfileInline(admin.StackedInline):
-    model = Profile
-    
-
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'last_name', 'first_name',)
-    empty_value_display = '-пусто-'
-    inlines = [ProfileInline]
+from .models import Act, Fault, Location
 
 
 class LocationAdmin(admin.ModelAdmin):
     list_display = ('department', 'object',)
     search_fields = ('department', 'object',)
     list_filter = ('department', 'object',)
-    empty_value_display = '-пусто-'
-
-
-class DepartmentAdmin(admin.ModelAdmin):
-    list_display = ('title',)
-    search_fields = ('title',)
-    list_filter = ('title',)
     empty_value_display = '-пусто-'
 
 
@@ -62,6 +45,3 @@ class FaultAdmin(admin.ModelAdmin):
 admin.site.register(Act, ActAdmin)
 admin.site.register(Fault, FaultAdmin)
 admin.site.register(Location, LocationAdmin)
-admin.site.register(Department, DepartmentAdmin)
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)

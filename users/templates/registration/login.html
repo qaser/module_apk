@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta name="description" content="Проект информационного сопровождения АПК">
+        <meta name="keywords" content="модуль, производство, охрана труда, безопасность, контроль">
+        <meta name="author" content="Сайгин Алексей">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Войти в систему | Module</title>
+        {% load static %}
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}">
+        <link rel="stylesheet" href="{% static 'css/pages/login-form.css'%}">
+    </head>
+
+    <body>
+        <div class="page">
+            {% include 'mysite_apk/base_ext/header.html' %}
+
+
+            <div class="main__header">
+                <h1 class="main__title">Войти на сайт</h1>
+            </div>
+            <div class="form-container">
+                <form class="form" method="post">
+                    {% csrf_token %}
+                    <span class="form__error">{{ form.non_field_errors }}</span>
+                    {% for field in form %}
+                        <div class="form__group">
+                            <label for="{{ id }}" class="form__label">{{ label }}</label>
+                            <div class="form__field-group">
+                                {{ field }}
+                                <span class="form__error">{{ errors }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="form__footer">
+                        <button class="button button_style_blue">{{ footer_text }}</button>
+                    </div>
+                </form>
+            </div>
+
+
+            {% include 'mysite_apk/base_ext/footer.html' %}
+        </div>
+    </body>
+</html>

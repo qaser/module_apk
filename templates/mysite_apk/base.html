@@ -16,7 +16,7 @@
     <body>
         <div class="page">
             {% include 'mysite_apk/base_ext/header.html' %}
-            {% include 'mysite_apk/base_ext/sidebar.html' %}
+            {% include 'mysite_apk/base_ext/sidebar.html' with mark=request.resolver_match.url_name %}
             {% include 'mysite_apk/base_ext/infobar.html' %}
             {% block content %}{% endblock %}
             {% comment %} {% if page.has_other_pages %}

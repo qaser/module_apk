@@ -1,12 +1,14 @@
 from django.conf.urls import include
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
+
 from mysite_apk import settings
-from django.conf.urls.static import static
 
 urlpatterns = [
     path('lord-of-the-faults/', admin.site.urls),
     path('', include('apk.urls')),
+    path('auth/', include('django.contrib.auth.urls')),
 ]
 
 
