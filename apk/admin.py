@@ -1,16 +1,35 @@
 from django.contrib import admin
 
-from .models import Act, Fault, Location, Fix
+from .models import Act, Fault, Location, Fix, Department, Profile, User, Control
+from django.contrib import admin
+
+
+class ControlAdmin(admin.ModelAdmin):
+    list_display = ('title', 'slug')
+    search_fields = ('title',)
+    list_filter = ('title',)
+    empty_value_display = '-пусто-'
+
+
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    
+
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('username', 'last_name', 'first_name',)
+    empty_value_display = '-пусто-'
+    inlines = [ProfileInline]
+
+
+class DepartmentAdmin(admin.ModelAdmin):
+    list_display = ('title',)
+    search_fields = ('title',)
+    list_filter = ('title',)
+    empty_value_display = '-пусто-'
 
 
 class FixInline(admin.StackedInline):
     model = Fix
-    
-
-# class UserAdmin(admin.ModelAdmin):
-#     list_display = ('username', 'last_name', 'first_name',)
-#     empty_value_display = '-пусто-'
-#     inlines = [FixInline]
 
 
 class LocationAdmin(admin.ModelAdmin):
@@ -34,19 +53,6 @@ class FaultAdmin(admin.ModelAdmin):
         'description',
         'inspector',
         'image_before',
-        # 'fix_action',
-        # 'fixer',
-        # 'fix_deadline',
-        # 'fixed',
-        # 'fix_date',
-        # 'image_after',
-        # 'reason',
-        # 'correct_action',
-        # 'resources',
-        # 'corrector',
-        # 'correct_deadline',
-        # 'corrected',
-        # 'correct_date',
     )
     search_fields = ('location', 'group', 'inspector',)
     list_filter = ('location', 'group', 'inspector',)
@@ -54,6 +60,10 @@ class FaultAdmin(admin.ModelAdmin):
     inlines = [FixInline]
 
 
+admin.site.register(Control, ControlAdmin)
 admin.site.register(Act, ActAdmin)
 admin.site.register(Fault, FaultAdmin)
 admin.site.register(Location, LocationAdmin)
+admin.site.register(Department, DepartmentAdmin)
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)

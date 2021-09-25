@@ -1,12 +1,68 @@
 import datetime as dt
+from django.contrib.auth import get_user_model
 
 from django.db import models
 from django.db.models.deletion import CASCADE, SET_NULL
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch.dispatcher import receiver
-from users.models import Profile, Department
+from django.utils.text import slugify
 
 
+User = get_user_model()
+
+# служба филиала
+class Department(models.Model):
+    title = models.CharField('название службы', max_length=50,)
+
+    class Meta:
+        ordering = ('title',)
+        verbose_name = 'служба филиала'
+        verbose_name_plural = 'службы филиала'
+
+    def __str__(self) -> str:
+        return self.title
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    patronymic = models.CharField(
+        'Отчество',
+        max_length=50,
+        blank=True,
+        null=True,
+    )
+    job_position = models.TextField('Должность', blank=True, null=True)
+    department = models.ForeignKey(
+        Department,
+        verbose_name='Место работы',
+        on_delete=SET_NULL,
+        related_name='user_department',
+        null=True,
+    )
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
+
+    class Meta:
+        ordering = ('user',)
+        verbose_name = 'профиль пользователя'
+        verbose_name_plural = 'профили пользователей'
+
+    def __str__(self) -> str:
+        return self.user.get_full_name()
+
+
+# место обнаружения несоответствияs
 class Location(models.Model):
     department = models.ForeignKey(
         Department,
@@ -28,17 +84,25 @@ class Location(models.Model):
         return f'{self.department} | {self.object}'
 
 
+class Control(models.Model):
+    title = models.CharField('Название проверки', max_length=50,)
+    slug = models.SlugField('Путь', unique=True, max_length=50)
+
+    class Meta:
+        ordering = ('title',)
+        verbose_name = 'тип проверки'
+        verbose_name_plural = 'типы проверок'
+
+    def __str__(self):
+        return self.title
+
+
 class Act(models.Model):
-    LEVEL = (
-        ('3 уровень', '3 уровень'),
-        ('4 уровень', '4 уровень'),
-        ('План подготовки к ОЗП', 'План подготовки к ОЗП'),
-        ('Газнадзор', 'Газнадзор'),
-        ('Аудит', 'Аудит')
-    )
-    control_level = models.TextField(
-        'Уровень проверки',
-        choices=LEVEL,
+    control_level = models.ForeignKey(
+        Control,
+        verbose_name='Уровень проверки',
+        on_delete=CASCADE,
+        related_name='control'
     )
     act_year = models.IntegerField(
         'Год регистрации акта'
@@ -53,7 +117,7 @@ class Act(models.Model):
         verbose_name_plural = 'акты'
         constraints = [
             models.UniqueConstraint(
-                fields=['act_year', 'act_number'],
+                fields=['act_year', 'act_number', 'control_level'],
                 name='unique_act_numbering'
             ),
         ]

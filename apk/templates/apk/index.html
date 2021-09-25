@@ -1,0 +1,17 @@
+{% extends "mysite_apk/base.html" %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% load static %}
+{% comment %} {% load recipes_filters %} {% endcomment %}
+{% csrf_token %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/pages/index.css'%}">
+{% endblock %}
+
+{% block content %}
+    <main class="content">
+       
+    </main>
+{% endblock %}

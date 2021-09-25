@@ -8,9 +8,8 @@
         </div>
     </a>
     <nav class="sidebar__nav">
-        <a class="sidebar__point-link " href="#">1 уровень АПК</a>
-        <a class="sidebar__point-link" href="#">2 уровень АПК</a>
-        <a class="sidebar__point-link {% if mark == 'index' %}sidebar__point-link_active{% endif %}" href="{% url 'index' %}">3 уровень АПК</a>
-        <a class="sidebar__point-link" href="#">4 уровень АПК</a>
+        {% for point in request.META.all_controls %}
+            <a class="sidebar__point-link {% if mark == point.attrs.slug %}sidebar__point-link_active{% endif %}" href="{% url 'index_control' point.attrs.slug %}">{{ point.attrs.title }}</a>
+        {% endfor %}
     </nav>
 </nav>

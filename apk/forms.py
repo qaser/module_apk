@@ -8,12 +8,6 @@ from apk.models import Act, Fault, Fix
 #     template_name = 'recipes/extend/form_extend/image_widget.html'
 
 
-class ActForm(ModelForm):
-    class Meta:
-        model = Act
-        fields = ('control_level', 'act_number', 'closed')
-
-
 class FaultForm(ModelForm):
     class Meta:
         model = Fault
@@ -30,21 +24,21 @@ class FaultForm(ModelForm):
         )
 
 
-# class FixForm(ModelForm):
-#     class Meta:
-#         model = Fix
-#         fields = (
-#             'fix_action',
-#             'fixer',
-#             'fix_deadline',
-#             'fixed',
-#             'fix_date',
-#             'reason',
-#             'correct_action',
-#             'resources',
-#             'corrector',
-#             'correct_deadline',
-#             'corrected',
-#             'correct_date',
-#             'image_after',
-#         )
+class FixForm(ModelForm):
+    class Meta:
+        model = Fix
+        fields = (
+            'fix_action',
+            'fixer',
+            'fix_deadline',
+            'fixed',
+            'fix_date',
+            'reason',
+            'correct_action',
+            'resources',
+            'corrector',
+            'correct_deadline',
+            'corrected',
+            'correct_date',
+            'image_after',
+        )

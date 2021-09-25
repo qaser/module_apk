@@ -1,6 +1,6 @@
 {% extends "mysite_apk/base.html" %}
 
-{% block title %}3 уровень АПК{% endblock %}
+{% block title %}{{ control.title }}{% endblock %}
 
 {% load static %}
 {% comment %} {% load recipes_filters %} {% endcomment %}
@@ -13,8 +13,8 @@
 {% block content %}
     <main class="content">
         <section class="main" id="main">
-            <h1 class="main__title">3 уровень АПК</h1>
-            <a class="main__link" href="{% url 'act_new' %}">Добавить новый акт</a>
+            <h1 class="main__title">{{ control.title }}</h1>
+            <a class="main__link" href="{% url 'act_new' control.slug %}">Добавить новый акт</a>
             <!-- блок карточек -->
             <div class="year-cards">
                 {% for year, acts in years.items %}
@@ -24,12 +24,12 @@
                             <div class="year-cards__two-columns">
                                 <ul class="year-cards__act-list list">
                                     {% for act in acts %}
-                                        <li class="year-cards__script"><a class="year-cards__link" href="{% url 'single_act' year act.act_number %}">Акт №{{ act.act_number }}</a></li>
+                                        <li class="year-cards__script"><a class="year-cards__link" href="{% url 'single_act' control.slug year act.act_number %}">Акт №{{ act.act_number }}</a></li>
                                     {% endfor %}
                                 </ul>
                                 <ul class="year-cards__plan-list list">
                                     {% for act in acts %}
-                                        <li class="year-cards__script"><a class="year-cards__link" href="{% url 'single_plan' year act.act_number %}">План</a></li>
+                                        <li class="year-cards__script"><a class="year-cards__link" href="{% url 'single_plan' control.slug year act.act_number %}">План</a></li>
                                     {% endfor %}
                                 </ul>
                             </div>

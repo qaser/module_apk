@@ -15,7 +15,7 @@
     <main class="content">
         <section class="main" id="main">
             <h1 class="main__title">План корректирующих действий к Акту проверки №{{ fault.act.act_number }} от {{ fault.act.act_compile_date }} | Несоответствие №{{ fault.fault_number }}</h1>
-            {% comment %} <a class="main__link" href="{% url 'fix_new' fault.act.act_year fault.act.act_number fault.fault_number %}">Добавить мероприятия</a> <!-- нужно сделать выбор редактировать\добавить --> {% endcomment %}
+            <a class="main__link" href="{% url 'fix_new' control.slug fault.act.act_year fault.act.act_number fault.fault_number %}">Изменить мероприятия</a> <!-- нужно сделать выбор редактировать\добавить -->
             
             <!-- блок карточки -->
             <h2 class="single-fault__location">{{ fault.location }}</h2>

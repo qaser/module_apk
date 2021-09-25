@@ -16,7 +16,7 @@
         <section class="main" id="main">
             <h1 class="main__title">План корректирующих действий к Акту проверки №{{ act.act_number }} от {{ act.act_compile_date }}</h1>
             <div class="main__links">
-                <a class="main__link" href="{% url 'single_act' act.act_year act.act_number %}">Перейти к акту</a>
+                <a class="main__link" href="{% url 'single_act' control.slug act.act_year act.act_number %}">Перейти к акту</a>
                 <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }} | <a href="#">Выполнено: {{ fixed_faults }}</a> | <a href="#">Просрочено: 12</a></h3>
             </div>
             <!-- здесь нужно будет добавить ссылки на фильтрацию по объектам
@@ -31,8 +31,8 @@
             <!-- блок карточек -->
                 <ul class="fault-cards list">
                     {% for fault in faults %}
-                        <li><a class="fault-cards__link" href="{% url 'single_fault_plan' act.act_year act.act_number fault.fault_number %}">
-                            <div class="fault-cards__item {% if fault.fixed and fault.corrected %} fault-cards__item_done {% elif fault.deltatime_fix.1 == 2 or fault.deltatime_correct.1 == 2 %} fault-cards__item_deadline {% endif %}">
+                        <li><a class="fault-cards__link" href="{% url 'single_fault_plan' control.slug act.act_year act.act_number fault.fault_number %}">
+                            <div class="fault-cards__item {% if fault.fix.fixed and fault.fix.corrected %} fault-cards__item_done {% elif fault.fix.deltatime_fix.1 == 2 or fault.fix.deltatime_correct.1 == 2 %} fault-cards__item_deadline {% endif %}">
                                 <div class="fault-cards__description">
                                     <div class="fault-cards__header">
                                         <h4 class="fault-cards__title">{{ fault.location }}</h4>

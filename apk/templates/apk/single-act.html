@@ -18,11 +18,11 @@
             {% if faults.count == 0 %}
                 <h3 class="main__stat">Здесь пока отсутствуют записи</h3>
                 <div class="main__links">
-                    <a class="main__link" href="{% url 'fault_new' act.act_year act.act_number %}">Добавить новое несоответствие</a>
+                    <a class="main__link" href="{% url 'fault_new' control.slug act.act_year act.act_number %}">Добавить новое несоответствие</a>
                 </div>
             {% else %}
                 <div class="main__links">
-                    <a class="main__link" href="{% url 'fault_new' act.act_year act.act_number %}">Добавить новое несоответствие</a>
+                    <a class="main__link" href="{% url 'fault_new' control.slug act.act_year act.act_number %}">Добавить новое несоответствие</a>
                     <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }}</h3>
                 </div>
             {% endif %}
@@ -30,7 +30,7 @@
             <!-- блок карточек -->
                 <ul class="fault-cards list">
                     {% for fault in faults %}
-                        <li><a class="fault-cards__link" href="{% url 'single_fault_act' act.act_year act.act_number fault.fault_number %}">
+                        <li><a class="fault-cards__link" href="{% url 'single_fault_act' control.slug act.act_year act.act_number fault.fault_number %}">
                             <div class="fault-cards__item {% if fault.danger %}fault-cards__item_danger {% endif %}">
                                 <div class="fault-cards__description">
                                     <div class="fault-cards__header">

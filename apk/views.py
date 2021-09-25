@@ -1,15 +1,22 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 import datetime as dt
+from django.urls import resolve
 
-from apk.forms import ActForm, FaultForm
-from apk.models import Act, Fault
+from apk.forms import FaultForm, FixForm
+from apk.models import Act, Control, Fault
 
 
 @login_required
-def index_level_3(request):
-    # выбираю акты 3 уровня АПК
-    acts = Act.objects.all().filter(control_level='3 уровень')
+def index(request):
+    return render(request, 'apk/index.html')
+
+
+@login_required
+def index_control(request, slug):
+    print(resolve(request.path_info))
+    control = get_object_or_404(Control, slug=slug)
+    acts = Act.objects.all().filter(control_level=control)
     # извлекаю уникальные значения годов из выбранных актов и сортирую их
     years_uniq = acts.order_by().values('act_year').distinct()
     years = [year.get('act_year') for year in years_uniq]
@@ -20,35 +27,39 @@ def index_level_3(request):
     return render(
         request,
         'apk/index-acts.html',
-        {'years': context},
+        {'years': context, 'control': control},
     )
 
 
 @login_required
-def single_act(request, act_year, act_number):
-    act = get_object_or_404(Act, act_number=act_number, act_year=act_year)
+def single_act(request, slug, act_year, act_number,):
+    control = get_object_or_404(Control, slug=slug)
+    act = get_object_or_404(Act, act_number=act_number, act_year=act_year, control_level=control)
     faults = Fault.objects.all().filter(act=act)
     return render(
         request,
         'apk/single-act.html',
-        {'act': act, 'faults': faults}
+        {'act': act, 'faults': faults, 'control': control}
     )
 
 
 @login_required
-def single_fault_act(request, act_year, act_number, fault_number):
-    act = get_object_or_404(Act, act_number=act_number, act_year=act_year)
+def single_fault_act(request, slug, act_year, act_number, fault_number):
+    control = get_object_or_404(Control, slug=slug)
+    act = get_object_or_404(Act, act_number=act_number, act_year=act_year, control_level=control)
     fault = get_object_or_404(Fault, act=act, fault_number=fault_number)
     return render(
         request,
         'apk/single-fault-act.html',
-        {'fault': fault}
+        {'fault': fault,
+        'control': control}
     )
 
 
 @login_required
-def single_plan(request, act_year, act_number):
-    act = get_object_or_404(Act, act_number=act_number, act_year=act_year)
+def single_plan(request, slug, act_year, act_number):
+    control = get_object_or_404(Control, slug=slug)
+    act = get_object_or_404(Act, act_number=act_number, act_year=act_year, control_level=control)
     faults = Fault.objects.all().filter(act=act)
     fixed_faults = faults.filter(fix__fixed=True).count()
     locations = faults.values('location__department__title').distinct()
@@ -59,73 +70,83 @@ def single_plan(request, act_year, act_number):
         {'act': act,
         'faults': faults,
         'fixed_faults': fixed_faults,
-        'places': places,}
+        'places': places,
+        'control': control}
     )
 
 
 @login_required
-def single_fault_plan(request, act_year, act_number, fault_number):
-    act = get_object_or_404(Act, act_number=act_number, act_year=act_year)
+def single_fault_plan(request, slug, act_year, act_number, fault_number):
+    control = get_object_or_404(Control, slug=slug)
+    act = get_object_or_404(Act, act_number=act_number, act_year=act_year, control_level=control)
     fault = get_object_or_404(Fault, act=act, fault_number=fault_number)
     return render(
         request,
         'apk/single-fault-plan.html',
-        {'fault': fault}
+        {'fault': fault,
+        'control': control}
     )
 
 
 # новый акт
 @login_required
-def act_new(request):
-    form = ActForm(request.POST or None, files=request.FILES or None)
-    if form.is_valid():
-        print(form.instance)
-        form.instance.act_year = dt.datetime.today().year
-        form.save()
-        return redirect('single_act', form.instance.act_year, form.instance.act_number)
-    return render(request, 'apk/form-act.html', {'form': form})
+def act_new(request, slug):
+    control = get_object_or_404(Control, slug=slug)
+    present_year = dt.datetime.today().year
+    acts_count = Act.objects.filter(
+        act_year=present_year,
+        control_level=control,
+    ).count()
+    act_number = acts_count + 1
+    Act.objects.create(
+        control_level=control,
+        act_year=present_year,
+        act_number=act_number
+    )
+    return redirect('single_act', slug, present_year, act_number)
 
 
 # новое несоответствие
 @login_required
-def fault_new(request, act_year, act_number):
-    act = get_object_or_404(Act, act_year=act_year, act_number=act_number)
+def fault_new(request, slug, act_year, act_number):
+    control = get_object_or_404(Control, slug=slug)
+    act = get_object_or_404(Act, act_year=act_year, act_number=act_number, control_level=control)
     faults_count = act.faults.all().count()
     form = FaultForm(request.POST or None, files=request.FILES or None)
     if form.is_valid():
-        print(form.instance)
         form.instance.act = act
         form.instance.fault_number = faults_count + 1
         form.instance.inspector = request.user.profile
         form.save()
-        return redirect('single_act', act_year, act_number)
-    print(form.data)
+        return redirect('single_act', slug, act_year, act_number)
     return render(request, 'apk/form-fault.html', {'form': form})
 
 
 # редактировать несоответствие
 @login_required
-def fault_edit(request, act_year, act_number, fault_number):
-    act = get_object_or_404(Act, act_year=act_year, act_number=act_number)
+def fault_edit(request, slug, act_year, act_number, fault_number):
+    control = get_object_or_404(Control, slug=slug)
+    act = get_object_or_404(Act, act_year=act_year, act_number=act_number, control_level=control)
     fault = get_object_or_404(Fault, fault_number=fault_number, act=act)
     if fault.inspector != request.user.profile:
-        return redirect('single_fault_plan', act_year, act_number, fault_number)
+        return redirect('single_fault_plan', slug, act_year, act_number, fault_number)
     form = FaultForm(request.POST or None, files=request.FILES or None, instance=fault)
     if form.is_valid():
         form.save()
-        return redirect('single_fault_act', act_year, act_number, fault_number)
+        return redirect('single_fault_act', slug, act_year, act_number, fault_number)
     return render(request, 'apk/form-fault.html', {'form': form})
 
 
 # новые мероприятия
-# @login_required
-# def fix_new(request, act_year, act_number, fault_number):
-#     act = get_object_or_404(Act, act_year=act_year, act_number=act_number)
-#     fault = get_object_or_404(Fault, fault_number=fault_number, act=act)
-#     if fault.inspector != request.user.profile:
-#         return redirect('single_fault_plan', act_year, act_number, fault_number)
-#     form = FixForm(request.POST or None, files=request.FILES or None, instance=fault)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('single_fault_plan', act_year, act_number, fault_number)
-#     return render(request, 'apk/form-fix.html', {'form': form})
+@login_required
+def fix_new(request, slug, act_year, act_number, fault_number):
+    control = get_object_or_404(Control, slug=slug)
+    act = get_object_or_404(Act, act_year=act_year, act_number=act_number, control_level=control)
+    fault = get_object_or_404(Fault, fault_number=fault_number, act=act)
+    # if fault.inspector != request.user.profile:
+    #     return redirect('single_fault_plan', slug, act_year, act_number, fault_number)
+    form = FixForm(request.POST or None, files=request.FILES or None, instance=fault.fix)
+    if form.is_valid():
+        form.save()
+        return redirect('single_fault_plan', slug, act_year, act_number, fault_number)
+    return render(request, 'apk/form-fix.html', {'form': form})
