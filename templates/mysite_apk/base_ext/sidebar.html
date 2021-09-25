@@ -3,8 +3,8 @@
     <a class="sidebar__link" href="#">
         <div class="sidebar__user-card">
         <img class="sidebar__user-avatar" src="{% static 'img/avatar.png' %}" alt="Аватар">
-        <p class="sidebar__username">Сергей Угрюмов</p>
-        <p class="sidebar__user-proff">Начальник ГКС</p>
+        <p class="sidebar__username">{{ request.user.get_full_name }}</p>
+        <p class="sidebar__user-proff">{{ request.user.profile.job_position }}</p>
         </div>
     </a>
     <nav class="sidebar__nav">

@@ -3,4 +3,5 @@
     height: 106px;
     margin: 13px auto 0 auto;
     border-radius: 50%;
+    border: 3px solid black;
 }
