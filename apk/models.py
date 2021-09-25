@@ -1,11 +1,12 @@
 import datetime as dt
-from django.contrib.auth import get_user_model
 
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models.deletion import CASCADE, SET_NULL
 from django.db.models.signals import post_save, pre_save
 from django.dispatch.dispatcher import receiver
-from django.utils.text import slugify
+
+from .utils import compress_image
 
 
 User = get_user_model()
@@ -212,6 +213,11 @@ class Fault(models.Model):
     def __str__(self):
         return f'№{self.fault_number}, Акт №{self.act.act_number}, {self.location}'
 
+    def save(self, *args, **kwargs):  # сжатие фото перед сохранением
+        super(Fault, self).save(*args, **kwargs)
+        if self.image_before:
+            compress_image(self.image_before)
+
 
 class Fix(models.Model):
     fault = models.OneToOneField(
@@ -328,3 +334,8 @@ class Fix(models.Model):
                 return [f'/ просрочено дней: {deltatime.days} /', 2]
             deltatime = deadline - today_now
             return [f'/ осталось дней: {deltatime.days} /', 1]
+
+    def save(self, *args, **kwargs):
+        super(Fix, self).save(*args, **kwargs)
+        if self.image_after:
+            compress_image(self.image_after)

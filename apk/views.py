@@ -14,7 +14,6 @@ def index(request):
 
 @login_required
 def index_control(request, slug):
-    print(resolve(request.path_info))
     control = get_object_or_404(Control, slug=slug)
     acts = Act.objects.all().filter(control_level=control)
     # извлекаю уникальные значения годов из выбранных актов и сортирую их
@@ -93,17 +92,18 @@ def single_fault_plan(request, slug, act_year, act_number, fault_number):
 def act_new(request, slug):
     control = get_object_or_404(Control, slug=slug)
     present_year = dt.datetime.today().year
-    acts_count = Act.objects.filter(
+    acts = Act.objects.filter(
         act_year=present_year,
         control_level=control,
-    ).count()
-    act_number = acts_count + 1
+    )
+    # определяю последний доступный номер акта
+    act_num = acts.latest('act_number').act_number + 1
     Act.objects.create(
         control_level=control,
         act_year=present_year,
-        act_number=act_number
+        act_number=act_num
     )
-    return redirect('single_act', slug, present_year, act_number)
+    return redirect('single_act', slug, present_year, act_num)
 
 
 # новое несоответствие
@@ -111,11 +111,12 @@ def act_new(request, slug):
 def fault_new(request, slug, act_year, act_number):
     control = get_object_or_404(Control, slug=slug)
     act = get_object_or_404(Act, act_year=act_year, act_number=act_number, control_level=control)
-    faults_count = act.faults.all().count()
+    faults_query = act.faults.all()
+    fault_num = faults_query.latest('fault_number').fault_number + 1
     form = FaultForm(request.POST or None, files=request.FILES or None)
     if form.is_valid():
         form.instance.act = act
-        form.instance.fault_number = faults_count + 1
+        form.instance.fault_number = fault_num
         form.instance.inspector = request.user.profile
         form.save()
         return redirect('single_act', slug, act_year, act_number)
