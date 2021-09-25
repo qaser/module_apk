@@ -8,7 +8,7 @@ def compress_image(source_image):
     filepath = source_image.path
     width = source_image.width
     height = source_image.height
-    max_size = max(width, height)
+    max_size = max(width, height)  # определяем максимальный размер
     if max_size > _MAX_SIZE:
         image = Image.open(filepath)
         image = image.resize(

@@ -112,6 +112,7 @@ def fault_new(request, slug, act_year, act_number):
     control = get_object_or_404(Control, slug=slug)
     act = get_object_or_404(Act, act_year=act_year, act_number=act_number, control_level=control)
     faults_query = act.faults.all()
+    print(faults_query.latest('fault_number').fault_number)
     fault_num = faults_query.latest('fault_number').fault_number + 1
     form = FaultForm(request.POST or None, files=request.FILES or None)
     if form.is_valid():
