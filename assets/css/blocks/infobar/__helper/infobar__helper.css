@@ -5,7 +5,7 @@
     border-radius: 5px;
 }
 
-@media screen and (max-width: 520px) {
+@media screen and (max-width: 1000px) {
     .infobar__helper {
         width: 100%;
     }

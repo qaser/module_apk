@@ -7,3 +7,9 @@
     flex-direction: column;
     margin: 24px 0 0 0;
 }
+
+@media screen and (max-width: 800px) {
+    .sidebar__nav {
+        box-shadow: none;
+    }
+}

@@ -1,0 +1,26 @@
+.header__nav-toggle {
+    cursor: pointer;
+    display: none;
+    font-size: 26px;
+    font-weight: 400;
+    margin-left: 20px;
+}
+
+#checkbox {
+    display: none;
+}
+
+.header__nav-toggle:after {
+    content: '\2630';
+    text-decoration: none;
+}
+
+@media screen and (max-width: 800px) {
+    .header__nav-toggle {
+        display: inherit;
+    }    
+}
+
+#checkbox:checked ~ .header__nav-toggle:after {
+    content: '\2715';
+}

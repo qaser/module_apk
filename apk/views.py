@@ -97,7 +97,10 @@ def act_new(request, slug):
         control_level=control,
     )
     # определяю последний доступный номер акта
-    act_num = acts.latest('act_number').act_number + 1
+    try:
+        act_num = acts.latest('act_number').act_number + 1
+    except ObjectDoesNotExist:
+        act_num = 1
     Act.objects.create(
         control_level=control,
         act_year=present_year,

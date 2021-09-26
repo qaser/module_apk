@@ -322,18 +322,18 @@ class Fix(models.Model):
     # определение количества оставшихся дней и дней просрочки
     def deltatime_calc(self, date, action):
         if action:
-            return ['/ выполнено /', 0]
+            return ['', 0]
         elif date != None and not action:
             today = dt.datetime.today()
             today_now = dt.datetime(today.year, today.month, today.day)
             deadline = dt.datetime(date.year, date.month, date.day)
             if today_now == deadline:
-                return ['/ сегодня последний день! /', 1]
+                return ['', 1]
             elif today_now > deadline:
                 deltatime = today_now - deadline
-                return [f'/ просрочено дней: {deltatime.days} /', 2]
+                return [f' /{deltatime.days} дн./', 2]
             deltatime = deadline - today_now
-            return [f'/ осталось дней: {deltatime.days} /', 1]
+            return [f' /{deltatime.days} дн./', 1]
 
     def save(self, *args, **kwargs):
         super(Fix, self).save(*args, **kwargs)

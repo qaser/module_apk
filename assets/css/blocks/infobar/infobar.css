@@ -4,14 +4,20 @@
     margin: 84px 20px 0 280px;
     }
 
+@media screen and (max-width: 1000px) {
+    .infobar {
+        flex-direction: column;
+    }
+}
+
 @media screen and (max-width: 800px) {
     .infobar {
         margin: 84px 20px 0 20px;
     }
 }
 
-@media screen and (max-width: 520px) {
+/* @media screen and (max-width: 520px) {
     .infobar {
         flex-direction: column;
     }
-}
+} */

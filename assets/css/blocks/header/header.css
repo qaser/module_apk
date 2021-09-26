@@ -1,13 +1,12 @@
 .header {
     width: 100%;
-    height: 60px; /* когда будет логотип этот размер убрать */
+    height: 60px;
     position: fixed;
     top: 0;
     left: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* margin: 0 auto; */
     background-color: #A3CDDA;
-    z-index: 999999;
+    z-index: 80000;
   }

@@ -14,7 +14,7 @@
 
     <main class="content">
         <section class="main" id="main">
-            <h1 class="main__title">План корректирующих действий к Акту проверки №{{ act.act_number }} от {{ act.act_compile_date }}</h1>
+            <h1 class="main__title">План корректирующих действий к Акту проверки №{{ act.act_number }} от {{ act.act_compile_date|date:"d.m.Y" }}</h1>
             <div class="main__links">
                 <a class="main__link" href="{% url 'single_act' control.slug act.act_year act.act_number %}">Перейти к акту</a>
                 <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }} | <a href="#">Выполнено: {{ fixed_faults }}</a> | <a href="#">Просрочено: 12</a></h3>

@@ -1,3 +1,9 @@
 .sidebar__point-link_active {
     background: linear-gradient(90deg, #A1BBA81F, #C4C4C4);
 }
+
+/* @media screen and (max-width: 800px) {
+    .sidebar__point-link_active {
+        background: white;
+    }
+} */

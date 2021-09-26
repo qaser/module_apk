@@ -11,3 +11,11 @@
 .header__point:hover {
     opacity: 0.7;
 }
+
+@media screen and (max-width: 520px) {
+    .header__point {
+        font-size: 18px;
+        line-height: 20px;
+        margin-right: 25px;
+    }
+}

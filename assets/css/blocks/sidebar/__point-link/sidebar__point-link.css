@@ -22,3 +22,9 @@
 .sidebar__point-link:hover {
     background: #C4C4C4;
 }
+
+/* @media screen and (max-width: 800px) {
+    .sidebar__point-link:hover {
+        background: white;
+    }
+} */

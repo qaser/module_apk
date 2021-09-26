@@ -15,6 +15,7 @@
 
     <body>
         <div class="page">
+            <input type="checkbox" id="checkbox">
             {% include 'mysite_apk/base_ext/header.html' %}
             {% include 'mysite_apk/base_ext/sidebar.html' with mark=request.resolver_match.kwargs.slug %}
             {% include 'mysite_apk/base_ext/infobar.html' %}

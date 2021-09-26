@@ -5,3 +5,10 @@
     padding: 5px 20px;
     background-color: #E5E5E5;
 }
+
+/* @media screen and (max-width: 600px) {
+    .single-fault__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+} */
