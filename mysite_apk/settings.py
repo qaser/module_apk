@@ -57,6 +57,7 @@ TEMPLATES = [
     }
 ]
 
+
 WSGI_APPLICATION = 'mysite_apk.wsgi.application'
 
 
