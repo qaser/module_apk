@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./pages/fault-form.css">
+    <title>Модуль АПК</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Проект информационного сопровождения АПК">
+    <meta name="keywords" content="html, css">
+    <meta name="author" content="Сайгин Алексей">
+  </head>
+
+  <body>
+    
+    <div class="page">
+      <input type="checkbox" id="checkbox"> <!-- -->
+      <header class="header" id="header">
+        <label for="checkbox" class="header__nav-toggle"></label> <!-- -->
+        <a class="header__link" href="#"><img class="header__logo" src="../img/logo-full-large.png" alt="Логотип"></a>
+        <a class="header__point" href="#">Выйти</a>
+      </header>
+
+      <nav class="sidebar" id="sidebar">
+        <a class="sidebar__link" href="#">
+          <div class="sidebar__user-card">
+            <img class="sidebar__user-avatar" src="../img/avatar.png" alt="Аватар">
+            <p class="sidebar__username">Сергей Угрюмов</p>
+            <p class="sidebar__user-proff">Начальник ГКС</p>
+          </div>
+        </a>
+        <nav class="sidebar__nav">
+            <a class="sidebar__point-link" href="#">1 уровень АПК</a>
+            <a class="sidebar__point-link" href="#">2 уровень АПК</a>
+            <a class="sidebar__point-link sidebar__point-link_active" href="#">3 уровень АПК</a>
+            <a class="sidebar__point-link" href="#">4 уровень АПК</a>
+        </nav>
+      </nav>
+
+      <div class="infobar" id="infobar">
+        <div class="infobar__helper">
+          <div class="infobar__header">
+            <h3 class="infobar__title">Полезная информация</h3>
+          </div>
+          <p class="infobar__text">
+            Когда я был маленький у меня тоже была бабушка,
+            но за всю свою жизнь я не смог огорчить её. А он смог!
+          </p>
+        </div>
+        <div class="infobar__informer">
+          <div class="infobar__header">
+            <h3 class="infobar__title">Фёдор Несмеянов</h3>
+            <p class="infobar__date">20.03.2021</p>
+          </div>
+          <p class="infobar__text">
+            Последнее предупреждение! Сделайте как я сказал и будет Вам счастье.
+          </p>
+        </div>
+      </div>
+
+      <!-- главный контент -->
+      <main class="content">
+        <section class="main" id="main">
+          <h1 class="main__title">Добавить новое несоответствие</h1>
+          <!-- блок формы -->
+         
+          <div class="form-container">
+            <form class="form" method="post" enctype="multipart/form-data">
+
+              <div class="form__group">
+                <label class="form__label" for="id_1">Группа несоответствий</label>
+                <div class="form__field-group">
+                  <input type="text" id="id_2" name="name" class="form__input">
+                  <span class="form__error"></span>
+                </div>
+              </div>
+
+              <div class="form__group">
+                <label class="form__label" for="id_2">Место обнаружения</label>
+                <div class="form__field-group">
+                  <input type="text" id="id_1" name="name" class="form__input">
+                  <span class="form__error"></span>
+                </div>
+              </div>
+
+              <div class="form__group">
+                <label class="form__label" for="id_3">Описание несоответствия</label>
+                <div class="form__field-group">
+                  <input type="text" id="id_3" name="name" class="form__input">
+                  <span class="form__error"></span>
+                </div>
+              </div>
+
+            </form>
+          </div>
+
+        </section>
+      </main>
+  
+      <footer class="footer">
+        <nav class="footer__links">
+          <a class="footer__link" href="#">Документация</a>
+          <a class="footer__link" href="#">Помощь</a>
+          <a class="footer__link" href="#">О системе</a>
+        </nav>
+      </footer>
+
+    </div>
+  </body>
+</html>

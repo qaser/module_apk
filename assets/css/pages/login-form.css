@@ -24,6 +24,28 @@
 @import url(../blocks/enter-site/__disclaimer/enter-site__disclaimer.css);
 @import url(../blocks/enter-site/__link/enter-site__link.css);
 
+@import url(../blocks/form-container/form-container.css);
+@import url(../blocks/form/form.css);
+@import url(../blocks/form/__group/form__group.css);
+@import url(../blocks/form/__label/form__label.css);
+@import url(../blocks/form/__input/form__input.css);
+@import url(../blocks/form/__error/form__error.css);
+@import url(../blocks/form/__input-info/form__input-info.css);
+@import url(../blocks/form/__field-group/form__field-group.css);
+@import url(../blocks/form/__info-text/form__info-text.css);
+@import url(../blocks/form/__forgot-link/form__forgot-link.css);
+@import url(../blocks/form/__textarea/form__textarea.css);
+@import url(../blocks/form/__file/form__file.css);
+@import url(../blocks/form/__file-button/form__file-button.css);
+@import url(../blocks/form/__item-list/form__item-list.css);
+@import url(../blocks/form/__dropdown-items/form__dropdown-items.css);
+@import url(../blocks/form/__dropdown/form__dropdown.css);
+@import url(../blocks/form/__footer/form__footer.css);
+@import url(../blocks/form/__field-item-delete/form__field-item-delete.css);
+
+@import url(../blocks/button/button.css);
+@import url(../blocks/button/_style/button_style_blue.css);
+
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__links/footer__links.css);
 @import url(../blocks/footer/__link/footer__link.css);

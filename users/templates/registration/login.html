@@ -13,34 +13,31 @@
         <link rel="stylesheet" href="{% static 'css/pages/login-form.css'%}">
     </head>
 
+    {% load user_filters %}
+
     <body>
         <div class="page">
-            {% include 'mysite_apk/base_ext/header.html' %}
+            <header class="header"></header>
 
-            <div class="main__header">
-                <h1 class="main__title">Войти на сайт</h1>
-            </div>
-            <div class="form-container">
-                <form class="form" method="post">
-                    {% csrf_token %}
-                    <span class="form__error">{{ form.non_field_errors }}</span>
-                    {% for field in form %}
-                        <div class="form__group">
-                            <label for="{{ id }}" class="form__label">{{ label }}</label>
-                            <div class="form__field-group">
-                                {{ field }}
-                                <span class="form__error">{{ errors }}</span>
-                            </div>
-                        </div>
-                    {% endfor %}
-                    <div class="form__footer">
-                        <button class="button button_style_blue">{{ footer_text }}</button>
-                    </div>
-                </form>
-            </div>
+            <main class="enter-site">
+                <img class="enter-site__logo" src="{% static 'img/logo-full-large.png' %}" alt="Логотип">
+                <h1 class="enter-site__disclaimer">Это корпоративная информационная система. Регистрация новых пользователей не доступна.</h1>
+                <h2 class="enter-site__disclaimer">Чтобы войти используйте Логин и Пароль, выданные Вам администратором системы.</h2>
 
+                <div class="form-container">
+                    <form class="form" method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            {% include "registration/extend/form_field.html" with id=field.id_for_label label=field.label errors=field.errors %}
+                            <span class="form__error">{{ form.non_field_errors }}</span>
+                        {% endfor %}
+                        {% include "registration/extend/form_footer.html" with footer_text="Войти" %}
+                    </form>
+                </div>
 
-            {% include 'mysite_apk/base_ext/footer.html' %}
+            </main>
+
+            <footer class="footer"></footer>
         </div>
     </body>
 </html>

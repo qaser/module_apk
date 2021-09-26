@@ -1,11 +1,10 @@
 .enter-site {
-    /* width: 100%; */
     min-height: calc(100vh - 160px); /* прижимаю футер к низу экрана */
     margin: 40px 0 0 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: space-around; */
+
 }
 
 @media screen and (max-width: 800px) {

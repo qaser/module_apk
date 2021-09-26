@@ -1,0 +1,8 @@
+.button_style_blue {
+    background: #A3CDDA;
+    color: black;
+    transition: background 0.2s;
+}
+.button_style_blue:hover {
+    background: #57afc7;
+}
