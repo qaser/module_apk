@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from .models import Act, Fault, Location, Fix, Department, Profile, User, Control
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
 
 class ControlAdmin(admin.ModelAdmin):
@@ -13,11 +14,11 @@ class ControlAdmin(admin.ModelAdmin):
 
 class ProfileInline(admin.StackedInline):
     model = Profile
-    
+    max_num = 1
+    can_delete = False
 
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'last_name', 'first_name',)
-    empty_value_display = '-пусто-'
+
+class AccountsUserAdmin(UserAdmin):
     inlines = [ProfileInline]
 
 
@@ -66,4 +67,4 @@ admin.site.register(Fault, FaultAdmin)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(Department, DepartmentAdmin)
 admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
+admin.site.register(User, AccountsUserAdmin)

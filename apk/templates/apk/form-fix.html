@@ -7,7 +7,7 @@
 {% csrf_token %}
 
 {% block style %}
-    <link rel="stylesheet" href="{% static 'css/pages/index-acts.css'%}">
+    <link rel="stylesheet" href="{% static 'css/pages/fix-form.css'%}">
 {% endblock %}
 
 {% block content %}
@@ -17,17 +17,100 @@
 
             <!-- блок формы -->
 
-            <div class="form-card">
-                <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <h5 class="form-title">Введите данные о мероприятиях</h5>
-                <div class="form-card-body">
-                    <div class="form-group">
-                    {{ form.as_p }}
-                    </div>
-                </div>
-                <button type="submit" class="form-button">Добавить</button>
-                </form>
+           <div class="form-container"> 
+                <form class="form" method="post" enctype="multipart/form-data"> 
+                    {% csrf_token %} 
+                    
+                    {% with form.fix_action as field %}
+                        <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
+                            <label for="{{ field.id_for_label }}" class="form__label form__label_textarea">{{ field.label }}</label>
+                            {{ field|addclass:'form__textarea' }}
+                            {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
+                        </div>
+                    {% endwith %}
+
+                    {% with form.fixer as field %}
+                        <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
+                            <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
+                            {{ field|addclass:'form__input' }}
+                            {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
+                        </div>
+                    {% endwith %}
+
+                    {% with form.fix_deadline as field %}
+                        <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
+                            <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
+                            {{ field|addclass:'form__input' }}
+                            {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
+                        </div>
+                    {% endwith %}
+
+                    {% with form.fixed as field %}
+                        <div class="form__group">
+                            <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
+                            {{ field|addclass:'form__checkbox' }}
+                            {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
+                        </div>
+                    {% endwith %}
+
+                    {% with form.reason as field %}
+                        <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
+                            <label for="{{ field.id_for_label }}" class="form__label form__label_textarea">{{ field.label }}</label>
+                            {{ field|addclass:'form__textarea' }}
+                            {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
+                        </div>
+                    {% endwith %}
+
+                    {% with form.correct_action as field %}
+                        <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
+                            <label for="{{ field.id_for_label }}" class="form__label form__label_textarea">{{ field.label }}</label>
+                            {{ field|addclass:'form__textarea' }}
+                            {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
+                        </div>
+                    {% endwith %}
+
+                    {% with form.resources as field %}
+                        <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
+                            <label for="{{ field.id_for_label }}" class="form__label form__label_textarea">{{ field.label }}</label>
+                            {{ field|addclass:'form__textarea' }}
+                            {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
+                        </div>
+                    {% endwith %}
+
+                    {% with form.corrector as field %}
+                        <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
+                            <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
+                            {{ field|addclass:'form__input' }}
+                            {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
+                        </div>
+                    {% endwith %}
+
+                    {% with form.correct_deadline as field %}
+                        <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
+                            <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
+                            {{ field|addclass:'form__input' }}
+                            {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
+                        </div>
+                    {% endwith %}
+
+                    {% with form.corrected as field %}
+                        <div class="form__group">
+                            <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
+                            {{ field|addclass:'form__checkbox' }}
+                            {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
+                        </div>
+                    {% endwith %}
+
+                    {% with form.image_after as field %}
+                        <div class="form__group">
+                            <span class="form__label">Загрузить фото</span>
+                            {{ field }}
+                            <span class="form__error">{{ form.image_after.errors }}</span>
+                        </div>
+                    {% endwith %}
+
+                    {% include "apk/apk_ext/button_ext/save_button.html" %} 
+                </form> 
             </div>
 
             <!-- конец блока формы -->
