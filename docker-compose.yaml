@@ -1,0 +1,40 @@
+version: '3.8'
+
+volumes:
+  postgres_data:
+  static_data:
+  media_data:
+
+services:
+  db:
+    image: postgres:12.4
+    container_name: postgres
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+  web:
+    image: dangerexit/module:v1.0
+    container_name: web
+    restart: always
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+    volumes:
+      - static_data:/code/static
+      - media_data:/code/media
+  nginx:
+    image: nginx:1.19.8
+    container_name: nginx
+    restart: always
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static_data:/module/static:ro
+      - media_data:/module/media:ro
+    depends_on:
+      - web
+    ports:
+      - 80:80
+      - 443:443
