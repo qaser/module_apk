@@ -29,8 +29,8 @@
                         {% csrf_token %}
                         {% for field in form %}
                             {% include "registration/extend/form_field.html" with id=field.id_for_label label=field.label errors=field.errors %}
-                            <span class="form__error">{{ form.non_field_errors }}</span>
                         {% endfor %}
+                        <span class="form__error">{{ form.non_field_errors }}</span>
                         {% include "registration/extend/form_footer.html" with footer_text="Войти" %}
                     </form>
                 </div>

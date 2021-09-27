@@ -1,17 +1,16 @@
 .form__error {
     display: block;
-    font-family: 'Montserrat', sans-serif;
-    font-style: normal;
-    font-weight: normal;
+    font-weight: 300;
     font-size: 12px;
     line-height: 14px;
     color: #FF0000;
     justify-self: start;
-    grid-column: 1/-1;
+    max-width: 400px;
+    margin-bottom: 20px;
 }
 .form__error:before {
     content: '';
-    flex-basis: 100%;
+    flex-basis: 50%;
     height: 0;
 }
 .form__error:empty {
