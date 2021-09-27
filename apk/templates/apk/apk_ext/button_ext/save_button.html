@@ -1,8 +1,3 @@
 <div class="form__footer">
-    {% if not fault %}
-        <button class="button button_style_blue">Добавить</button>
-    {% else %}
-        <button class="button button_style_blue">Сохранить изменения</button>
-        {% comment %} <a style="margin-left: 2.5em" href="{% url 'recipe_delete' recipe.id %}" class="form__ingredient-link">Удалить рецепт</a> {% endcomment %}
-    {% endif %}
+    <button class="button button_style_blue">Сохранить</button>
 </div>

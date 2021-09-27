@@ -13,6 +13,7 @@
     user-select: none;
     cursor: pointer;
     width: max-content;
+    margin-top: 20px;
 }
 .button:active {
     box-shadow: 0 0 7px #ddd;

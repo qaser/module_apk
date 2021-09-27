@@ -17,7 +17,7 @@ def index_control(request, slug):
     control = get_object_or_404(Control, slug=slug)
     acts = Act.objects.all().filter(control_level=control)
     # извлекаю уникальные значения годов из выбранных актов и сортирую их
-    years_uniq = acts.order_by().values('act_year').distinct()
+    years_uniq = acts.values('act_year').distinct()
     years = [year.get('act_year') for year in years_uniq]
     context = {}
     # формирую словарь в виде {год: акты этого года}

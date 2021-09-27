@@ -13,7 +13,7 @@ User = get_user_model()
 
 # служба филиала
 class Department(models.Model):
-    title = models.CharField('название службы', max_length=50,)
+    title = models.CharField('название службы', max_length=50, unique=True)
 
     class Meta:
         ordering = ('title',)
@@ -74,6 +74,7 @@ class Location(models.Model):
     object = models.CharField(
         'оборудование',
         max_length=100,
+        unique=True,
     )
 
     class Meta:
@@ -105,9 +106,7 @@ class Act(models.Model):
         on_delete=CASCADE,
         related_name='control'
     )
-    act_year = models.IntegerField(
-        'Год регистрации акта'
-    )
+    act_year = models.IntegerField('Год регистрации акта')
     act_number = models.PositiveSmallIntegerField('Номер акта',)
     act_compile_date = models.DateField('Дата составления', auto_now_add=True)
     closed = models.BooleanField('Отработан', default=False)
