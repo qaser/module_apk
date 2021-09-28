@@ -36,6 +36,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'apk.apk_middleware.ControlMiddleware',
     'service_pages.service_middleware.QuoteMiddleware',
+    'service_pages.service_middleware.MessageMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite_apk.urls'

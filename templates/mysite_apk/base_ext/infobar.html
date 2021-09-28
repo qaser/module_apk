@@ -3,16 +3,14 @@
     <div class="infobar__header">
       <h3 class="infobar__title">Полезная информация</h3>
     </div>
-    <p class="infobar__text">{{ request.META.quote.attrs.text }}</p>
-    <p class="infobar__footer">{{ request.META.quote.attrs.source }} / {{ request.META.quote.attrs.article }} /</p>
+    <p class="infobar__text">{{ request.META.quote.text }}</p>
+    <p class="infobar__footer">{{ request.META.quote.source }} / {{ request.META.quote.article }} /</p>
   </div>
   <div class="infobar__informer">
     <div class="infobar__header">
-      <h3 class="infobar__title">Фёдор Несмеянов</h3>
-      <p class="infobar__date">20.03.2021</p>
+      <h3 class="infobar__title">{{ request.META.last_message.author }}</h3>
+      <p class="infobar__date">{{ request.META.last_message.date_created }}</p>
     </div>
-    <p class="infobar__text">
-      Последнее предупреждение! Сделайте как я сказал и будет Вам счастье.
-    </p>
+    <p class="infobar__text">{{ request.META.last_message.text }}</p>
   </div>
 </div>
