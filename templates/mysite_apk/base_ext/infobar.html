@@ -3,10 +3,8 @@
     <div class="infobar__header">
       <h3 class="infobar__title">Полезная информация</h3>
     </div>
-    <p class="infobar__text">
-      Когда я был маленький у меня тоже была бабушка,
-      но за всю свою жизнь я не смог огорчить её. А он смог!
-    </p>
+    <p class="infobar__text">{{ request.META.quote.attrs.text }}</p>
+    <p class="infobar__footer">{{ request.META.quote.attrs.source }} / {{ request.META.quote.attrs.article }} /</p>
   </div>
   <div class="infobar__informer">
     <div class="infobar__header">

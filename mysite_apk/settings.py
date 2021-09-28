@@ -13,7 +13,6 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     # 'api',
-    # 'service_pages',
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.contenttypes',
@@ -24,6 +23,7 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'apk',
     'users',
+    'service_pages',
 ]
 
 MIDDLEWARE = [
@@ -35,6 +35,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'apk.apk_middleware.ControlMiddleware',
+    'service_pages.service_middleware.QuoteMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite_apk.urls'

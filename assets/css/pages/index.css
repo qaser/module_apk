@@ -35,6 +35,7 @@
 @import url(../blocks/infobar/__text/infobar__text.css);
 @import url(../blocks/infobar/__informer/infobar__informer.css);
 @import url(../blocks/infobar/__header/infobar__header.css);
+@import url(../blocks/infobar/__footer/infobar__footer.css);
 @import url(../blocks/infobar/__date/infobar__date.css);
 
 @import url(../blocks/main/main.css);
