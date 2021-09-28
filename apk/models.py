@@ -3,7 +3,7 @@ import datetime as dt
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models.deletion import CASCADE, SET_NULL
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save
 from django.dispatch.dispatcher import receiver
 
 from .utils import compress_image

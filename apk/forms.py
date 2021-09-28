@@ -1,9 +1,7 @@
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.forms import CheckboxSelectMultiple, ClearableFileInput, ModelForm
-from django.forms.widgets import DateInput, FileInput, NumberInput, Textarea
+from django.forms import ClearableFileInput, ModelForm
+from django.forms.widgets import ClearableFileInput, NumberInput, Textarea
 
-from apk.models import Act, Fault, Fix
-from django.forms.widgets import ClearableFileInput
+from apk.models import Fault, Fix
 
 
 class ImageWidget(ClearableFileInput):
