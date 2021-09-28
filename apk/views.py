@@ -156,4 +156,4 @@ def fix_new(request, slug, act_year, act_number, fault_number):
     if form.is_valid():
         form.save()
         return redirect('single_fault_plan', slug, act_year, act_number, fault_number)
-    return render(request, 'apk/form-fix.html', {'form': form})
+    return render(request, 'apk/form-fix.html', {'form': form, 'fault': fault})

@@ -9,7 +9,7 @@
     </a>
     <nav class="sidebar__nav">
         {% for point in request.META.all_controls %}
-            <a class="sidebar__point-link {% if mark == point.attrs.slug %}sidebar__point-link_active{% endif %}" href="{% url 'index_control' point.attrs.slug %}">{{ point.attrs.title }}</a>
+            <a class="sidebar__point-link {% if mark == point.slug %}sidebar__point-link_active{% endif %}" href="{% url 'index_control' point.slug %}">{{ point.title }}</a>
         {% endfor %}
     </nav>
 </nav>

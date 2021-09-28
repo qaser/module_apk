@@ -18,9 +18,14 @@
             <!-- блок формы -->
 
            <div class="form-container"> 
-                <form class="form" method="post" enctype="multipart/form-data"> 
+                <form class="form" method="post" enctype="multipart/form-data">
                     {% csrf_token %} 
                     
+                    <div class="form__group">
+                        <label class="form__label form__label_black form__label_textarea">Текст несоответствия:</label>
+                        <p class="form__label form__label_italic form__label_textarea">{{ fault.location }}. {{ fault.description }}</p>
+                    </div>
+
                     {% with form.fix_action as field %}
                         <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
                             <label for="{{ field.id_for_label }}" class="form__label form__label_textarea">{{ field.label }}</label>
