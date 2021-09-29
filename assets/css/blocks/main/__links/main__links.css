@@ -4,3 +4,9 @@
     max-width: 1250px;
     margin: 0 40px 0 0;
 }
+
+@media screen and (max-width: 500px) {
+    .main__links {
+        margin-right: 20px;
+    }
+}

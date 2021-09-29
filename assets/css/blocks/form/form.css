@@ -10,3 +10,17 @@
     max-width: 700px;
     width: 100%;
 }
+
+@media screen and (max-width: 500px) {
+    .form {
+        padding: 20px;
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .form {
+        padding: 15px;
+        width: 90%;
+    }
+}

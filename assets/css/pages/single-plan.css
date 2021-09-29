@@ -46,6 +46,7 @@
 
 @import url(../blocks/filter/filter.css);
 @import url(../blocks/filter/__point/filter__point.css);
+@import url(../blocks/filter/__point/_active/filter__point_active.css);
 @import url(../blocks/filter/__link/filter__link.css);
 
 @import url(../blocks/fault-cards/fault-cards.css);

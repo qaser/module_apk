@@ -57,20 +57,36 @@ def single_fault_act(request, slug, act_year, act_number, fault_number):
 
 @login_required
 def single_plan(request, slug, act_year, act_number):
+    # извлечение "хвоста" запроса из пути
+    place = request.GET.getlist('filter')
     control = get_object_or_404(Control, slug=slug)
     act = get_object_or_404(Act, act_number=act_number, act_year=act_year, control_level=control)
     faults = Fault.objects.all().filter(act=act)
-    fixed_faults = faults.filter(fix__fixed=True).count()
-    locations = faults.values('location__department__title').distinct()
-    places = [place.get('location__department__title') for place in locations]
+    locations = faults.order_by().values('location__department__title').distinct()
+    places = [i.get('location__department__title') for i in locations]
+    # если в "хвосте" запроса есть объект, то фильтрую несоответствия по нему
+    if place:
+        faults = faults.filter(location__department__title__in=place)
+    fixed_faults = faults.filter(fix__fixed=True).filter(fix__corrected=True).count()
+    non_fix_faults = 0
+    non_correct_faults = 0
+    # определение количества просроченных мероприятий
+    for fault in faults:
+        if (fault.fix.deltatime_fix != None and fault.fix.deltatime_fix[1] == 2):
+            non_fix_faults = non_fix_faults + 1
+        if (fault.fix.deltatime_correct != None and fault.fix.deltatime_correct[1] == 2):
+            non_correct_faults = non_correct_faults + 1
     return render(
         request,
         'apk/single-plan.html',
         {'act': act,
         'faults': faults,
-        'fixed_faults': fixed_faults,
+        'filter': place,
         'places': places,
-        'control': control}
+        'control': control,
+        'fixed_faults': fixed_faults,
+        'non_fix_faults': non_fix_faults,
+        'non_correct_faults': non_correct_faults,}
     )
 
 
@@ -135,13 +151,14 @@ def fault_edit(request, slug, act_year, act_number, fault_number):
     control = get_object_or_404(Control, slug=slug)
     act = get_object_or_404(Act, act_year=act_year, act_number=act_number, control_level=control)
     fault = get_object_or_404(Fault, fault_number=fault_number, act=act)
-    if fault.inspector != request.user.profile:
-        return redirect('single_fault_plan', slug, act_year, act_number, fault_number)
+    # в финальном варианте это нужно включить и в шаблоне тоже
+    # if fault.inspector != request.user.profile:
+    #     return redirect('single_fault_act', slug, act_year, act_number, fault_number)
     form = FaultForm(request.POST or None, files=request.FILES or None, instance=fault)
     if form.is_valid():
         form.save()
         return redirect('single_fault_act', slug, act_year, act_number, fault_number)
-    return render(request, 'apk/form-fault.html', {'form': form})
+    return render(request, 'apk/form-fault.html', {'form': form, 'fault': fault})
 
 
 # новые мероприятия

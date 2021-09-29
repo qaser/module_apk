@@ -57,12 +57,10 @@
 @import url(../blocks/form/__input/form__input.css);
 @import url(../blocks/form/__error/form__error.css);
 @import url(../blocks/form/__input-char/form__input-char.css);
-@import url(../blocks/form/__info-text/form__info-text.css);
 @import url(../blocks/form/__textarea/form__textarea.css);
 @import url(../blocks/form/__file/form__file.css);
 @import url(../blocks/form/__file-button/form__file-button.css);
 @import url(../blocks/form/__footer/form__footer.css);
-@import url(../blocks/form/__field-item-delete/form__field-item-delete.css);
 @import url(../blocks/form/__checkbox/form__checkbox.css);
 
 @import url(../blocks/footer/footer.css);

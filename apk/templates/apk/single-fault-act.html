@@ -15,7 +15,9 @@
     <main class="content">
         <section class="main" id="main">
             <h1 class="main__title">Акт проверки №{{ fault.act.act_number }} от {{ fault.act.act_compile_date|date:"d.m.Y" }} | Несоответствие №{{ fault.fault_number }}</h1>
-            <a class="main__link" href="{% url 'fault_edit' control.slug fault.act.act_year fault.act.act_number fault.fault_number%}">Редактировать несоответствие</a>
+            {% comment %} {% if fault.inspector == request.user.profile %} {% endcomment %}
+                <a class="main__link" href="{% url 'fault_edit' control.slug fault.act.act_year fault.act.act_number fault.fault_number%}">Редактировать несоответствие</a>
+            {% comment %} {% endif %} {% endcomment %}
             <!-- блок карточки -->
             <h2 class="single-fault__location">{{ fault.location }}</h2>
             <div class="single-fault">

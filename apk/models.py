@@ -200,6 +200,7 @@ class Fault(models.Model):
     )
 
     class Meta:
+        ordering = ['fault_number']
         verbose_name = 'несоответствие'
         verbose_name_plural = 'несоответствия'
         constraints = [
@@ -328,10 +329,12 @@ class Fix(models.Model):
             deadline = dt.datetime(date.year, date.month, date.day)
             if today_now == deadline:
                 return ['', 1]
+            # сколько дней после дедлайна
             elif today_now > deadline:
                 deltatime = today_now - deadline
                 return [f' /{deltatime.days} дн./', 2]
             deltatime = deadline - today_now
+            # сколько дней до дедлайна
             return [f' /{deltatime.days} дн./', 1]
 
     def save(self, *args, **kwargs):

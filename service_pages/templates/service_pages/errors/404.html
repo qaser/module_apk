@@ -1,19 +1,31 @@
-{% extends "mysite_apk/base.html" %}
-{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta name="description" content="Проект информационного сопровождения АПК">
+        <meta name="keywords" content="модуль, производство, охрана труда, безопасность, контроль">
+        <meta name="author" content="Сайгин Алексей">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Ошибка 404 | Module</title>
+        {% load static %}
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}">
+        <link rel="stylesheet" href="{% static 'css/pages/login-form.css'%}">
+    </head>
 
-{% block title %}Ошибка 400{% endblock %}
 
-{% block style %}
-    <link rel="stylesheet" href="{% static 'css/pages/error-page.css'%}">
-{% endblock %}
+    <body>
+        <div class="page">
+            <header class="header"></header>
 
+            <main class="enter-site">
+                <img class="enter-site__logo" src="{% static 'img/logo-full-large.png' %}" alt="Логотип">
+                <h1 class="enter-site__disclaimer">Ошибка 404</h1>
+                <h2 class="enter-site__disclaimer">Страница <code>{{ path }}</code> не найдена</h1>
+                <h3 class="enter-site__disclaimer"><a href="{% url 'index' %}">Вернуться на главную</a></h1>
+            </main>
 
-{% block content %}
-<main class="main container">
-    <div class="main__header">
-        <p class="main__title">Ошибка 404 :(</p>
-    </div>
-    <p class="card__text">Страница <code>{{ path }}</code> не найдена</p>
-    <p class="card__text"><a href="{% url 'index' %}">Вернуться на главную</a></p>
-</main>
-{% endblock %}
+            <footer class="footer"></footer>
+        </div>
+    </body>
+</html>

@@ -1,6 +1,6 @@
 {% extends "mysite_apk/base.html" %}
 
-{% block title %}Добавить новое несоответствие{% endblock %}
+{% block title %}{{ fault|yesno:"Редактировать несоответствие,Добавить новое несоответствие" }}{% endblock %}
 
 {% load static %}
 {% load apk_filters %}
@@ -13,7 +13,7 @@
 {% block content %}
     <main class="content">
         <section class="main" id="main">
-            <h1 class="main__title">Добавить новое несоответствие</h1>
+            <h1 class="main__title">{{ fault|yesno:"Редактировать несоответствие,Добавить новое несоответствие" }}</h1>
 
             <!-- блок формы -->
 
