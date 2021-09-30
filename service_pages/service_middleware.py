@@ -1,6 +1,8 @@
-from .models import Message, Quote
 import random
+
 from django.core.exceptions import ObjectDoesNotExist
+
+from .models import Message, Quote
 
 
 class QuoteMiddleware:

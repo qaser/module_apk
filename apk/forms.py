@@ -1,4 +1,4 @@
-from django.forms import ClearableFileInput, ModelForm
+from django.forms import ModelForm
 from django.forms.widgets import ClearableFileInput, NumberInput, Textarea
 
 from apk.models import Fault, Fix

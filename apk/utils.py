@@ -1,7 +1,7 @@
 from PIL import Image
 
-
 _MAX_SIZE = 800
+
 
 # сжатие загружаемых изображений
 def compress_image(source_image):
@@ -12,8 +12,10 @@ def compress_image(source_image):
     if max_size > _MAX_SIZE:
         image = Image.open(filepath)
         image = image.resize(
-            (round(width / max_size * _MAX_SIZE),  # сохраняем пропорции
-            round(height / max_size * _MAX_SIZE)),
+            (
+                round(width / max_size * _MAX_SIZE),
+                round(height / max_size * _MAX_SIZE)
+            ),
             Image.ANTIALIAS
         )
         image.save(filepath)

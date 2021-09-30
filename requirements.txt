@@ -1,4 +1,4 @@
-# asgiref==3.2.10
+asgiref==3.3.2
 astroid==2.5.2
 atomicwrites==1.4.0
 attrs==20.1.0
@@ -6,19 +6,20 @@ beautifulsoup4==4.9.1
 colorama==0.4.3
 dj-static==0.0.6
 Django==3.2
+django-filter==2.4.0
 django-bootstrap4==2.2.0
 djangorestframework==3.12.2
 djangorestframework-simplejwt==4.6.0
 docopt==0.6.2
 iniconfig==1.0.1
-isort==5.4.2
+# isort==5.4.2
 lazy-object-proxy==1.6.0
 mccabe==0.6.1
 more-itertools==8.4.0
 packaging==20.4
 pluggy==0.13.1
 py==1.9.0
-pycodestyle==2.6.0
+pycodestyle==2.7.0
 PyJWT==2.0.1
 pyparsing==2.4.7
 pytest==6.0.1
@@ -32,6 +33,7 @@ static3==0.7.0
 template-remover==0.1.9
 toml==0.10.1
 wrapt==1.12.1
+untokenize==0.1.1
 mock==4.0.2
 Pillow==8.0
 factory-boy==3.2.0

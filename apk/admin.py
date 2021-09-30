@@ -1,8 +1,8 @@
 from django.contrib import admin
-
-from .models import Act, Fault, Location, Fix, Department, Profile, User, Control
-from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+
+from .models import (Act, Control, Department, Fault, Fix, Location, Profile,
+                     User)
 
 
 class ControlAdmin(admin.ModelAdmin):
@@ -41,7 +41,12 @@ class LocationAdmin(admin.ModelAdmin):
 
 
 class ActAdmin(admin.ModelAdmin):
-    list_display = ('control_level', 'act_number', 'act_year', 'act_compile_date',)
+    list_display = (
+        'control_level',
+        'act_number',
+        'act_year',
+        'act_compile_date',
+    )
     search_fields = ('act_year',)
     list_filter = ('control_level', 'act_number',)
     empty_value_display = '-пусто-'

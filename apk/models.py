@@ -8,8 +8,8 @@ from django.dispatch.dispatcher import receiver
 
 from .utils import compress_image
 
-
 User = get_user_model()
+
 
 # служба филиала
 class Department(models.Model):
@@ -323,7 +323,7 @@ class Fix(models.Model):
     def deltatime_calc(self, date, action):
         if action:
             return ['', 0]
-        elif date != None and not action:
+        elif date is not None and not action:
             today = dt.datetime.today()
             today_now = dt.datetime(today.year, today.month, today.day)
             deadline = dt.datetime(date.year, date.month, date.day)
