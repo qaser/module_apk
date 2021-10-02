@@ -1,5 +1,8 @@
 from django.forms import ModelForm
-from django.forms.widgets import ClearableFileInput, NumberInput, Textarea
+from django.forms import widgets
+from django import forms
+from django.forms.widgets import ClearableFileInput, DateInput, NumberInput, Textarea
+from django_filters.filters import DateFilter
 
 from apk.models import Fault, Fix
 
@@ -55,3 +58,10 @@ class FixForm(ModelForm):
             'reason': Textarea(attrs={'rows': 3}),
             'resources': Textarea(attrs={'rows': 3}),
         }
+
+
+# class FaultFilterForm(forms.Form):
+#     fault_date = forms.DateField(
+#         label='Дата',
+#         widget=NumberInput(attrs={'type': 'date', 'placeholder': ''})
+#     )

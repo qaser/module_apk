@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from apk.forms import FaultForm, FixForm
 from apk.models import Act, Control, Fault
+from .filters import FaultFilter
 
 
 @login_required
@@ -15,6 +16,8 @@ def index(request):
 
 @login_required
 def index_control(request, slug):
+    if slug == '1_apk':
+        return index_first_level(request, slug)
     control = get_object_or_404(Control, slug=slug)
     acts = Act.objects.all().filter(control_level=control)
     # извлекаю уникальные значения годов из выбранных актов и сортирую их
@@ -28,6 +31,18 @@ def index_control(request, slug):
         request,
         'apk/index-acts.html',
         {'years': context, 'control': control},
+    )
+
+
+@login_required
+def index_first_level(request, slug):
+    control = get_object_or_404(Control, slug=slug)
+    faults = Fault.objects.all().order_by('-fault_date').filter(act__control_level=control)
+    fault_filter = FaultFilter(request.GET, queryset=faults)
+    return render(
+        request,
+        'apk/index_first_level.html',
+        {'faults': faults, 'control': control, 'fault_filter': fault_filter}
     )
 
 

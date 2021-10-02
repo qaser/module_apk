@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('<slug:slug>/', views.index_control, name='index_control'),
+    # следующие эндпоинты для 3 и 4 уровней АПК
     path('<slug:slug>/acts/new/', views.act_new, name='act_new'),
     path(
         '<slug:slug>/acts/<int:act_year>/<int:act_number>/',
@@ -40,4 +41,6 @@ urlpatterns = [
         views.single_fault_plan,
         name='single_fault_plan'
     ),
+    # здесь эндпоинты для первого уровня АПК
+    path('<slug:slug>/faults', views.index_first_level, name='index_first_level')
 ]

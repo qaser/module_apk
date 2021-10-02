@@ -14,18 +14,18 @@
 
     <main class="content">
             <section class="main" id="main">
-            <h1 class="main__title">Акт проверки №{{ act.act_number }} от {{ act.act_compile_date|date:"d.m.Y" }}</h1>
-            {% if faults.count == 0 %}
-                <h3 class="main__stat">Здесь пока отсутствуют записи</h3>
-                <div class="main__links">
-                    <a class="main__link" href="{% url 'fault_new' control.slug act.act_year act.act_number %}">Добавить новое несоответствие</a>
-                </div>
-            {% else %}
-                <div class="main__links">
-                    <a class="main__link" href="{% url 'fault_new' control.slug act.act_year act.act_number %}">Добавить новое несоответствие</a>
-                    <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }}</h3>
-                </div>
-            {% endif %}
+                <h1 class="main__title">Акт проверки №{{ act.act_number }} от {{ act.act_compile_date|date:"d.m.Y" }}</h1>
+                {% if faults.count == 0 %}
+                    <h3 class="main__stat">Здесь пока отсутствуют записи</h3>
+                    <div class="main__links">
+                        <a class="main__link" href="{% url 'fault_new' control.slug act.act_year act.act_number %}">Добавить новое несоответствие</a>
+                    </div>
+                {% else %}
+                    <div class="main__links">
+                        <a class="main__link" href="{% url 'fault_new' control.slug act.act_year act.act_number %}">Добавить новое несоответствие</a>
+                        <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }}</h3>
+                    </div>
+                {% endif %}
 
             <!-- блок карточек -->
                 <ul class="fault-cards list">

@@ -55,10 +55,11 @@ class ActAdmin(admin.ModelAdmin):
 class FaultAdmin(admin.ModelAdmin):
     list_display = (
         'act',
+        'fault_number',
         'location',
         'description',
         'inspector',
-        'image_before',
+        'fault_date',
     )
     search_fields = ('location', 'group', 'inspector',)
     list_filter = ('location', 'group', 'inspector',)

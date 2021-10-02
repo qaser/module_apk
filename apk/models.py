@@ -88,6 +88,9 @@ class Location(models.Model):
 
 class Control(models.Model):
     title = models.CharField('Название проверки', max_length=50,)
+    # для работы первого и второго уровней необходимо в поле slug
+    # для этих уровней указать "1_apk" и "2_apk" соответственно
+    # т.к. на этих слагах завязана логика отображения начальной страницы.
     slug = models.SlugField('Путь', unique=True, max_length=50)
 
     class Meta:
@@ -112,7 +115,7 @@ class Act(models.Model):
     closed = models.BooleanField('Отработан', default=False)
 
     class Meta:
-        ordering = ('-act_compile_date',)
+        ordering = ('-act_year',)
         verbose_name = 'акт'
         verbose_name_plural = 'акты'
         constraints = [
@@ -136,6 +139,10 @@ class Fault(models.Model):
         ('Э', 'Экологическая безопасность'),
     )
     fault_number = models.PositiveIntegerField('Номер несоответствия')
+    fault_date = models.DateTimeField(
+        'Дата добавления несоответствия',
+        auto_now_add=True,
+    )
     group = models.TextField(
         'Группа несоответствий',
         choices=GROUP,
@@ -144,7 +151,7 @@ class Fault(models.Model):
         Act,
         on_delete=CASCADE,
         verbose_name='Номер акта',
-        related_name='faults',
+        related_name='act',
         db_index=True,
     )
     location = models.ForeignKey(
@@ -337,6 +344,7 @@ class Fix(models.Model):
             # сколько дней до дедлайна
             return [f' /{deltatime.days} дн./', 1]
 
+    # сжатие и сохранене загружаемых фотографий
     def save(self, *args, **kwargs):
         super(Fix, self).save(*args, **kwargs)
         if self.image_after:
