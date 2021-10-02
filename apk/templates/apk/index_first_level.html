@@ -1,0 +1,52 @@
+{% extends "mysite_apk/base.html" %}
+
+{% block title %}Первый уровень АПК{% endblock %}
+
+{% load static %}
+{% load apk_filters %}
+{% csrf_token %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/pages/index_first_level.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main class="content">
+        
+        <section class="main" id="main">
+            <h1 class="main__title">Первый уровень АПК</h1>
+            {% if faults.count == 0 %}
+                <h3 class="main__stat">Здесь пока отсутствуют записи</h3>
+                <div class="main__links">
+                    {% comment %} <a class="main__link" href="{% url 'fault_new_first_level' control.slug %}">Добавить новое несоответствие</a> {% endcomment %}
+                </div>
+            {% else %}
+                <div class="main__links">
+                    {% comment %} <a class="main__link" href="{% url 'fault_new_first_level' control.slug %}">Добавить новое несоответствие</a> {% endcomment %}
+                    <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }}</h3>
+                </div>
+            {% endif %}
+
+            {% include 'apk/apk_ext/index_ext/filter_form.html' with filter=fault_filter control=control %}
+
+            <!-- блок карточек -->
+            <ul class="fault-cards list">
+                {% for fault in fault_filter.qs %}
+                    {% comment %} <li><a class="fault-cards__link" href="{% url 'single_fault_act' control.slug act.act_year act.act_number fault.fault_number %}"> {% endcomment %}
+                        <div class="fault-cards__item {% if fault.danger %}fault-cards__item_danger {% endif %}">
+                            <div class="fault-cards__description">
+                                <div class="fault-cards__header">
+                                    <h4 class="fault-cards__title">{{ fault.location }}</h4>
+                                </div>
+                                <p class="fault-cards__text">{{ fault.description }}</p>
+                            </div>
+                            <!-- фотография несоответствия -->
+                            {% include 'apk/apk_ext/image_before.html' with size="640x420" class="fault-cards__image" %}
+                        </div>
+                    </a></li>
+                {% endfor %}
+            </ul>
+        </section>
+
+    </main>
+{% endblock %}
