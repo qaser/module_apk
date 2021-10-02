@@ -45,6 +45,19 @@ class Profile(models.Model):
         null=True,
     )
 
+    # представление пользователя в виде Фамилия И.О.
+    # с учетом отсутствия Отчества
+    @property
+    def lastname_and_initials(self):
+        lastname = self.user.last_name
+        initial_name = self.user.first_name[0]
+        if self.patronymic is not None:
+            initial_patronymic = self.patronymic[0]
+            lastname_and_initials = f'{lastname} {initial_name}.{initial_patronymic}.'
+        else:
+            lastname_and_initials = f'{lastname} {initial_name}.'
+        return lastname_and_initials
+
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
@@ -205,6 +218,12 @@ class Fault(models.Model):
         blank=True,
         null=True,
     )
+
+    @property
+    def danger_readable(self):
+        if self.danger:
+            return 'может'
+        return 'не может'
 
     class Meta:
         ordering = ['fault_number']

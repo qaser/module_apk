@@ -3,6 +3,11 @@ import datetime as dt
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404, redirect, render
+from openpyxl import Workbook
+from openpyxl.styles import Font, Alignment, Border, Side, PatternFill
+from openpyxl.styles.fills import fills
+from openpyxl.utils import get_column_letter
+from django.http import HttpResponse
 
 from apk.forms import FaultForm, FixForm
 from apk.models import Act, Control, Fault
@@ -47,7 +52,7 @@ def index_first_level(request, slug):
 
 
 @login_required
-def single_act(request, slug, act_year, act_number,):
+def single_act(request, slug, act_year, act_number):
     control = get_object_or_404(Control, slug=slug)
     act = get_object_or_404(
         Act,
@@ -255,3 +260,162 @@ def fix_new(request, slug, act_year, act_number, fault_number):
         'apk/form-fix.html',
         {'form': form, 'fault': fault}
     )
+
+
+def export_act_excel(request, slug, act_year, act_number):
+    control = get_object_or_404(Control, slug=slug)
+    act = get_object_or_404(
+        Act,
+        act_number=act_number,
+        act_year=act_year,
+        control_level=control
+    )
+    faults = Fault.objects.all().filter(act=act)
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    )
+    response['Content-Disposition'] = 'attachment; filename=act-№{num}-{year}.xlsx'.format(
+        num=act_number,
+        year=act_year
+    )
+    workbook = Workbook()
+    worksheet = workbook.active
+    header_font = Font(name='Calibri', bold=True)
+    centered_alignment = Alignment(
+        horizontal='center',
+        vertical='center',
+        wrap_text=True
+    )
+    wrapped_alignment = Alignment(
+        vertical='top',
+        wrap_text=True
+    )
+    worksheet.title = f'Акт {act_number} комплексной проверки'
+    columns = [
+        ('№ п/п', 5),
+        ('Формулировка несоответствия или нарушения требованиям производственной безопасности', 60),
+        ('Нарушенный нормативный документ', 40),
+        ('Может ли данное несоответствие или нарушение привести к опасному событию (может/не может)', 15),
+        ('Фамилия, инициалы руководителя работ допустивший несоответствие или нарушение', 20),
+        ('Фамилия, инициалы руководителя подразделения, члена ПДК, не выявившего несоответствие или нарушение при проверке на нижестоящем уровне', 20),
+        ('Отнесение несоответствия или нарушения к разделу (элементу) ЕСУПБ (раздел ЕСУПБ)', 20),
+        ('Фамилия, инициалы члена ПДК, выявившего несоответствие или нарушение', 20),
+    ]
+    row_num = 1
+    for col_num, (column_title, column_width) in enumerate(columns, 1):
+        cell = worksheet.cell(row=row_num, column=col_num)
+        cell.value = column_title
+        cell.font = header_font
+        cell.alignment = centered_alignment
+        column_letter = get_column_letter(col_num)
+        column_dimensions = worksheet.column_dimensions[column_letter]
+        column_dimensions.width = column_width
+        worksheet.row_dimensions[row_num].height = 110
+    for fault in faults:
+        row_num += 1
+        row = [
+            fault.fault_number,
+            '{}, {}. {}'.format(
+                fault.location.department,
+                fault.location.object,
+                fault.description
+            ),
+            fault.document,
+            fault.danger_readable,
+            fault.intruder.lastname_and_initials,
+            fault.unseeing.lastname_and_initials,
+            fault.section_esupb,
+            fault.inspector.lastname_and_initials,
+        ]
+        for col_num, cell_value in enumerate(row, 1):
+            cell = worksheet.cell(row=row_num, column=col_num)
+            worksheet.row_dimensions[row_num].height = 50
+            cell.value = cell_value
+            cell.alignment = wrapped_alignment
+    workbook.save(response)
+    return response
+
+
+def export_plan_excel(request, slug, act_year, act_number):
+    control = get_object_or_404(Control, slug=slug)
+    act = get_object_or_404(
+        Act,
+        act_number=act_number,
+        act_year=act_year,
+        control_level=control
+    )
+    faults = Fault.objects.all().filter(act=act)
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    )
+    response['Content-Disposition'] = 'attachment; filename=act-№{}-{}.xlsx'.format(
+        act_number,
+        act_year
+    )
+    workbook = Workbook()
+    worksheet = workbook.active
+    header_font = Font(name='Calibri', bold=True)
+    centered_alignment = Alignment(
+        horizontal='center',
+        vertical='center',
+        wrap_text=True
+    )
+    wrapped_alignment = Alignment(
+        vertical='top',
+        wrap_text=True
+    )
+    worksheet.title = f'План корректирующих действий согласно Акту №{act_number}'
+    columns = [
+        ('№ п/п', 5),
+        ('Описание несоответствия, пункт НТД', 60),
+        ('Наименование мероприятия', 40),
+        ('Ответственный исполнитель (подпись, дата)', 15),
+        ('Срок выполнения', 20),
+        ('Причины появления несоответствия', 20),
+        ('Корректирующее действие (мероприятие)', 20),
+        ('Требуемые условия и ресурсы', 20),
+        ('Ответственный исполнитель (подпись, дата)', 20),
+        ('Срок выполнения', 20)
+    ]
+    row_num = 1
+    for col_num, (column_title, column_width) in enumerate(columns, 1):
+        cell = worksheet.cell(row=row_num, column=col_num)
+        cell.value = column_title
+        cell.font = header_font
+        cell.alignment = centered_alignment
+        column_letter = get_column_letter(col_num)
+        column_dimensions = worksheet.column_dimensions[column_letter]
+        column_dimensions.width = column_width
+        worksheet.row_dimensions[row_num].height = 70
+    for fault in faults:
+        row_num += 1
+        row = [
+            fault.fault_number,
+            '{}, {}. {}. {}'.format(
+                fault.location.department,
+                fault.location.object,
+                fault.description,
+                fault.document
+            ),
+            fault.fix.fix_action,
+            check_person(fault.fix.fixer),
+            fault.fix.fix_deadline,
+            fault.fix.reason,
+            fault.fix.correct_action,
+            fault.fix.resources,
+            check_person(fault.fix.corrector),
+            fault.fix.correct_deadline
+        ]
+        for col_num, cell_value in enumerate(row, 1):
+            cell = worksheet.cell(row=row_num, column=col_num)
+            worksheet.row_dimensions[row_num].height = 50
+            cell.value = cell_value
+            cell.alignment = wrapped_alignment
+    workbook.save(response)
+    return response
+
+
+def check_person(person):
+    if person is not None:
+        return object.lastname_and_initials
+    return 'Данные не введены'

@@ -41,6 +41,17 @@ urlpatterns = [
         views.single_fault_plan,
         name='single_fault_plan'
     ),
+    # сохранение акта в excel
+    path(
+        '<slug:slug>/acts/<int:act_year>/<int:act_number>/export/',
+        views.export_act_excel,
+        name='export_act_excel'
+    ),
+    path(
+        '<slug:slug>/acts/<int:act_year>/<int:act_number>/plan/export/',
+        views.export_plan_excel,
+        name='export_plan_excel'
+    ),
     # здесь эндпоинты для первого уровня АПК
-    path('<slug:slug>/faults', views.index_first_level, name='index_first_level')
+    path('<slug:slug>/faults', views.index_first_level, name='index_first_level'),
 ]

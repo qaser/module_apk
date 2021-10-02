@@ -23,6 +23,7 @@
             {% else %}
                 <div class="main__links">
                     <a class="main__link" href="{% url 'single_act' control.slug act.act_year act.act_number %}">Перейти к акту</a>
+                    <a class="main__link" href="{% url 'export_plan_excel' control.slug act.act_year act.act_number %}">Сохранить в таблицу Excel</a>
                     <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }} | <a href="#">Выполнено: {{ fixed_faults }}</a> | <a href="#">Просрочено: {{ non_fix_faults }}</a></h3>
                 </div>
                 <ul class="filter list">
