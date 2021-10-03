@@ -19,3 +19,9 @@ def compress_image(source_image):
             Image.ANTIALIAS
         )
         image.save(filepath)
+
+
+def check_person(person):
+    if person is not None:
+        return object.lastname_and_initials
+    return 'Данные не введены'

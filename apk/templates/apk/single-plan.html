@@ -22,9 +22,11 @@
                 </div>
             {% else %}
                 <div class="main__links">
-                    <a class="main__link" href="{% url 'single_act' control.slug act.act_year act.act_number %}">Перейти к акту</a>
-                    <a class="main__link" href="{% url 'export_plan_excel' control.slug act.act_year act.act_number %}">Сохранить в таблицу Excel</a>
-                    <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }} | <a href="#">Выполнено: {{ fixed_faults }}</a> | <a href="#">Просрочено: {{ non_fix_faults }}</a></h3>
+                    <a class="main__link" href="{% url 'single_act' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/act-icon.png' %}"></a>
+                    <a class="main__link" href="{% url 'export_plan_excel' control.slug act.act_year act.act_number %}"><image class="main__icon_very-large" src="{% static 'img/plan-excel.png' %}"></a>
+                    {% comment %} <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }} | <a href="#">Выполнено: {{ fixed_faults }}</a> | <a href="#">Просрочено: {{ non_fix_faults }}</a></h3> {% endcomment %}
+                    <div class="main__stat"><image class="main__icon" src="{% static 'img/sum-icon.png' %}"> {{ faults.count }} | <image class="main__icon" src="{% static 'img/done.png' %}"> {{ fixed_faults }} | <image class="main__icon" src="{% static 'img/abandon.png' %}"> {{ non_fix_faults }}</div>
+
                 </div>
                 <ul class="filter list">
                     <li class="{% if filter %}filter__point{% else %} filter__point_active{% endif %}"><a class="filter__link" href="{% url 'single_plan' control.slug act.act_year act.act_number %}">Все</a></li>

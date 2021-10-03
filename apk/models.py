@@ -164,7 +164,7 @@ class Fault(models.Model):
         Act,
         on_delete=CASCADE,
         verbose_name='Номер акта',
-        related_name='act',
+        related_name='faults',
         db_index=True,
     )
     location = models.ForeignKey(

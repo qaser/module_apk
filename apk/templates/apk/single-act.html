@@ -22,9 +22,10 @@
                     </div>
                 {% else %}
                     <div class="main__links">
-                        <a class="main__link" href="{% url 'fault_new' control.slug act.act_year act.act_number %}">Добавить новое несоответствие</a>
-                        <a class="main__link" href="{% url 'export_act_excel' control.slug act.act_year act.act_number %}">Сохранить в таблицу Excel</a>
-                        <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }}</h3>
+                        <a class="main__link" href="{% url 'fault_new' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/fault-add-icon.png' %}"></a>
+                        <a class="main__link" href="{% url 'single_plan' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/plan-icon.png' %}"></a>
+                        <a class="main__link" href="{% url 'export_act_excel' control.slug act.act_year act.act_number %}"><image class="main__icon_very-large" src="{% static 'img/act-excel.png' %}"></a>
+                        <h3 class="main__stat"><image class="main__icon" src="{% static 'img/sum-icon.png' %}"> {{ faults.count }}</h3>
                     </div>
                 {% endif %}
 

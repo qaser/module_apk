@@ -2,16 +2,17 @@ import datetime as dt
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from openpyxl import Workbook
-from openpyxl.styles import Font, Alignment, Border, Side, PatternFill
+from openpyxl.styles import Alignment, Font
 from openpyxl.styles.fills import fills
 from openpyxl.utils import get_column_letter
-from django.http import HttpResponse
 
-from apk.forms import FaultForm, FixForm
-from apk.models import Act, Control, Fault
 from .filters import FaultFilter
+from .forms import FaultForm, FixForm
+from .models import Act, Control, Fault
+from .utils import check_person
 
 
 @login_required
@@ -262,6 +263,7 @@ def fix_new(request, slug, act_year, act_number, fault_number):
     )
 
 
+@login_required
 def export_act_excel(request, slug, act_year, act_number):
     control = get_object_or_404(Control, slug=slug)
     act = get_object_or_404(
@@ -336,6 +338,7 @@ def export_act_excel(request, slug, act_year, act_number):
     return response
 
 
+@login_required
 def export_plan_excel(request, slug, act_year, act_number):
     control = get_object_or_404(Control, slug=slug)
     act = get_object_or_404(
@@ -413,9 +416,3 @@ def export_plan_excel(request, slug, act_year, act_number):
             cell.alignment = wrapped_alignment
     workbook.save(response)
     return response
-
-
-def check_person(person):
-    if person is not None:
-        return object.lastname_and_initials
-    return 'Данные не введены'
