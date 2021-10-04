@@ -15,14 +15,17 @@
 
     <body>
         <div class="page">
-            <input type="checkbox" id="checkbox">
-            {% include 'mysite_apk/base_ext/header.html' %}
-            {% include 'mysite_apk/base_ext/sidebar.html' with mark=request.resolver_match.kwargs.slug %}
-            {% include 'mysite_apk/base_ext/infobar.html' %}
-            {% block content %}{% endblock %}
-            {% comment %} {% if page.has_other_pages %}
-                {% include "mysite_apk/base_ext/paginator.html" %}
-            {% endif %}       {% endcomment %}
+
+            <div class="page__content">
+                <input type="checkbox" id="checkbox">
+                {% include 'mysite_apk/base_ext/header.html' %}
+                {% include 'mysite_apk/base_ext/sidebar.html' with mark=request.resolver_match.kwargs.slug %}
+                {% include 'mysite_apk/base_ext/infobar.html' %}
+                {% block content %}{% endblock %}
+                {% comment %} {% if page.has_other_pages %}
+                    {% include "mysite_apk/base_ext/paginator.html" %}
+                {% endif %}       {% endcomment %}
+            </div>
             {% include 'mysite_apk/base_ext/footer.html' %}
         </div>
     </body>

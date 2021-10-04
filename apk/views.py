@@ -276,10 +276,8 @@ def export_act_excel(request, slug, act_year, act_number):
     response = HttpResponse(
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     )
-    response['Content-Disposition'] = 'attachment; filename=act-№{num}-{year}.xlsx'.format(
-        num=act_number,
-        year=act_year
-    )
+    filename = 'act.xlsx'
+    response['Content-Disposition'] = f'attachment; filename={filename}'
     workbook = Workbook()
     worksheet = workbook.active
     header_font = Font(name='Calibri', bold=True)
@@ -351,10 +349,8 @@ def export_plan_excel(request, slug, act_year, act_number):
     response = HttpResponse(
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     )
-    response['Content-Disposition'] = 'attachment; filename=act-№{}-{}.xlsx'.format(
-        act_number,
-        act_year
-    )
+    filename = 'plan.xlsx'
+    response['Content-Disposition'] = f'attachment; filename={filename}'
     workbook = Workbook()
     worksheet = workbook.active
     header_font = Font(name='Calibri', bold=True)

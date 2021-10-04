@@ -23,5 +23,5 @@ def compress_image(source_image):
 
 def check_person(person):
     if person is not None:
-        return object.lastname_and_initials
+        return person.lastname_and_initials
     return 'Данные не введены'
