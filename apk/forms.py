@@ -1,8 +1,6 @@
 from django.forms import ModelForm
-from django.forms import widgets
-from django import forms
-from django.forms.widgets import ClearableFileInput, DateInput, NumberInput, Textarea
-from django_filters.filters import DateFilter
+from django.forms.widgets import ClearableFileInput, NumberInput, Textarea
+import datetime as dt
 
 from apk.models import Fault, Fix
 
@@ -33,6 +31,7 @@ class FaultForm(ModelForm):
 
 class FixForm(ModelForm):
     class Meta:
+        actual_time = dt.datetime.now().strftime('%Y-%m-%d')
         model = Fix
         fields = (
             'fix_action',
@@ -53,15 +52,12 @@ class FixForm(ModelForm):
             'fix_action': Textarea(attrs={'rows': 5}),
             'correct_action': Textarea(attrs={'rows': 5}),
             'image_after': ImageWidget(),
-            'fix_deadline': NumberInput(attrs={'type': 'date'}),
-            'correct_deadline': NumberInput(attrs={'type': 'date'}),
+            'fix_deadline': NumberInput(
+                attrs={'type': 'date', 'value': actual_time}
+            ),
+            'correct_deadline': NumberInput(
+                attrs={'type': 'date', 'value': actual_time}
+            ),
             'reason': Textarea(attrs={'rows': 3}),
             'resources': Textarea(attrs={'rows': 3}),
         }
-
-
-# class FaultFilterForm(forms.Form):
-#     fault_date = forms.DateField(
-#         label='Дата',
-#         widget=NumberInput(attrs={'type': 'date', 'placeholder': ''})
-#     )

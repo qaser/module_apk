@@ -1,6 +1,6 @@
 from PIL import Image
 
-_MAX_SIZE = 800
+_MAX_SIZE = 1000
 
 
 # сжатие загружаемых изображений
@@ -21,6 +21,8 @@ def compress_image(source_image):
         image.save(filepath)
 
 
+# проверка наличия введенного объекта в поля исполнителей
+# использую при экспорте в формат .xlsx
 def check_person(person):
     if person is not None:
         return person.lastname_and_initials

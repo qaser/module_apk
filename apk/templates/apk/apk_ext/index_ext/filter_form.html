@@ -4,7 +4,7 @@
         {% csrf_token %}
         {% load apk_filters %}
 
-        {% with filter.form.fault_date as field %}
+        {% comment %} {% with filter.form.fault_date as field %}
             <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
                 <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
                 {{ field|addclass:'form__input' }}
@@ -18,7 +18,7 @@
                 {{ field|addclass:'form__input' }}
                 {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
             </div>
-        {% endwith %}
+        {% endwith %} {% endcomment %}
 
         {% comment %} {% with filter.form.inspector as field %}
             <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
@@ -28,7 +28,7 @@
             </div>
         {% endwith %} {% endcomment %}
 
-        {% comment %} {{ filter.form.as_p }} {% endcomment %}
+        {{ filter.form.as_p }}
         {% comment %} <button type="submit">Применить</button> {% endcomment %}
         <div class="form__footer">
             <button class="button button_style_blue" type="submit">Применить</button>

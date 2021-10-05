@@ -45,6 +45,11 @@ class Profile(models.Model):
         null=True,
     )
 
+    class Meta:
+        ordering = ('user',)
+        verbose_name = 'профиль пользователя'
+        verbose_name_plural = 'профили пользователей'
+
     # представление пользователя в виде Фамилия И.О.
     # с учетом отсутствия Отчества
     @property
@@ -67,11 +72,6 @@ class Profile(models.Model):
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
 
-    class Meta:
-        ordering = ('user',)
-        verbose_name = 'профиль пользователя'
-        verbose_name_plural = 'профили пользователей'
-
     def __str__(self) -> str:
         return self.user.get_full_name()
 
@@ -91,7 +91,7 @@ class Location(models.Model):
     )
 
     class Meta:
-        ordering = ('-department',)
+        ordering = ('department',)
         verbose_name = 'объект проверки'
         verbose_name_plural = 'объекты проверки'
 
@@ -155,6 +155,7 @@ class Fault(models.Model):
     fault_date = models.DateTimeField(
         'Дата добавления несоответствия',
         auto_now_add=True,
+        db_index=True,
     )
     group = models.TextField(
         'Группа несоответствий',
@@ -166,12 +167,14 @@ class Fault(models.Model):
         verbose_name='Номер акта',
         related_name='faults',
         db_index=True,
+        null=True,
     )
     location = models.ForeignKey(
         Location,
         on_delete=CASCADE,
         verbose_name='Место обнаружения',
         related_name='location',
+        db_index=True,
     )
     description = models.TextField(
         'Описание несоответствия',
