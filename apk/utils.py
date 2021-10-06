@@ -1,4 +1,5 @@
 from PIL import Image
+from django.core.paginator import Paginator
 
 _MAX_SIZE = 1000
 
@@ -27,3 +28,11 @@ def check_person(person):
     if person is not None:
         return person.lastname_and_initials
     return 'Данные не введены'
+
+
+# пагинатор
+def split_on_page(request, queryset):
+    paginator = Paginator(queryset, 15)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+    return {'page': page, 'paginator': paginator}

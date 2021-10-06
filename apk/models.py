@@ -1,4 +1,5 @@
 import datetime as dt
+from django.conf import settings
 
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -9,6 +10,14 @@ from django.dispatch.dispatcher import receiver
 from .utils import compress_image
 
 User = get_user_model()
+
+
+class Role(models.TextChoices):
+    ADMIN = 'admin'  # всемогущий
+    MANAGER = 'manager'  # член ПДК
+    LEAD = 'lead'  # начальник цеха
+    ENGINEER = 'engineer'  # инженер (сменный), мастер
+    EMPLOYEE = 'employee'  # работник
 
 
 # служба филиала
@@ -43,6 +52,12 @@ class Profile(models.Model):
         on_delete=SET_NULL,
         related_name='user_department',
         null=True,
+    )
+    role = models.CharField(
+        'Роль пользователя',
+        max_length=30,
+        choices=Role.choices,
+        default=Role.EMPLOYEE
     )
 
     class Meta:
@@ -155,7 +170,6 @@ class Fault(models.Model):
     fault_date = models.DateTimeField(
         'Дата добавления несоответствия',
         auto_now_add=True,
-        db_index=True,
     )
     group = models.TextField(
         'Группа несоответствий',
@@ -167,7 +181,6 @@ class Fault(models.Model):
         verbose_name='Номер акта',
         related_name='faults',
         db_index=True,
-        null=True,
     )
     location = models.ForeignKey(
         Location,
@@ -207,6 +220,7 @@ class Fault(models.Model):
     section_esupb = models.CharField(
         'Раздел ЕСУПБ',
         max_length=150,
+        null=True,
     )
     inspector = models.ForeignKey(
         Profile,
@@ -218,6 +232,7 @@ class Fault(models.Model):
     image_before = models.ImageField(
         'Фото несоответствия',
         upload_to='apk/photo_before/',
+        default='apk/image_not_upload.png',
         blank=True,
         null=True,
     )
@@ -284,6 +299,7 @@ class Fix(models.Model):
     image_after = models.ImageField(
         'Фото устранения',
         upload_to='apk/photo_after/',
+        default='apk/image_not_upload.png',
         blank=True,
         null=True,
     )
@@ -349,6 +365,7 @@ class Fix(models.Model):
         return self.deltatime_calc(self.correct_deadline, self.corrected)
 
     # определение количества оставшихся дней и дней просрочки
+    # в ретурне второй элемент в списке нужен для передачи состояния 
     def deltatime_calc(self, date, action):
         if action:
             return ['', 0]
@@ -371,3 +388,64 @@ class Fix(models.Model):
         super(Fix, self).save(*args, **kwargs)
         if self.image_after:
             compress_image(self.image_after)
+
+
+# class Journal(models.TextChoices):
+#     BUFFER = 'Буфер'
+#     JOURNAL_OF_TASKS = 'Журнал выдачи производственных заданий'
+#     JOURNAL_OF_DEFECTS = 'Журнал дефектов основного и вспомогательного оборудования'
+#     JOURNAL_APK = 'Журнал АПК'
+#     SHEET_OF_DEFECTS = 'Ведомость дефектов и несоответствий'
+
+
+# class Defect(models.Model):
+#     journal = models.CharField(
+#         'Журнал',
+#         choices=Journal.choices,
+#         default=Journal.BUFFER,
+#         max_length=100,
+#     )
+#     control_level = models.ForeignKey(
+#         Control,
+#         verbose_name='Уровень АПК',
+#         related_name='control_defect',
+#         on_delete=SET_NULL,
+#         null=True,
+#     )
+#     find_date = models.DateTimeField(
+#         'Время обнаружения',
+#         auto_now_add=True,
+#         db_index=True,
+#     )
+#     location = models.ForeignKey(
+#         Location,
+#         verbose_name='Место обнаружения',
+#         related_name='defect',
+#         on_delete=CASCADE,
+#         db_index=True
+#     )
+#     description = models.TextField('Описание дефекта')
+#     danger = models.BooleanField('Опасное событие?', default=False)
+#     finder = models.ForeignKey(
+#         Profile,
+#         verbose_name='Выявивший дефект',
+#         related_name='finder',
+#         on_delete=SET_NULL,
+#         null=True,
+#     )
+#     fix_action = models.TextField(
+#         'Мероприятия по устранению',
+#         default='Данные не введены'
+#     )
+#     fix_deadline = models.DateTimeField(
+#         'Планируемые сроки устранения',
+#         default=dt.datetime.now()
+#     )
+#     lead_fixer = models.ForeignKey(
+#         Profile,
+#         verbose_name='Ответственный за устранение',
+#         related_name='lead_fixer',
+#         on_delete=SET_NULL,
+#         null=True,
+#     )
+#     fix_done = models.BooleanField('Устранено', default=False)

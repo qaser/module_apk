@@ -6,7 +6,6 @@ import datetime as dt
 
 
 class FaultFilter(df.FilterSet):
-    actual_time = dt.datetime.now().strftime('%Y-%m-%d')
     department = df.ModelChoiceFilter(
         field_name='location__department',
         label='Служба филиала',
@@ -16,7 +15,7 @@ class FaultFilter(df.FilterSet):
         field_name='fault_date',
         label='Временной интервал',
         widget=RangeWidget(
-            attrs={'type': 'date', 'value': actual_time},
+            attrs={'type': 'date'},
         )
     )
 

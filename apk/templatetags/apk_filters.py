@@ -32,3 +32,10 @@ def color_tag(tag):
         return 'eco'
     elif tag == 'ПОЖ':
         return 'fire'
+
+
+@register.simple_tag
+def url_replace(request, field, value):
+    url_path = request.GET.copy()
+    url_path[field] = value
+    return url_path.urlencode()

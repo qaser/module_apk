@@ -11,8 +11,8 @@ from openpyxl.utils import get_column_letter
 
 from .filters import FaultFilter
 from .forms import FaultForm, FixForm
-from .models import Act, Control, Fault
-from .utils import check_person
+from .models import Act, Control, Fault, Role
+from .utils import check_person, split_on_page
 
 
 @login_required
@@ -43,12 +43,23 @@ def index_control(request, slug):
 @login_required
 def index_first_level(request, slug):
     control = get_object_or_404(Control, slug=slug)
-    faults = Fault.objects.all().order_by('-fault_date').filter(act__control_level=control)
+    if (request.user.profile.role != Role.ADMIN
+        and request.user.profile.role != Role.MANAGER):
+        department = request.user.profile.department
+        faults = Fault.objects.all().order_by('-fault_date').filter(
+            act__control_level=control,
+            location__department=department,
+        )
+    else:
+        faults = Fault.objects.all().order_by('-fault_date').filter(
+            act__control_level=control,
+        )
     fault_filter = FaultFilter(request.GET, queryset=faults)
+    selection = split_on_page(request, fault_filter.qs)
     return render(
         request,
         'apk/index_first_level.html',
-        {'faults': faults, 'control': control, 'fault_filter': fault_filter}
+        {'control': control, 'fault_filter': fault_filter, **selection}
     )
 
 
@@ -101,19 +112,23 @@ def single_plan(request, slug, act_year, act_number):
         control_level=control
     )
     faults = Fault.objects.all().filter(act=act)
-    locations = faults.order_by().values('location__department__title').distinct()
+    locations = faults.order_by().values(
+        'location__department__title'
+    ).distinct()
     places = [i.get('location__department__title') for i in locations]
     # если в "хвосте" запроса есть объект, то фильтрую несоответствия по нему
     if place:
         faults = faults.filter(location__department__title__in=place)
-    fixed_faults = faults.filter(fix__fixed=True).filter(fix__corrected=True).count()
+    fixed_faults = faults.filter(fix__fixed=True, fix__corrected=True).count()
     non_fix_faults = 0
     non_correct_faults = 0
     # определение количества просроченных мероприятий
     for fault in faults:
-        if (fault.fix.deltatime_fix is not None and fault.fix.deltatime_fix[1] == 2):
+        if (fault.fix.deltatime_fix is not None
+            and fault.fix.deltatime_fix[1] == 2):
             non_fix_faults = non_fix_faults + 1
-        if (fault.fix.deltatime_correct is not None and fault.fix.deltatime_correct[1] == 2):
+        if (fault.fix.deltatime_correct is not None
+            and fault.fix.deltatime_correct[1] == 2):
             non_correct_faults = non_correct_faults + 1
     return render(
         request,
@@ -154,6 +169,10 @@ def single_fault_plan(request, slug, act_year, act_number, fault_number):
 # новый акт
 @login_required
 def act_new(request, slug):
+    # новый акт может добавить только Админ и член ПДК
+    if (request.user.profile.role != Role.ADMIN and
+        request.user.profile.role != Role.MANAGER):
+        return redirect('index_control', slug)
     control = get_object_or_404(Control, slug=slug)
     present_year = dt.datetime.today().year
     acts = Act.objects.filter(
@@ -176,6 +195,10 @@ def act_new(request, slug):
 # новое несоответствие
 @login_required
 def fault_new(request, slug, act_year, act_number):
+    # новое несоответствие может добавить только Админ и член ПДК
+    if (request.user.profile.role != Role.ADMIN and
+        request.user.profile.role != Role.MANAGER):
+        return redirect('single_act', slug, act_year, act_number)
     control = get_object_or_404(Control, slug=slug)
     act = get_object_or_404(
         Act,
@@ -209,9 +232,16 @@ def fault_edit(request, slug, act_year, act_number, fault_number):
         control_level=control
     )
     fault = get_object_or_404(Fault, fault_number=fault_number, act=act)
-    # в финальном варианте это нужно включить и в шаблоне тоже
-    # if fault.inspector != request.user.profile:
-    #     return redirect('single_fault_act', slug, act_year, act_number, fault_number)
+    # редактировать несоответствие может только автор или админ
+    if (request.user.profile != fault.inspector and
+        request.user.profile.role != Role.ADMIN):
+        return redirect(
+            'single_fault_act',
+            slug,
+            act_year,
+            act_number,
+            fault_number
+        )
     form = FaultForm(
         request.POST or None,
         files=request.FILES or None,
@@ -226,12 +256,24 @@ def fault_edit(request, slug, act_year, act_number, fault_number):
             act_number,
             fault_number
         )
-    return render(request, 'apk/form-fault.html', {'form': form, 'fault': fault})
+    return render(
+        request,
+        'apk/form-fault.html',
+        {'form': form, 'fault': fault}
+    )
 
 
 # новые мероприятия
 @login_required
 def fix_new(request, slug, act_year, act_number, fault_number):
+    if request.user.profile.role == Role.EMPLOYEE:
+        return redirect(
+            'single_fault_plan',
+            slug,
+            act_year,
+            act_number,
+            fault_number
+        )
     control = get_object_or_404(Control, slug=slug)
     act = get_object_or_404(
         Act,
@@ -240,8 +282,6 @@ def fix_new(request, slug, act_year, act_number, fault_number):
         control_level=control
     )
     fault = get_object_or_404(Fault, fault_number=fault_number, act=act)
-    # if fault.inspector != request.user.profile:
-    #     return redirect('single_fault_plan', slug, act_year, act_number, fault_number)
     form = FixForm(
         request.POST or None,
         files=request.FILES or None,
@@ -274,7 +314,8 @@ def export_act_excel(request, slug, act_year, act_number):
     )
     faults = Fault.objects.all().filter(act=act)
     response = HttpResponse(
-        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        content_type=('application/vnd.openxmlformats-officedocument.'
+                      'spreadsheetml.sheet'),
     )
     filename = 'act.xlsx'
     response['Content-Disposition'] = f'attachment; filename={filename}'
@@ -293,13 +334,38 @@ def export_act_excel(request, slug, act_year, act_number):
     worksheet.title = f'Акт {act_number} комплексной проверки'
     columns = [
         ('№ п/п', 5),
-        ('Формулировка несоответствия или нарушения требованиям производственной безопасности', 60),
+        (
+            'Формулировка несоответствия или нарушения '
+            'требованиям производственной безопасности',
+            60
+        ),
         ('Нарушенный нормативный документ', 40),
-        ('Может ли данное несоответствие или нарушение привести к опасному событию (может/не может)', 15),
-        ('Фамилия, инициалы руководителя работ допустивший несоответствие или нарушение', 20),
-        ('Фамилия, инициалы руководителя подразделения, члена ПДК, не выявившего несоответствие или нарушение при проверке на нижестоящем уровне', 20),
-        ('Отнесение несоответствия или нарушения к разделу (элементу) ЕСУПБ (раздел ЕСУПБ)', 20),
-        ('Фамилия, инициалы члена ПДК, выявившего несоответствие или нарушение', 20),
+        (
+            'Может ли данное несоответствие или нарушение '
+            'привести к опасному событию (может/не может)',
+            15
+        ),
+        (
+            'Фамилия, инициалы руководителя работ допустивший '
+            'несоответствие или нарушение',
+            20
+        ),
+        (
+            'Фамилия, инициалы руководителя подразделения, члена ПДК, '
+            'не выявившего несоответствие или нарушение при проверке на '
+            'нижестоящем уровне',
+            20
+        ),
+        (
+            'Отнесение несоответствия или нарушения к разделу (элементу) '
+            'ЕСУПБ (раздел ЕСУПБ)',
+            20
+        ),
+        (
+            'Фамилия, инициалы члена ПДК, выявившего несоответствие '
+            'или нарушение',
+            20
+        ),
     ]
     row_num = 1
     for col_num, (column_title, column_width) in enumerate(columns, 1):
@@ -347,7 +413,8 @@ def export_plan_excel(request, slug, act_year, act_number):
     )
     faults = Fault.objects.all().filter(act=act)
     response = HttpResponse(
-        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        content_type=('application/vnd.openxmlformats-officedocument'
+                      '.spreadsheetml.sheet'),
     )
     filename = 'plan.xlsx'
     response['Content-Disposition'] = f'attachment; filename={filename}'
@@ -363,7 +430,8 @@ def export_plan_excel(request, slug, act_year, act_number):
         vertical='top',
         wrap_text=True
     )
-    worksheet.title = f'План корректирующих действий согласно Акту №{act_number}'
+    worksheet.title = ('План корректирующих действий '
+                       f'согласно Акту №{act_number}')
     columns = [
         ('№ п/п', 5),
         ('Описание несоответствия, пункт НТД', 60),

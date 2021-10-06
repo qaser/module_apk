@@ -35,7 +35,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'apk.apk_middleware.ControlMiddleware',
+    'apk.apk_middleware.ApkMiddleware',
     'service_pages.service_middleware.QuoteMiddleware',
     'service_pages.service_middleware.MessageMiddleware',
 ]

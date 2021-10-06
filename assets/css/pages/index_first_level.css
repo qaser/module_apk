@@ -66,6 +66,7 @@
 
 @import url(../blocks/form-container/form-container.css);
 @import url(../blocks/form/form.css);
+@import url(../blocks/form/_small/form__small.css);
 @import url(../blocks/form/__group/form__group.css);
 @import url(../blocks/form/__label/form__label.css);
 @import url(../blocks/form/__label/_textarea/form__label_textarea.css);
@@ -77,6 +78,15 @@
 @import url(../blocks/form/__file-button/form__file-button.css);
 @import url(../blocks/form/__footer/form__footer.css);
 @import url(../blocks/form/__checkbox/form__checkbox.css);
+
+@import url(../blocks/pagination/pagination.css);
+@import url(../blocks/pagination/__container/pagination__container.css);
+@import url(../blocks/pagination/__item/pagination__item.css);
+@import url(../blocks/pagination/__item/_active/pagination__item_active.css);
+@import url(../blocks/pagination/__link/pagination__link.css);
+
+@import url(../blocks/icon-left/icon-left.css);
+@import url(../blocks/icon-right/icon-right.css);
 
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__links/footer__links.css);

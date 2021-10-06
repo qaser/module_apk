@@ -16,13 +16,17 @@
             <section class="main" id="main">
                 <h1 class="main__title">Акт проверки №{{ act.act_number }} от {{ act.act_compile_date|date:"d.m.Y" }}</h1>
                 {% if faults.count == 0 %}
-                    <h3 class="main__stat">Здесь пока отсутствуют записи</h3>
-                    <div class="main__links">
-                        <a class="main__link" href="{% url 'fault_new' control.slug act.act_year act.act_number %}">Добавить новое несоответствие</a>
-                    </div>
+                    <h3 class="main__stat">Здесь пока отсутствуют записи.</h3>
+                    {% if request.user.profile.role == request.META.roles.ADMIN or request.user.profile.role == request.META.roles.MANAGER %}
+                        <a class="main__stat" href="{% url 'fault_new' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/fault-add-icon.png' %}"></a>
+                    {% else %}
+                        <h3 class="main__stat">Только член ПДК может добавлять несоответствия</h3>
+                    {% endif %}
                 {% else %}
                     <div class="main__links">
-                        <a class="main__link" href="{% url 'fault_new' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/fault-add-icon.png' %}"></a>
+                        {% if request.user.profile.role == request.META.roles.ADMIN or request.user.profile.role == request.META.roles.MANAGER %}
+                            <a class="main__link" href="{% url 'fault_new' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/fault-add-icon.png' %}"></a>
+                        {% endif %}
                         <a class="main__link" href="{% url 'single_plan' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/plan-icon.png' %}"></a>
                         <a class="main__link" href="{% url 'export_act_excel' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/act-excel.png' %}"></a>
                         <h3 class="main__stat"><image class="main__icon" src="{% static 'img/sum-icon.png' %}"> {{ faults.count }}</h3>

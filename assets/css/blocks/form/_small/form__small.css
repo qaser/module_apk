@@ -1,0 +1,19 @@
+.form_small {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background: #FFFFFF;
+    border: 1px solid #EEEEEE;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    max-width: 500px;
+    width: 100%;
+}
+
+@media screen and (max-width: 500px) {
+    .form_small {
+        padding: 10px 20px;
+        width: 95%;
+    }
+}

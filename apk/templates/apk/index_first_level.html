@@ -4,7 +4,7 @@
 
 {% load static %}
 {% load apk_filters %}
-{% csrf_token %}
+
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'css/pages/index_first_level.css' %}">
@@ -23,7 +23,7 @@
             {% else %}
                 <div class="main__links">
                     {% comment %} <a class="main__link" href="{% url 'fault_new_first_level' control.slug %}">Добавить новое несоответствие</a> {% endcomment %}
-                    <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }}</h3>
+                    {% comment %} <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }}</h3> {% endcomment %}
                 </div>
             {% endif %}
 
@@ -31,7 +31,7 @@
 
             <!-- блок карточек -->
             <ul class="fault-cards list">
-                {% for fault in fault_filter.qs %}
+                {% for fault in page %}
                     {% comment %} <li><a class="fault-cards__link" href="{% url 'single_fault_act' control.slug act.act_year act.act_number fault.fault_number %}"> {% endcomment %}
                         <div class="fault-cards__item {% if fault.danger %}fault-cards__item_danger {% endif %}">
                             <div class="fault-cards__description">
