@@ -40,6 +40,7 @@
 @import url(../blocks/infobar/__date/infobar__date.css);
 
 @import url(../blocks/main/main.css);
+@import url(../blocks/icon-container/icon-container.css);
 @import url(../blocks/main/__links/main__links.css);
 @import url(../blocks/main/__stat/main__stat.css);
 @import url(../blocks/main/__title/main__title.css);
