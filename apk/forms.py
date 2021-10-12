@@ -1,6 +1,7 @@
+import datetime as dt
+
 from django.forms import ModelForm
 from django.forms.widgets import ClearableFileInput, NumberInput, Textarea
-import datetime as dt
 
 from apk.models import Fault, Fix
 
@@ -29,6 +30,21 @@ class FaultForm(ModelForm):
         }
 
 
+class FaultFormFirstLevel(ModelForm):
+    class Meta:
+        model = Fault
+        fields = (
+            'location',
+            'description',
+            'danger',
+            'image_before',
+        )
+        widgets = {
+            'description': Textarea(attrs={'rows': 5}),
+            'image_before': ImageWidget(),
+        }
+
+
 class FixForm(ModelForm):
     class Meta:
         actual_time = dt.datetime.now().strftime('%Y-%m-%d')
@@ -38,14 +54,12 @@ class FixForm(ModelForm):
             'fixer',
             'fix_deadline',
             'fixed',
-            # 'fix_date',
             'reason',
             'correct_action',
             'resources',
             'corrector',
             'correct_deadline',
             'corrected',
-            # 'correct_date',
             'image_after',
         )
         widgets = {

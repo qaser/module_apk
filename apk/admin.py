@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.db import models
 
 from .models import (Act, Control, Department, Fault, Fix, Location, Profile,
                      User)

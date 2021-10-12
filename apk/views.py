@@ -6,11 +6,10 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font
-from openpyxl.styles.fills import fills
 from openpyxl.utils import get_column_letter
 
 from .filters import FaultFilter
-from .forms import FaultForm, FixForm
+from .forms import FaultForm, FaultFormFirstLevel, FixForm
 from .models import Act, Control, Fault, Role
 from .utils import check_person, split_on_page
 
@@ -43,8 +42,10 @@ def index_control(request, slug):
 @login_required
 def index_first_level(request, slug):
     control = get_object_or_404(Control, slug=slug)
-    if (request.user.profile.role != Role.ADMIN
-        and request.user.profile.role != Role.MANAGER):
+    if (
+        request.user.profile.role != Role.ADMIN and
+        request.user.profile.role != Role.MANAGER
+    ):
         department = request.user.profile.department
         faults = Fault.objects.all().order_by('-fault_date').filter(
             act__control_level=control,
@@ -61,6 +62,32 @@ def index_first_level(request, slug):
         'apk/index_first_level.html',
         {'control': control, 'fault_filter': fault_filter, **selection}
     )
+
+
+@login_required
+def first_level_fault_new(request, slug):
+    control = get_object_or_404(Control, slug=slug)
+    act = get_object_or_404(
+        Act,
+        act_year=2021,
+        act_number=1,
+        control_level=control
+    )
+    faults_query = act.faults.all()
+    try:
+        fault_num = faults_query.latest('fault_number').fault_number + 1
+    except ObjectDoesNotExist:
+        fault_num = 1
+    form = FaultFormFirstLevel(request.POST or None, files=request.FILES or None)
+    if form.is_valid():
+        form.instance.group = 'Охрана труда'
+        form.instance.act = act
+        form.instance.fault_number = fault_num
+        form.instance.inspector = request.user.profile
+        form.instance.document = 'Критерии проверки'
+        form.save()
+        return redirect('index_first_level', slug)
+    return render(request, 'apk/form-fault-first-level.html', {'form': form})
 
 
 @login_required
@@ -124,11 +151,15 @@ def single_plan(request, slug, act_year, act_number):
     non_correct_faults = 0
     # определение количества просроченных мероприятий
     for fault in faults:
-        if (fault.fix.deltatime_fix is not None
-            and fault.fix.deltatime_fix[1] == 2):
+        if (
+            fault.fix.deltatime_fix is not None
+            and fault.fix.deltatime_fix[1] == 2
+        ):
             non_fix_faults = non_fix_faults + 1
-        if (fault.fix.deltatime_correct is not None
-            and fault.fix.deltatime_correct[1] == 2):
+        if (
+            fault.fix.deltatime_correct is not None
+            and fault.fix.deltatime_correct[1] == 2
+        ):
             non_correct_faults = non_correct_faults + 1
     return render(
         request,
@@ -170,8 +201,10 @@ def single_fault_plan(request, slug, act_year, act_number, fault_number):
 @login_required
 def act_new(request, slug):
     # новый акт может добавить только Админ и член ПДК
-    if (request.user.profile.role != Role.ADMIN and
-        request.user.profile.role != Role.MANAGER):
+    if (
+        request.user.profile.role != Role.ADMIN and
+        request.user.profile.role != Role.MANAGER
+    ):
         return redirect('index_control', slug)
     control = get_object_or_404(Control, slug=slug)
     present_year = dt.datetime.today().year
@@ -196,8 +229,10 @@ def act_new(request, slug):
 @login_required
 def fault_new(request, slug, act_year, act_number):
     # новое несоответствие может добавить только Админ и член ПДК
-    if (request.user.profile.role != Role.ADMIN and
-        request.user.profile.role != Role.MANAGER):
+    if (
+        request.user.profile.role != Role.ADMIN and
+        request.user.profile.role != Role.MANAGER
+    ):
         return redirect('single_act', slug, act_year, act_number)
     control = get_object_or_404(Control, slug=slug)
     act = get_object_or_404(
@@ -233,8 +268,10 @@ def fault_edit(request, slug, act_year, act_number, fault_number):
     )
     fault = get_object_or_404(Fault, fault_number=fault_number, act=act)
     # редактировать несоответствие может только автор или админ
-    if (request.user.profile != fault.inspector and
-        request.user.profile.role != Role.ADMIN):
+    if (
+        request.user.profile != fault.inspector and
+        request.user.profile.role != Role.ADMIN
+    ):
         return redirect(
             'single_fault_act',
             slug,
@@ -381,7 +418,7 @@ def export_act_excel(request, slug, act_year, act_number):
         row_num += 1
         row = [
             fault.fault_number,
-            '{}, {}. {}'.format(
+            '{}; {}. {}'.format(
                 fault.location.department,
                 fault.location.object,
                 fault.description
@@ -458,7 +495,7 @@ def export_plan_excel(request, slug, act_year, act_number):
         row_num += 1
         row = [
             fault.fault_number,
-            '{}, {}. {}. {}'.format(
+            '{}; {}. {}. {}'.format(
                 fault.location.department,
                 fault.location.object,
                 fault.description,

@@ -1,5 +1,7 @@
-from PIL import Image
 from django.core.paginator import Paginator
+from PIL import Image
+
+# from apk.models import Role
 
 _MAX_SIZE = 1000
 
@@ -36,3 +38,28 @@ def split_on_page(request, queryset):
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     return {'page': page, 'paginator': paginator}
+
+
+# def is_employee(request):
+#     if request.user.profile.role == Role.EMPLOYEE:
+#         return True
+
+
+# def is_engineer(request):
+#     if request.user.profile.role == Role.ENGINEER:
+#         return True
+
+
+# def is_lead(request):
+#     if request.user.profile.role == Role.LEAD:
+#         return True
+
+
+# def is_manager(request):
+#     if request.user.profile.role == Role.MANAGER:
+#         return True
+
+
+# def is_admin(request):
+#     if request.user.profile.role == Role.ADMIN:
+#         return True

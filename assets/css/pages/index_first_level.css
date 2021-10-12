@@ -68,6 +68,7 @@
 @import url(../blocks/form/form.css);
 @import url(../blocks/form/_small/form__small.css);
 @import url(../blocks/form/__group/form__group.css);
+@import url(../blocks/form/__group/_small/form__group_small.css);
 @import url(../blocks/form/__label/form__label.css);
 @import url(../blocks/form/__label/_textarea/form__label_textarea.css);
 @import url(../blocks/form/__input/form__input.css);

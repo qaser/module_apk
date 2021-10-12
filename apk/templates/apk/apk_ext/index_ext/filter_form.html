@@ -3,7 +3,7 @@
     <form class="form_small" method="get">
         {% load apk_filters %}
 
-        {% comment %} {% with filter.form.fault_date as field %}
+        {% with filter.form.fault_date as field %}
             <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
                 <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
                 {{ field|addclass:'form__input' }}
@@ -11,7 +11,15 @@
             </div>
         {% endwith %}
 
-        {% with filter.form.location as field %}
+        {% with filter.form.department as field %}
+            <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
+                <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
+                {{ field|addclass:'form__input' }}
+                {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
+            </div>
+        {% endwith %}
+
+        {% comment %} {% with filter.form.location as field %}
             <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
                 <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
                 {{ field|addclass:'form__input' }}
@@ -27,7 +35,7 @@
             </div>
         {% endwith %} {% endcomment %}
 
-        {{ filter.form.as_p }}
+        {% comment %} {{ filter.form }} {% endcomment %}
         {% comment %} <button type="submit">Применить</button> {% endcomment %}
         <div class="form__footer">
             <button class="button button_style_blue" type="submit">Применить</button>

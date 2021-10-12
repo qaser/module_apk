@@ -18,11 +18,13 @@ urlpatterns = [
         name='fault_new'
     ),
     path(
-        '<slug:slug>/acts/<int:act_year>/<int:act_number>/fault-edit/<int:fault_number>/',
+        ('<slug:slug>/acts/<int:act_year>/<int:act_number>/'
+         'fault-edit/<int:fault_number>/'),
         views.fault_edit,
         name='fault_edit'),
     path(
-        '<slug:slug>/acts/<int:act_year>/<int:act_number>/faults/<int:fault_number>/',
+        ('<slug:slug>/acts/<int:act_year>/<int:act_number>/'
+         'faults/<int:fault_number>/'),
         views.single_fault_act,
         name='single_fault_act'
     ),
@@ -32,12 +34,14 @@ urlpatterns = [
         name='single_plan'
     ),
     path(
-        '<slug:slug>/acts/<int:act_year>/<int:act_number>/plan/faults/<int:fault_number>/fix-new/',
+        ('<slug:slug>/acts/<int:act_year>/<int:act_number>/plan/'
+         'faults/<int:fault_number>/fix-new/'),
         views.fix_new,
         name='fix_new'
     ),
     path(
-        '<slug:slug>/acts/<int:act_year>/<int:act_number>/plan/faults/<int:fault_number>',
+        ('<slug:slug>/acts/<int:act_year>/<int:act_number>/plan/'
+         'faults/<int:fault_number>'),
         views.single_fault_plan,
         name='single_fault_plan'
     ),
@@ -53,5 +57,14 @@ urlpatterns = [
         name='export_plan_excel'
     ),
     # здесь эндпоинты для первого уровня АПК
-    path('<slug:slug>/faults', views.index_first_level, name='index_first_level'),
+    path(
+        '<slug:slug>/faults',
+        views.index_first_level,
+        name='index_first_level'
+    ),
+    path(
+        '<slug:slug>/fault-new',
+        views.first_level_fault_new,
+        name='first_level_fault_new'
+    )
 ]

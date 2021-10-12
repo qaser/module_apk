@@ -1,5 +1,4 @@
 import datetime as dt
-from django.conf import settings
 
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -73,7 +72,8 @@ class Profile(models.Model):
         initial_name = self.user.first_name[0]
         if self.patronymic is not None:
             initial_patronymic = self.patronymic[0]
-            lastname_and_initials = f'{lastname} {initial_name}.{initial_patronymic}.'
+            lastname_and_initials = (f'{lastname} '
+                                     f'{initial_name}.{initial_patronymic}.')
         else:
             lastname_and_initials = f'{lastname} {initial_name}.'
         return lastname_and_initials
@@ -255,7 +255,8 @@ class Fault(models.Model):
         ]
 
     def __str__(self):
-        return f'№{self.fault_number}, Акт №{self.act.act_number}, {self.location}'
+        return (f'№{self.fault_number}, '
+                f'Акт №{self.act.act_number}, {self.location}')
 
     def save(self, *args, **kwargs):  # сжатие фото перед сохранением
         super(Fault, self).save(*args, **kwargs)
@@ -344,7 +345,8 @@ class Fix(models.Model):
         verbose_name_plural = 'мероприятия'
 
     def __str__(self):
-        return f'Несоответствие №{self.fault.fault_number}, {self.fault.location}'
+        return (f'Несоответствие №{self.fault.fault_number}, '
+                f'{self.fault.location}')
 
     # связка двух моделей, если Fault создан, то и Fix создается
     @receiver(post_save, sender=Fault)
@@ -365,7 +367,7 @@ class Fix(models.Model):
         return self.deltatime_calc(self.correct_deadline, self.corrected)
 
     # определение количества оставшихся дней и дней просрочки
-    # в ретурне второй элемент в списке нужен для передачи состояния 
+    # в ретурне второй элемент в списке нужен для передачи состояния
     def deltatime_calc(self, date, action):
         if action:
             return ['', 0]
@@ -393,7 +395,7 @@ class Fix(models.Model):
 # class Journal(models.TextChoices):
 #     BUFFER = 'Буфер'
 #     JOURNAL_OF_TASKS = 'Журнал выдачи производственных заданий'
-#     JOURNAL_OF_DEFECTS = 'Журнал дефектов основного и вспомогательного оборудования'
+#     JOURNAL_OF_DEFECTS = 'Журнал дефектов основного'
 #     JOURNAL_APK = 'Журнал АПК'
 #     SHEET_OF_DEFECTS = 'Ведомость дефектов и несоответствий'
 

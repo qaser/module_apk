@@ -18,12 +18,12 @@
             {% if faults.count == 0 %}
                 <h3 class="main__stat">Здесь пока отсутствуют записи</h3>
                 <div class="main__links">
-                    {% comment %} <a class="main__link" href="{% url 'fault_new_first_level' control.slug %}">Добавить новое несоответствие</a> {% endcomment %}
+                    <a class="main__link" href="{% url 'first_level_fault_new' control.slug %}">Добавить новое несоответствие</a>
                 </div>
             {% else %}
                 <div class="main__links">
-                    {% comment %} <a class="main__link" href="{% url 'fault_new_first_level' control.slug %}">Добавить новое несоответствие</a> {% endcomment %}
-                    {% comment %} <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }}</h3> {% endcomment %}
+                    <a class="main__link" href="{% url 'first_level_fault_new' control.slug %}">Добавить новое несоответствие</a>
+                    <h3 class="main__stat">Всего: {{ paginator.object_list.count|word_tail:"несоответствие,несоответствия,несоответствий" }}</h3>
                 </div>
             {% endif %}
 
