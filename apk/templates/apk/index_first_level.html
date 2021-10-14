@@ -21,13 +21,13 @@
                     <a class="main__link" href="{% url 'first_level_fault_new' control.slug %}">Добавить новое несоответствие</a>
                 </div>
             {% else %}
+                {% include 'apk/apk_ext/index_ext/filter_form.html' with filter=fault_filter control=control %}
                 <div class="main__links">
-                    <a class="main__link" href="{% url 'first_level_fault_new' control.slug %}">Добавить новое несоответствие</a>
+                    <a class="main__stat" href="{% url 'first_level_fault_new' control.slug %}"><image class="main__icon_large" src="{% static 'img/fault-add-icon.png' %}"></a>
+                    {% comment %} <a class="main__link" href="{% url 'first_level_fault_new' control.slug %}">Добавить новое несоответствие</a> {% endcomment %}
                     <h3 class="main__stat">Всего: {{ paginator.object_list.count|word_tail:"несоответствие,несоответствия,несоответствий" }}</h3>
                 </div>
             {% endif %}
-
-            {% include 'apk/apk_ext/index_ext/filter_form.html' with filter=fault_filter control=control %}
 
             <!-- блок карточек -->
             <ul class="fault-cards list">

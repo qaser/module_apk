@@ -13,8 +13,15 @@
     <main class="content">
         <section class="main" id="main">
             <h1 class="main__title">{{ control.title }}</h1>
-            {% if request.user.profile.role == request.META.roles.ADMIN or request.user.profile.role == request.META.roles.MANAGER %}
-                <a class="main__link" href="{% url 'act_new' control.slug %}">Добавить новый акт</a>
+
+            {% if years.count == 0 %}
+                <h3 class="main__stat">Здесь пока отсутствуют записи</h3>
+            {% else %}
+                {% if request.user.profile.role == request.META.roles.ADMIN or request.user.profile.role == request.META.roles.MANAGER %}
+                    <a class="main__link" href="{% url 'act_new' control.slug %}">Добавить новый акт</a>
+                {% else %}
+                    
+                {% endif %}
             {% endif %}
             <!-- блок карточек -->
             <div class="year-cards">

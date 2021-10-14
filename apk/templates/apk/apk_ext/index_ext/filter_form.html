@@ -11,32 +11,26 @@
             </div>
         {% endwith %}
 
-        {% with filter.form.department as field %}
-            <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
-                <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
-                {{ field|addclass:'form__input' }}
-                {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
-            </div>
-        {% endwith %}
+        {% if request.user.profile.role == request.META.roles.ADMIN or request.user.profile.role == request.META.roles.MANAGER %}
+            {% with filter.form.department as field %}
+                <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
+                    <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
+                    {{ field|addclass:'form__input' }}
+                    {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
+                </div>
+            {% endwith %}
+        {% endif %}
 
-        {% comment %} {% with filter.form.location as field %}
-            <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
-                <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
-                {{ field|addclass:'form__input' }}
-                {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
-            </div>
-        {% endwith %} {% endcomment %}
+        {% if request.user.profile.role != request.META.roles.ADMIN and request.user.profile.role != request.META.roles.MANAGER %}
+            {% with filter.form.location as field %}
+                <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
+                    <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
+                    {{ field|addclass:'form__input' }}
+                    {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
+                </div>
+            {% endwith %}
+        {% endif %}
 
-        {% comment %} {% with filter.form.inspector as field %}
-            <div class="form__group" aria-required="{% if field.field.required %}true{% else %}false{% endif %}">
-                <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
-                {{ field|addclass:'form__input' }}
-                {% include 'apk/apk_ext/form_extend/error.html' with field=field %}
-            </div>
-        {% endwith %} {% endcomment %}
-
-        {% comment %} {{ filter.form }} {% endcomment %}
-        {% comment %} <button type="submit">Применить</button> {% endcomment %}
         <div class="form__footer">
             <button class="button button_style_blue" type="submit">Применить</button>
             <a class="button" href="{% url 'index_first_level' control.slug %}">Сбросить</a>

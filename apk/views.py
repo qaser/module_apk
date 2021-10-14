@@ -55,7 +55,7 @@ def index_first_level(request, slug):
         faults = Fault.objects.all().order_by('-fault_date').filter(
             act__control_level=control,
         )
-    fault_filter = FaultFilter(request.GET, queryset=faults)
+    fault_filter = FaultFilter(request.GET, queryset=faults, user=request.user)
     selection = split_on_page(request, fault_filter.qs)
     return render(
         request,
@@ -78,7 +78,11 @@ def first_level_fault_new(request, slug):
         fault_num = faults_query.latest('fault_number').fault_number + 1
     except ObjectDoesNotExist:
         fault_num = 1
-    form = FaultFormFirstLevel(request.POST or None, files=request.FILES or None)
+    form = FaultFormFirstLevel(
+        request.POST or None,
+        files=request.FILES or None,
+        user=request.user
+    )
     if form.is_valid():
         form.instance.group = 'Охрана труда'
         form.instance.act = act

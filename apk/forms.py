@@ -1,9 +1,10 @@
 import datetime as dt
 
 from django.forms import ModelForm
+from django.forms.models import ModelMultipleChoiceField
 from django.forms.widgets import ClearableFileInput, NumberInput, Textarea
 
-from apk.models import Fault, Fix
+from apk.models import Fault, Fix, Location, Profile, User
 
 
 class ImageWidget(ClearableFileInput):
@@ -43,6 +44,13 @@ class FaultFormFirstLevel(ModelForm):
             'description': Textarea(attrs={'rows': 5}),
             'image_before': ImageWidget(),
         }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(FaultFormFirstLevel, self).__init__(*args, **kwargs)
+        self.fields['location'].queryset = Location.objects.filter(
+            department=user.profile.department
+        )
 
 
 class FixForm(ModelForm):

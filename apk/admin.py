@@ -36,7 +36,7 @@ class FixInline(admin.StackedInline):
 class LocationAdmin(admin.ModelAdmin):
     list_display = ('department', 'object',)
     search_fields = ('department', 'object',)
-    list_filter = ('department', 'object',)
+    list_filter = ('department',)
     empty_value_display = '-пусто-'
 
 
