@@ -4,13 +4,13 @@
 
 Web app for work with APK-system
 
-This is a web application for working with the "APK" corporate environment.
-    * support for the organization of the agro-industrial complex in the branch;
-    * systematization of accounting, storage and control over the implementation of measures to eliminate inconsistencies identified during the agro-industrial complex in the branch;
-    * analysis of recurring inconsistencies;
-    * reduction of the share of paper document flow when reporting on the implementation of agribusiness activities;
-    * exclusion of the human factor when monitoring the timely implementation of measures to eliminate inconsistencies;
-    * additional integration of personnel into the process of conducting the first level of the agro-industrial complex through the use of personal mobile phones and statistics.
+This is a web application for working with the "APK" corporate environment:
+ * support for the organization of the industrial control in the branch;
+ * systematization of accounting, storage and control over the implementation of measures to eliminate inconsistencies identified during the industrial comntrol in the branch;
+ * analysis of recurring inconsistencies;
+ * reduction of the share of paper document flow when reporting on the implementation of business activities;
+ * exclusion of the human factor when monitoring the timely implementation of measures to eliminate inconsistencies;
+ * additional integration of personnel into the process of conducting the first level of the industrial coтекщд through the use of personal mobile phones and statistics.
 
 ## Getting Started
 
