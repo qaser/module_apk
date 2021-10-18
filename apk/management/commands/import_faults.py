@@ -2,7 +2,7 @@ import csv
 
 from django.core.management import BaseCommand
 
-from apk.models import Location, Department, Fault, Act, Control, Profile
+from apk.models import Act, Control, Department, Fault, Location, Profile
 
 
 class Command(BaseCommand):

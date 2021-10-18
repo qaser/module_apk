@@ -1,7 +1,6 @@
 from django.core.paginator import Paginator
 from PIL import Image
 
-
 _MAX_SIZE = 1000
 
 

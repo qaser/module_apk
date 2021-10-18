@@ -1,0 +1,40 @@
+{% extends "mysite_apk/base.html" %}
+
+{% block title %}Несоответствие первого уровня АПК{% endblock %}
+
+{% load static %}
+{% load apk_filters %}
+{% csrf_token %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/pages/single-fault-act.css'%}">
+{% endblock %}
+
+{% block content %}
+
+    <main class="content">
+        <section class="main" id="main">
+            <h1 class="main__title">Несоответствие 1 уровня АПК</h1>
+            {% if request.user.profile == fault.inspector or request.user.profile.role == request.META.roles.ENGINEER %}
+                {% comment %} <a class="main__link" href="{% url '1_apk_fault_edit' control.slug fault.act.act_year fault.act.act_number fault.fault_number%}">Редактировать несоответствие</a> {% endcomment %}
+            {% endif %}
+            <!-- блок карточки -->
+            <h2 class="single-fault__location">{{ fault.location }}</h2>
+            <div class="single-fault">
+            <div class="single-fault__description {% if fault.danger %}single-fault__description_danger {% endif %}">
+                <div class="single-fault__header">
+                    <h3 class="single-fault__title">Несоответствие</h3>
+                    <h3 class="single-fault__title">{{ fault.fault_date|date:"d.m.Y" }}</h3>
+                </div>
+                <p class="single-fault__text">{{ fault.description }}</p>
+                <p class="single-fault__footer">{{ fault.inspector }}</p>
+            </div>
+            <div class="single-fault__images">
+                {% include 'apk/apk_ext/image_before.html' with size="640x420" class="single-fault__image" %}
+            </div>
+            </div>
+            <!-- конец карточки -->
+        </section>
+    </main>
+
+{% endblock %}

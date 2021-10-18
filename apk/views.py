@@ -16,7 +16,7 @@ from .utils import check_person, split_on_page
 
 @login_required
 def index(request):
-    return render(request, 'apk/index.html')
+    return index_first_level(request, slug='1_apk')
 
 
 @login_required
@@ -32,10 +32,11 @@ def index_control(request, slug):
     # формирую словарь в виде {год: акты этого года}
     for year in years:
         context[year] = acts.filter(act_year=year).order_by('act_number')
+    count = len(context)
     return render(
         request,
         'apk/index-acts.html',
-        {'years': context, 'control': control},
+        {'years': context, 'control': control, 'count': count},
     )
 
 
@@ -61,6 +62,27 @@ def index_first_level(request, slug):
         request,
         'apk/index_first_level.html',
         {'control': control, 'fault_filter': fault_filter, **selection}
+    )
+
+
+@login_required
+def first_level_single_fault(request, slug, fault_number):
+    control = get_object_or_404(Control, slug=slug)
+    act = get_object_or_404(
+        Act,
+        act_year=2021,
+        act_number=1,
+        control_level=control
+    )
+    fault = get_object_or_404(
+        Fault,
+        act=act,
+        fault_number=fault_number,
+    )
+    return render(
+        request,
+        'apk/single-fault-1-apk.html',
+        {'control': control, 'fault': fault}
     )
 
 

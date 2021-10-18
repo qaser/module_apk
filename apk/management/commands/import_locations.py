@@ -2,7 +2,7 @@ import csv
 
 from django.core.management import BaseCommand
 
-from apk.models import Location, Department
+from apk.models import Department, Location
 
 
 class Command(BaseCommand):
@@ -14,7 +14,9 @@ class Command(BaseCommand):
             for i, row in enumerate(reader):
                 department, object = row
                 if i:
-                    department, _ = Department.objects.get_or_create(title=department)
+                    department, _ = Department.objects.get_or_create(
+                        title=department
+                    )
                     Location.objects.get_or_create(
                         department=department,
                         object=object,

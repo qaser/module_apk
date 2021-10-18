@@ -1,10 +1,9 @@
 import datetime as dt
 
 from django.forms import ModelForm
-from django.forms.models import ModelMultipleChoiceField
 from django.forms.widgets import ClearableFileInput, NumberInput, Textarea
 
-from apk.models import Fault, Fix, Location, Profile, User
+from apk.models import Fault, Fix, Location
 
 
 class ImageWidget(ClearableFileInput):

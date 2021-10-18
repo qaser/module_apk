@@ -2,7 +2,7 @@ import csv
 
 from django.core.management import BaseCommand
 
-from apk.models import Location, Department, Fault, Act, Control, Profile
+from apk.models import Act, Control, Department, Fault, Location, Profile
 
 
 class Command(BaseCommand):
@@ -25,8 +25,8 @@ class Command(BaseCommand):
                     )
                     act, _ = Act.objects.get_or_create(
                         control_level=control_level,
-                        act_year='2021',
-                        act_number=1,
+                        act_year='2019',
+                        act_number=2,
                         )
                     Fault.objects.get_or_create(
                         fault_number=num,

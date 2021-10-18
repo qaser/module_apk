@@ -34,11 +34,12 @@
             <!-- блок карточек -->
             <ul class="fault-cards list">
                 {% for fault in page %}
-                    {% comment %} <li><a class="fault-cards__link" href="{% url 'single_fault_act' control.slug act.act_year act.act_number fault.fault_number %}"> {% endcomment %}
+                    <li><a class="fault-cards__link" href="{% url 'first_level_single_fault' control.slug fault.fault_number %}">
                         <div class="fault-cards__item {% if fault.danger %}fault-cards__item_danger {% endif %}">
                             <div class="fault-cards__description">
                                 <div class="fault-cards__header">
                                     <h4 class="fault-cards__title">{{ fault.location }}</h4>
+                                    <h4 class="fault-cards__title">{{ fault.fault_date|date:"d.m.Y" }}</h4>
                                 </div>
                                 <p class="fault-cards__text">{{ fault.description }}</p>
                             </div>

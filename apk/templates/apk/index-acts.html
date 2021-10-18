@@ -14,37 +14,38 @@
         <section class="main" id="main">
             <h1 class="main__title">{{ control.title }}</h1>
 
-            {% if years.count == 0 %}
-                <h3 class="main__stat">Здесь пока отсутствуют записи</h3>
-            {% else %}
-                {% if request.user.profile.role == request.META.roles.ADMIN or request.user.profile.role == request.META.roles.MANAGER %}
-                    <a class="main__link" href="{% url 'act_new' control.slug %}">Добавить новый акт</a>
-                {% else %}
-                    
-                {% endif %}
+            {% if request.user.profile.role == request.META.roles.ADMIN or request.user.profile.role == request.META.roles.MANAGER %}
+                <a class="main__link" href="{% url 'act_new' control.slug %}">Добавить новый акт</a>
             {% endif %}
-            <!-- блок карточек -->
-            <div class="year-cards">
-                {% for year, acts in years.items %}
-                    <div class="year-cards__item">
-                        <h3 class="year-cards__title">{{ year }}</h3>
-                        
-                            <div class="year-cards__two-columns">
-                                <ul class="year-cards__act-list list">
-                                    {% for act in acts %}
-                                        <li class="year-cards__script"><a class="year-cards__link" href="{% url 'single_act' control.slug year act.act_number %}">Акт №{{ act.act_number }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                                <ul class="year-cards__plan-list list">
-                                    {% for act in acts %}
-                                        <li class="year-cards__script"><a class="year-cards__link" href="{% url 'single_plan' control.slug year act.act_number %}">План</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        
-                    </div>
-                {% endfor %}
-            </div>
+
+            {% if count == 0 %}
+                <div class="main__links">
+                    <h3 class="main__stat">Здесь пока отсутствуют записи</h3>
+                </div>
+            {% else %}
+                <!-- блок карточек -->
+                <div class="year-cards">
+                    {% for year, acts in years.items %}
+                        <div class="year-cards__item">
+                            <h3 class="year-cards__title">{{ year }}</h3>
+                            
+                                <div class="year-cards__two-columns">
+                                    <ul class="year-cards__act-list list">
+                                        {% for act in acts %}
+                                            <li class="year-cards__script"><a class="year-cards__link" href="{% url 'single_act' control.slug year act.act_number %}">Акт №{{ act.act_number }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                    <ul class="year-cards__plan-list list">
+                                        {% for act in acts %}
+                                            <li class="year-cards__script"><a class="year-cards__link" href="{% url 'single_plan' control.slug year act.act_number %}">План</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </section>
     </main>
 {% endblock %}

@@ -66,5 +66,10 @@ urlpatterns = [
         '<slug:slug>/fault-new',
         views.first_level_fault_new,
         name='first_level_fault_new'
+    ),
+    path(
+        '<slug:slug>/fault/<int:fault_number>',
+        views.first_level_single_fault,
+        name='first_level_single_fault'
     )
 ]

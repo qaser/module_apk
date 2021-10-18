@@ -1,4 +1,3 @@
-from django.forms import widgets
 import django_filters as df
 from django_filters.filters import DateRangeFilter
 
