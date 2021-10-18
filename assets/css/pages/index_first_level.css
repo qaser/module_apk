@@ -40,10 +40,14 @@
 @import url(../blocks/infobar/__date/infobar__date.css);
 
 @import url(../blocks/main/main.css);
+@import url(../blocks/icon-container/icon-container.css);
 @import url(../blocks/main/__links/main__links.css);
 @import url(../blocks/main/__stat/main__stat.css);
 @import url(../blocks/main/__title/main__title.css);
 @import url(../blocks/main/__link/main__link.css);
+@import url(../blocks/main/__icon/main__icon.css);
+@import url(../blocks/main/__icon/_large/main__icon_large.css);
+@import url(../blocks/main/__icon/_very-large/main__icon_very-large.css);
 
 @import url(../blocks/fault-cards/fault-cards.css);
 @import url(../blocks/fault-cards/__link/fault-cards__link.css);

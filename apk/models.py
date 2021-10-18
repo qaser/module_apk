@@ -167,7 +167,7 @@ class Fault(models.Model):
         ('Э', 'Экологическая безопасность'),
     )
     fault_number = models.PositiveIntegerField('Номер несоответствия')
-    fault_date = models.DateTimeField(
+    fault_date = models.DateField(
         'Дата добавления несоответствия',
         auto_now_add=True,
     )

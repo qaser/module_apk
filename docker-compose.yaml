@@ -30,6 +30,7 @@ services:
     container_name: nginx
     restart: always
     volumes:
+      - /etc/letsencrypt/:/etc/letsencrypt/
       - ./nginx:/etc/nginx/conf.d
       - static_data:/module/static:ro
       - media_data:/module/media:ro
