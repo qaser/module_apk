@@ -16,7 +16,7 @@ from .utils import check_person, split_on_page
 
 @login_required
 def index(request):
-    return render(request, 'apk/index.html')
+    return redirect('index_first_level', slug='1_apk')
 
 
 @login_required
