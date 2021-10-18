@@ -169,7 +169,7 @@ class Fault(models.Model):
     fault_number = models.PositiveIntegerField('Номер несоответствия')
     fault_date = models.DateField(
         'Дата добавления несоответствия',
-        # auto_now_add=True,
+        auto_now_add=True,
     )
     group = models.TextField(
         'Группа несоответствий',
