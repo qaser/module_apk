@@ -67,25 +67,10 @@ class FaultAdmin(admin.ModelAdmin):
     inlines = [FixInline]
 
 
-# class DefectAdmin(admin.ModelAdmin):
-#     list_display = (
-#         'find_date',
-#         'location',
-#         'description',
-#         'finder',
-#         'journal',
-#         'control_level'
-#     )
-#     search_fields = ('location', 'control_level',)
-#     list_filter = ('location', 'find_date',)
-#     empty_value_display = '-пусто-'
-
-
 admin.site.register(Control, ControlAdmin)
 admin.site.register(Act, ActAdmin)
 admin.site.register(Fault, FaultAdmin)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(Department, DepartmentAdmin)
-# admin.site.register(Defect, DefectAdmin)
 admin.site.unregister(User)
 admin.site.register(User, AccountsUserAdmin)

@@ -1,8 +1,0 @@
-{% load static %}
-<header class="header" id="header">
-    <label for="checkbox" class="header__nav-toggle"></label>
-    <a class="header__link" href="{% url 'index' %}"><img class="header__logo" src="{% static 'img/logo-full-large.png' %}" alt="Логотип"></a>
-    {% if user.is_authenticated %}
-        <a class="header__point" href="{% url 'logout' %}">Выйти</a>
-    {% endif %}
-</header>

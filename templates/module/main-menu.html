@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta name="description" content="Проект Module">
+        <meta name="keywords" content="модуль, производство, охрана труда, безопасность, контроль">
+        <meta name="author" content="Сайгин Алексей">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Главное меню системы | Module</title>
+        {% load static %}
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}">
+        <link rel="stylesheet" href="{% static 'css/pages/main-menu.css'%}">
+    </head>
+
+    <body>
+        <div class="page">
+
+            <main class="menu-grid">
+                <a class="menu-grid__link" href="#"><div class="menu-grid__item module-color_gpa" id="gpa">
+                    <h3 class="menu-grid__item-description">Техническое обслуживание газоперекачивающих агрегатов</h3>
+                    <img class="menu-grid__img" src="{% static 'img/gpa.svg' %}" alt="Иконка ГПА">
+                    <h3 class="menu-grid__item-title">ГПА</h3>
+                </div></a>
+                <a class="menu-grid__link" href="#"><div class="menu-grid__item module-color_gsm" id="gsm">
+                    <h3 class="menu-grid__item-description">Учёт расхода смазочных материалов при эксплуатации ГПА</h3>
+                    <img class="menu-grid__img" src="{% static 'img/gsm.svg' %}" alt="Иконка ГСМ">
+                    <h3 class="menu-grid__item-title">ГСМ</h3>
+                </div></a>
+                <a class="menu-grid__link" href="#"><div class="menu-grid__item module-color_tpa" id="tpa">
+                    <h3 class="menu-grid__item-description">Техническое обслуживание трубопроводной арматуры</h3>
+                    <img class="menu-grid__img" src="{% static 'img/tpa.svg' %}" alt="Иконка ТПА">
+                    <h3 class="menu-grid__item-title">ТПА</h3>
+                </div></a>
+                <a class="menu-grid__link" href="{% url 'apk:index' %}"><div class="menu-grid__item module-color_apk" id="apk">
+                    <h3 class="menu-grid__item-description">Сопровождение административно-производственного контроля</h3>
+                    <img class="menu-grid__img" src="{% static 'img/apk.svg' %}" alt="Иконка АПК">
+                    <h3 class="menu-grid__item-title">АПК</h3>
+                </div></a>
+                <div class="menu-grid__logo">
+                    <div class="menu-grid__logo_anim menu-grid__logo_anim--front"></div>
+                    <div class="menu-grid__logo_anim menu-grid__logo_anim--back"></div>
+                </div>
+                <div class="menu-grid__item" id="">
+                    <h3 class="menu-grid__item-description">Модуль в разработке</h3>
+                    <img class="menu-grid__img" src="{% static 'img/empty.svg' %}" alt="В разработке">
+                    <h3 class="menu-grid__item-title"></h3>
+                </div>
+                <div class="menu-grid__item" id="">
+                    <h3 class="menu-grid__item-description">Модуль в разработке</h3>
+                    <img class="menu-grid__img" src="{% static 'img/empty.svg' %}" alt="В разработке">
+                    <h3 class="menu-grid__item-title"></h3>
+                </div>
+                <div class="menu-grid__item" id="">
+                    <h3 class="menu-grid__item-description">Модуль в разработке</h3>
+                    <img class="menu-grid__img" src="{% static 'img/empty.svg' %}" alt="В разработке">
+                    <h3 class="menu-grid__item-title"></h3>
+                </div>
+                <div class="menu-grid__item" id="">
+                    <h3 class="menu-grid__item-description">Модуль в разработке</h3>
+                    <img class="menu-grid__img" src="{% static 'img/empty.svg' %}" alt="В разработке">
+                    <h3 class="menu-grid__item-title"></h3>
+                </div>
+                <div class="menu-grid__item" id="">
+                    <h3 class="menu-grid__item-description">Модуль в разработке</h3>
+                    <img class="menu-grid__img" src="{% static 'img/empty.svg' %}" alt="В разработке">
+                    <h3 class="menu-grid__item-title"></h3>
+                </div>
+                <div class="menu-grid__item" id="">
+                    <h3 class="menu-grid__item-description">Модуль в разработке</h3>
+                    <img class="menu-grid__img" src="{% static 'img/empty.svg' %}" alt="В разработке">
+                    <h3 class="menu-grid__item-title"></h3>
+                </div>
+
+            </main>
+
+        </div>
+    </body>
+</html>

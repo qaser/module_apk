@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <meta name="description" content="Проект информационного сопровождения АПК">
+        <meta name="description" content="Проект Module">
         <meta name="keywords" content="модуль, производство, охрана труда, безопасность, контроль">
         <meta name="author" content="Сайгин Алексей">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -15,18 +15,17 @@
 
     <body>
         <div class="page">
-
+            {% include 'module/base_ext/header.html' with app=request.resolver_match.app_name %}
             <div class="page__content">
                 <input type="checkbox" id="checkbox">
-                {% include 'mysite_apk/base_ext/header.html' %}
-                {% include 'mysite_apk/base_ext/sidebar.html' with mark=request.resolver_match.kwargs.slug %}
-                {% include 'mysite_apk/base_ext/infobar.html' %}
+                {% include 'module/base_ext/sidebar.html' with mark=request.resolver_match.kwargs.slug %}
+                {% include 'module/base_ext/infobar.html' %}
                 {% block content %}{% endblock %}
                 {% if page.has_other_pages %}
-                    {% include "mysite_apk/base_ext/paginator.html" %}
+                    {% include "module/base_ext/paginator.html" %}
                 {% endif %}
             </div>
-            {% include 'mysite_apk/base_ext/footer.html' %}
+            {% include 'module/base_ext/footer.html' with app=request.resolver_match.app_name %}
         </div>
     </body>
 </html>

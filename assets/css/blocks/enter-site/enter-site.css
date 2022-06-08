@@ -1,6 +1,5 @@
 .enter-site {
-    min-height: calc(100vh - 160px); /* прижимаю футер к низу экрана */
-    margin: 40px 0 0 0;
+    margin: 0 0 40px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,6 +8,6 @@
 
 @media screen and (max-width: 800px) {
     .enter-site {
-        margin: 40px 20px 0 20px;
+        margin: 0 20px 40px 20px;
     }
 }

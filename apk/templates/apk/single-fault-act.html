@@ -1,4 +1,4 @@
-{% extends "mysite_apk/base.html" %}
+{% extends "module/base.html" %}
 
 {% block title %}Несоответствие №{{ fault.fault_number }}{% endblock %}
 
@@ -16,7 +16,7 @@
         <section class="main" id="main">
             <h1 class="main__title">Акт проверки №{{ fault.act.act_number }} от {{ fault.act.act_compile_date|date:"d.m.Y" }} | Несоответствие №{{ fault.fault_number }}</h1>
             {% if request.user.profile == fault.inspector or request.user.profile.role == request.META.roles.ADMIN %}
-                <a class="main__link" href="{% url 'fault_edit' control.slug fault.act.act_year fault.act.act_number fault.fault_number%}">Редактировать несоответствие</a>
+                <a class="main__link" href="{% url 'apk:fault_edit' control.slug fault.act.act_year fault.act.act_number fault.fault_number%}">Редактировать несоответствие</a>
             {% endif %}
             <!-- блок карточки -->
             <h2 class="single-fault__location">{{ fault.location }}</h2>

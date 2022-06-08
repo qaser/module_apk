@@ -1,4 +1,4 @@
-{% extends "mysite_apk/base.html" %}
+{% extends "module/base.html" %}
 
 {% block title %}План корректирующих действий{% endblock %}
 
@@ -16,21 +16,23 @@
         <section class="main" id="main">
             <h1 class="main__title">План корректирующих действий к Акту проверки №{{ act.act_number }} от {{ act.act_compile_date|date:"d.m.Y" }}</h1>
             {% if faults.count == 0 %}
-                <h3 class="main__stat">Здесь пока отсутствуют записи</h3>
                 <div class="main__links">
-                    <a class="main__link" href="{% url 'single_act' control.slug act.act_year act.act_number %}">Перейдите к акту и добавьте несоответствия</a>
+                    <h3 class="main__stat">Здесь пока отсутствуют записи</h3>
+                </div>
+                <div class="main__links">
+                    <a class="main__link" href="{% url 'apk:single_act' control.slug act.act_year act.act_number %}">Перейдите к акту и добавьте несоответствия</a>
                 </div>
             {% else %}
                 <div class="main__links">
                     <div class="icon-container">
-                        <a class="main__link" href="{% url 'single_act' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/act-icon.png' %}"></a>
-                        <a class="main__link" href="{% url 'export_plan_excel' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/plan-excel.png' %}"></a>
+                        <a class="main__link" href="{% url 'apk:single_act' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/act-icon.png' %}"></a>
+                        <a class="main__link" href="{% url 'apk:export_plan_excel' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/plan-excel.png' %}"></a>
                         {% comment %} <h3 class="main__stat">Всего: {{ faults.count|word_tail:"несоответствие,несоответствия,несоответствий" }} | <a href="#">Выполнено: {{ fixed_faults }}</a> | <a href="#">Просрочено: {{ non_fix_faults }}</a></h3> {% endcomment %}
                     </div>
                     <div class="main__stat"><image class="main__icon" src="{% static 'img/sum-icon.png' %}"> {{ faults.count }} | <image class="main__icon" src="{% static 'img/done.png' %}"> {{ fixed_faults }} | <image class="main__icon" src="{% static 'img/abandon.png' %}"> {{ non_fix_faults }}</div>
                 </div>
                 <ul class="filter list">
-                    <li class="{% if filter %}filter__point{% else %} filter__point_active{% endif %}"><a class="filter__link" href="{% url 'single_plan' control.slug act.act_year act.act_number %}">Все</a></li>
+                    <li class="{% if filter %}filter__point{% else %} filter__point_active{% endif %}"><a class="filter__link" href="{% url 'apk:single_plan' control.slug act.act_year act.act_number %}">Все</a></li>
                     {% for place in places %}
                         <li class="{% if place in filter %}filter__point_active{% else %} filter__point{% endif %}"><a class="filter__link" href="?filter={{ place }}">{{ place }}</a></li>
                     {% endfor %}
@@ -40,7 +42,7 @@
             <!-- блок карточек -->
                 <ul class="fault-cards list">
                     {% for fault in faults %}
-                        <li><a class="fault-cards__link" href="{% url 'single_fault_plan' control.slug act.act_year act.act_number fault.fault_number %}">
+                        <li><a class="fault-cards__link" href="{% url 'apk:single_fault_plan' control.slug act.act_year act.act_number fault.fault_number %}">
                             <div class="fault-cards__item {% if fault.fix.fixed and fault.fix.corrected %} fault-cards__item_done {% elif fault.fix.deltatime_fix.1 == 2 or fault.fix.deltatime_correct.1 == 2 %} fault-cards__item_deadline {% endif %}">
                                 <div class="fault-cards__description">
                                     <div class="fault-cards__header">

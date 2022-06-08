@@ -2,9 +2,11 @@ from django.urls import path
 
 from . import views
 
+app_name = 'apk'
+
 urlpatterns = [
     path('', views.index, name='index'),
-    path('<slug:slug>/', views.index_control, name='index_control'),
+    path('<slug:slug>/', views.index_apk, name='index_control'),
     # следующие эндпоинты для 3 и 4 уровней АПК
     path('<slug:slug>/acts/new/', views.act_new, name='act_new'),
     path(
@@ -57,6 +59,7 @@ urlpatterns = [
         name='export_plan_excel'
     ),
     # здесь эндпоинты для первого уровня АПК
+    # для корректной работы первого уровня слаг должен быть '1_apk'
     path(
         '<slug:slug>/faults',
         views.index_first_level,

@@ -1,4 +1,4 @@
-{% extends "mysite_apk/base.html" %}
+{% extends "module/base.html" %}
 
 {% block title %}Мероприятия и корректирующие действия{% endblock %}
 
@@ -16,7 +16,7 @@
         <section class="main" id="main">
             <h1 class="main__title">План корректирующих действий к Акту проверки №{{ fault.act.act_number }} от {{ fault.act.act_compile_date }} | Несоответствие №{{ fault.fault_number }}</h1>
             {% if request.user.profile.role != request.META.roles.EMPLOYEE %}
-                <a class="main__link" href="{% url 'fix_new' control.slug fault.act.act_year fault.act.act_number fault.fault_number %}">Изменить мероприятия</a>
+                <a class="main__link" href="{% url 'apk:fix_new' control.slug fault.act.act_year fault.act.act_number fault.fault_number %}">Изменить мероприятия</a>
             {% endif %}
             <!-- блок карточки -->
             <h2 class="single-fault__location">{{ fault.location }}</h2>
@@ -64,7 +64,7 @@
                         <p class="single-fault__footer">Исполнитель: {{ fault.fix.corrector }}, {{ fault.fix.corrector.job_position }}</p>
                     {% endif %}
                     <!-- конец отдельного элемента карточки -->
-                
+
                     <!-- отдельный элемент карточки -->
                     <div class="single-fault__header">
                         <h3 class="single-fault__title">Необходимые ресурсы</h3>

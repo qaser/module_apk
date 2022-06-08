@@ -1,4 +1,4 @@
-{% extends "mysite_apk/base.html" %}
+{% extends "module/base.html" %}
 
 {% block title %}Акт проверки №{{ act.act_number }} от {{ act.act_compile_date }}{% endblock %}
 
@@ -21,7 +21,7 @@
                     </div>
                     <div class="main__links">
                         {% if request.user.profile.role == request.META.roles.ADMIN or request.user.profile.role == request.META.roles.MANAGER %}
-                            <a class="main__stat" href="{% url 'fault_new' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/fault-add-icon.png' %}"></a>
+                            <a class="main__stat" href="{% url 'apk:fault_new' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/fault-add-icon.png' %}"></a>
                         {% else %}
                             <h3 class="main__stat">Только член ПДК может добавлять несоответствия</h3>
                         {% endif %}
@@ -30,10 +30,10 @@
                     <div class="main__links">
                         <div class="icon-container">
                             {% if request.user.profile.role == request.META.roles.ADMIN or request.user.profile.role == request.META.roles.MANAGER %}
-                                <a class="main__link" href="{% url 'fault_new' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/fault-add-icon.png' %}"></a>
+                                <a class="main__link" href="{% url 'apk:fault_new' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/fault-add-icon.png' %}"></a>
                             {% endif %}
-                            <a class="main__link" href="{% url 'single_plan' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/plan-icon.png' %}"></a>
-                            <a class="main__link" href="{% url 'export_act_excel' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/act-excel.png' %}"></a>
+                            <a class="main__link" href="{% url 'apk:single_plan' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/plan-icon.png' %}"></a>
+                            <a class="main__link" href="{% url 'apk:export_act_excel' control.slug act.act_year act.act_number %}"><image class="main__icon_large" src="{% static 'img/act-excel.png' %}"></a>
                         </div>
                         <h3 class="main__stat"><image class="main__icon" src="{% static 'img/sum-icon.png' %}"> {{ faults.count }}</h3>
                     </div>
@@ -42,7 +42,7 @@
             <!-- блок карточек -->
                 <ul class="fault-cards list">
                     {% for fault in faults %}
-                        <li><a class="fault-cards__link" href="{% url 'single_fault_act' control.slug act.act_year act.act_number fault.fault_number %}">
+                        <li><a class="fault-cards__link" href="{% url 'apk:single_fault_act' control.slug act.act_year act.act_number fault.fault_number %}">
                             <div class="fault-cards__item {% if fault.danger %}fault-cards__item_danger {% endif %}">
                                 <div class="fault-cards__description">
                                     <div class="fault-cards__header">
@@ -57,7 +57,7 @@
                         </a></li>
                     {% endfor %}
                 </ul>
-            
+
             </section>
         </main>
 {% endblock %}

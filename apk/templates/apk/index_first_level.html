@@ -1,4 +1,4 @@
-{% extends "mysite_apk/base.html" %}
+{% extends "module/base.html" %}
 
 {% block title %}Первый уровень АПК{% endblock %}
 
@@ -12,19 +12,19 @@
 
 {% block content %}
     <main class="content">
-        
+
         <section class="main" id="main">
             <h1 class="main__title">Первый уровень АПК</h1>
             {% if faults.count == 0 %}
                 <h3 class="main__stat">Здесь пока отсутствуют записи</h3>
                 <div class="main__links">
-                    <a class="main__link" href="{% url 'first_level_fault_new' control.slug %}">Добавить новое несоответствие</a>
+                    <a class="main__link" href="{% url 'apk:first_level_fault_new' control.slug %}">Добавить новое несоответствие</a>
                 </div>
             {% else %}
                 {% include 'apk/apk_ext/index_ext/filter_form.html' with filter=fault_filter control=control %}
                 <div class="main__links">
                     <div class="icon-container">
-                        <a class="main__link" href="{% url 'first_level_fault_new' control.slug %}"><image class="main__icon_large" src="{% static 'img/fault-add-icon.png' %}"></a>
+                        <a class="main__link" href="{% url 'apk:first_level_fault_new' control.slug %}"><image class="main__icon_large" src="{% static 'img/fault-add-icon.png' %}"></a>
                         {% comment %} <a class="main__link" href="{% url 'first_level_fault_new' control.slug %}">Добавить новое несоответствие</a> {% endcomment %}
                     </div>
                     <h3 class="main__stat">Всего: {{ paginator.object_list.count|word_tail:"несоответствие,несоответствия,несоответствий" }}</h3>
@@ -34,7 +34,7 @@
             <!-- блок карточек -->
             <ul class="fault-cards list">
                 {% for fault in page %}
-                    <li><a class="fault-cards__link" href="{% url 'first_level_single_fault' control.slug fault.fault_number %}">
+                    <li><a class="fault-cards__link" href="{% url 'apk:first_level_single_fault' control.slug fault.fault_number %}">
                         <div class="fault-cards__item {% if fault.danger %}fault-cards__item_danger {% endif %}">
                             <div class="fault-cards__description">
                                 <div class="fault-cards__header">

@@ -1,4 +1,4 @@
-{% extends "mysite_apk/base.html" %}
+{% extends "module/base.html" %}
 
 {% block title %}{{ control.title }}{% endblock %}
 
@@ -15,7 +15,7 @@
             <h1 class="main__title">{{ control.title }}</h1>
 
             {% if request.user.profile.role == request.META.roles.ADMIN or request.user.profile.role == request.META.roles.MANAGER %}
-                <a class="main__link" href="{% url 'act_new' control.slug %}">Добавить новый акт</a>
+                <a class="main__link" href="{% url 'apk:act_new' control.slug %}">Добавить новый акт</a>
             {% endif %}
 
             {% if count == 0 %}
@@ -28,20 +28,20 @@
                     {% for year, acts in years.items %}
                         <div class="year-cards__item">
                             <h3 class="year-cards__title">{{ year }}</h3>
-                            
+
                                 <div class="year-cards__two-columns">
                                     <ul class="year-cards__act-list list">
                                         {% for act in acts %}
-                                            <li class="year-cards__script"><a class="year-cards__link" href="{% url 'single_act' control.slug year act.act_number %}">Акт №{{ act.act_number }}</a></li>
+                                            <li class="year-cards__script"><a class="year-cards__link" href="{% url 'apk:single_act' control.slug year act.act_number %}">Акт №{{ act.act_number }}</a></li>
                                         {% endfor %}
                                     </ul>
                                     <ul class="year-cards__plan-list list">
                                         {% for act in acts %}
-                                            <li class="year-cards__script"><a class="year-cards__link" href="{% url 'single_plan' control.slug year act.act_number %}">План</a></li>
+                                            <li class="year-cards__script"><a class="year-cards__link" href="{% url 'apk:single_plan' control.slug year act.act_number %}">План</a></li>
                                         {% endfor %}
                                     </ul>
                                 </div>
-                            
+
                         </div>
                     {% endfor %}
                 </div>

@@ -1,4 +1,4 @@
-{% extends "mysite_apk/base.html" %}
+{% extends "module/base.html" %}
 
 {% block title %}3 уровень АПК{% endblock %}
 
@@ -17,10 +17,10 @@
 
             <!-- блок формы -->
 
-           <div class="form-container"> 
+           <div class="form-container">
                 <form class="form" method="post" enctype="multipart/form-data">
-                    {% csrf_token %} 
-                    
+                    {% csrf_token %}
+
                     <div class="form__group">
                         <label class="form__label form__label_black form__label_textarea">Текст несоответствия:</label>
                         <p class="form__label form__label_italic form__label_textarea">{{ fault.location }}. {{ fault.description }}</p>
@@ -114,8 +114,8 @@
                         </div>
                     {% endwith %}
 
-                    {% include "apk/apk_ext/button_ext/save_button.html" %} 
-                </form> 
+                    {% include "apk/apk_ext/button_ext/save_button.html" %}
+                </form>
             </div>
 
             <!-- конец блока формы -->

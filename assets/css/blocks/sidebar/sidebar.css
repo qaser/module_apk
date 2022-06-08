@@ -4,6 +4,7 @@
     position: fixed;
     height: 100%;
     z-index: 999999;
+    /* overflow-y: scroll; */
 }
 
 @media screen and (max-width: 800px) {

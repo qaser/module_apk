@@ -2,4 +2,5 @@
     font-weight: 300;
     font-size: 15px;
     line-height: 20px;
+    word-wrap: break-word;
 }

@@ -3,7 +3,7 @@ import sys
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite_apk.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'module.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

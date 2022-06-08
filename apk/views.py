@@ -16,11 +16,11 @@ from .utils import check_person, split_on_page
 
 @login_required
 def index(request):
-    return redirect('index_first_level', slug='1_apk')
+    return redirect('apk:index_first_level', slug='1_apk')
 
 
 @login_required
-def index_control(request, slug):
+def index_apk(request, slug):
     if slug == '1_apk':
         return index_first_level(request, slug)
     control = get_object_or_404(Control, slug=slug)
@@ -112,7 +112,7 @@ def first_level_fault_new(request, slug):
         form.instance.inspector = request.user.profile
         form.instance.document = 'Критерии проверки'
         form.save()
-        return redirect('index_first_level', slug)
+        return redirect('apk:index_first_level', slug)
     return render(request, 'apk/form-fault-first-level.html', {'form': form})
 
 
@@ -231,7 +231,7 @@ def act_new(request, slug):
         request.user.profile.role != Role.ADMIN and
         request.user.profile.role != Role.MANAGER
     ):
-        return redirect('index_control', slug)
+        return redirect('apk:index_control', slug)
     control = get_object_or_404(Control, slug=slug)
     present_year = dt.datetime.today().year
     acts = Act.objects.filter(
@@ -248,7 +248,7 @@ def act_new(request, slug):
         act_year=present_year,
         act_number=act_num
     )
-    return redirect('single_act', slug, present_year, act_num)
+    return redirect('apk:single_act', slug, present_year, act_num)
 
 
 # новое несоответствие
@@ -259,7 +259,7 @@ def fault_new(request, slug, act_year, act_number):
         request.user.profile.role != Role.ADMIN and
         request.user.profile.role != Role.MANAGER
     ):
-        return redirect('single_act', slug, act_year, act_number)
+        return redirect('apk:single_act', slug, act_year, act_number)
     control = get_object_or_404(Control, slug=slug)
     act = get_object_or_404(
         Act,
@@ -278,7 +278,7 @@ def fault_new(request, slug, act_year, act_number):
         form.instance.fault_number = fault_num
         form.instance.inspector = request.user.profile
         form.save()
-        return redirect('single_act', slug, act_year, act_number)
+        return redirect('apk:single_act', slug, act_year, act_number)
     return render(request, 'apk/form-fault.html', {'form': form})
 
 
@@ -299,7 +299,7 @@ def fault_edit(request, slug, act_year, act_number, fault_number):
         request.user.profile.role != Role.ADMIN
     ):
         return redirect(
-            'single_fault_act',
+            'apk:single_fault_act',
             slug,
             act_year,
             act_number,
@@ -313,7 +313,7 @@ def fault_edit(request, slug, act_year, act_number, fault_number):
     if form.is_valid():
         form.save()
         return redirect(
-            'single_fault_act',
+            'apk:single_fault_act',
             slug,
             act_year,
             act_number,
@@ -331,7 +331,7 @@ def fault_edit(request, slug, act_year, act_number, fault_number):
 def fix_new(request, slug, act_year, act_number, fault_number):
     if request.user.profile.role == Role.EMPLOYEE:
         return redirect(
-            'single_fault_plan',
+            'apk:single_fault_plan',
             slug,
             act_year,
             act_number,
@@ -353,7 +353,7 @@ def fix_new(request, slug, act_year, act_number, fault_number):
     if form.is_valid():
         form.save()
         return redirect(
-            'single_fault_plan',
+            'apk:single_fault_plan',
             slug,
             act_year,
             act_number,

@@ -7,6 +7,5 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #A3CDDA;
     z-index: 80000;
   }

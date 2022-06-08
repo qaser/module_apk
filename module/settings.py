@@ -6,7 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('SECRET_KEY', 'the-best-secret-key')
 
 
-DEBUG = False
+DEBUG = True
 
 
 ALLOWED_HOSTS = ['*']
@@ -40,7 +40,7 @@ MIDDLEWARE = [
     'service_pages.service_middleware.MessageMiddleware',
 ]
 
-ROOT_URLCONF = 'mysite_apk.urls'
+ROOT_URLCONF = 'module.urls'
 
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
@@ -61,7 +61,7 @@ TEMPLATES = [
 ]
 
 
-WSGI_APPLICATION = 'mysite_apk.wsgi.application'
+WSGI_APPLICATION = 'module.wsgi.application'
 
 
 if DEBUG:
