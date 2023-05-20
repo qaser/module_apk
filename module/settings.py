@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'service_pages',
     'api',
     'django_filters',
+    'tpa',
 ]
 
 MIDDLEWARE = [
